@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">EcoExT</string>
+    <string name="epale_chamo">Epale chamo</string>
+    <string name="button">Button</string>
+    <string name="logo">logo</string>
+    <string name="username_or_email">Username or Email</string>
 </resources>

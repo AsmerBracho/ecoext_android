@@ -2,10 +2,9 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/textView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".EcoExTRegister">
 
 
     <ScrollView
@@ -15,10 +14,10 @@
         android:layout_marginBottom="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,37 +41,27 @@
                 app:srcCompat="@drawable/logo" />
 
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:text="Sig up to create an EcoExT account"
-                android:layout_gravity="center"
-                android:textAlignment="center"
-                android:textSize="26sp" />
-
-
-            <Button
-                android:id="@+id/btnLoginFacebook"
+            <EditText
+                android:id="@+id/editTextUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
                 android:layout_marginLeft="40dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginEnd="40dp"
                 android:layout_marginRight="40dp"
-                android:backgroundTint="#3f5aa9"
-                android:padding="15dp"
-                android:text="REGISTER WITH FACEBOOK"
-                android:textColor="#ffffff"
-                android:textSize="14sp"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="Username"
+                android:inputType="text"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/bbtnLoginGoogle"
+            <EditText
+                android:id="@+id/editTextUsername3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
@@ -80,15 +69,69 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="40dp"
                 android:layout_marginRight="40dp"
-                android:backgroundTint="#d84830"
-                android:padding="15dp"
-                android:text="REGISTER WITH GOOGLE"
-                android:textColor="#ffffff"
-                android:textSize="14sp"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="Email"
+                android:inputType="text|textEmailAddress"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnLoginFacebook" />
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/editTextPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginRight="40dp"
+                android:ems="10"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextUsername" />
+
+            <EditText
+                android:id="@+id/editTextPassword2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginRight="40dp"
+                android:ems="10"
+                android:hint="Confirm Password"
+                android:inputType="textPassword"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextUsername" />
+
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginRight="40dp"
+                android:padding="10dp"
+                android:text="REGISTER"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+
 
             <View
                 android:id="@+id/view"
@@ -98,23 +141,6 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="40dp"
                 android:background="#bebebe" />
-
-            <Button
-                android:id="@+id/btnLogin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="40dp"
-                android:layout_marginRight="40dp"
-                android:padding="15dp"
-                android:text="REGISTER WITH EMAIL"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
             <LinearLayout
                 android:layout_width="match_parent"
