@@ -6,18 +6,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-public class EcoExTRegister extends AppCompatActivity {
+public class RegisterWithEmailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_eco_ex_tregister);
+        setContentView(R.layout.activity_register_with_email);
 
         TextView loginLink = findViewById(R.id.textViewLogin);
         loginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent loginPage = new Intent(getApplicationContext(), Login.class);
+                Intent loginPage = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(loginPage);
             }
         });
