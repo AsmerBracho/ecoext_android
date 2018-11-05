@@ -4,4 +4,7 @@
     <string name="button">Button</string>
     <string name="logo">logo</string>
     <string name="username_or_email">Username or Email</string>
+    <string name="facebook_app_id">1002325056617849</string>
+    <string name="fb_login_protocol_scheme">fb1002325056617849</string>
+
 </resources>
