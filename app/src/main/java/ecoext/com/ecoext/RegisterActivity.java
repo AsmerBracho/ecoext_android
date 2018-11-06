@@ -57,12 +57,12 @@ public class RegisterActivity extends AppCompatActivity {
 
                     @Override
                     public void onCancel() {
-                        Toast.makeText(getApplicationContext(), "Login Canceled", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), R.string.login_cancelled, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onError(FacebookException exception) {
-                        Toast.makeText(getApplicationContext(), "Login Error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), R.string.login_error, Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -101,6 +101,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void handleFacebookAccessToken(AccessToken accessToken) {
 
+        //set visibilities so progress bar is shown and loginButton hidden
         progressBar.setVisibility(View.VISIBLE);
         loginButton.setVisibility(View.GONE);
 
@@ -111,6 +112,8 @@ public class RegisterActivity extends AppCompatActivity {
                 if (!task.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), R.string.firebase_error_login, Toast.LENGTH_SHORT).show();
                 }
+
+                //visibilities back to normal
                 progressBar.setVisibility(View.GONE);
                 loginButton.setVisibility(View.VISIBLE);
 
