@@ -12,6 +12,7 @@ public class EcoExTApp extends Application {
         super.onCreate();
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
+
     }
 
 }

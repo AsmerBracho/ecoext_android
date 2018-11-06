@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "932974842956",
+    "firebase_url": "https://ecoext-32887.firebaseio.com",
+    "project_id": "ecoext-32887",
+    "storage_bucket": "ecoext-32887.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:932974842956:android:a18d17a8b306e802",
+        "android_client_info": {
+          "package_name": "ecoext.com.ecoext"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "932974842956-1sbl6sifp4vq91ghp939594ptidtbd1o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ecoext.com.ecoext",
+            "certificate_hash": "ccc7cc94fd1d6346bab747a8e947a51f53fa2ee1"
+          }
+        },
+        {
+          "client_id": "932974842956-bmpgt916ht2buae0p4c12vo2e5r59ta1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCq4WJkI4RKuXnfNLhnLYoR-_IgwdYnNbA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "932974842956-bmpgt916ht2buae0p4c12vo2e5r59ta1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

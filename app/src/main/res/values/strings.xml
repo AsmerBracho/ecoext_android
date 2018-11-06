@@ -6,5 +6,6 @@
     <string name="username_or_email">Username or Email</string>
     <string name="facebook_app_id">1002325056617849</string>
     <string name="fb_login_protocol_scheme">fb1002325056617849</string>
+    <string name="firebase_error_login">An Error has Ocurred while trying to access Firebase</string>
 
 </resources>
