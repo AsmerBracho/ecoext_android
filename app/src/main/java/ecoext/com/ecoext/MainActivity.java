@@ -7,16 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
-import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
@@ -31,11 +29,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*
-        if (AccessToken.getCurrentAccessToken() == null) {
-            goRegisterScreen();
-        }
-        */
+
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -47,37 +41,40 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
+
+
         // Initialize Firebase variables
         firebaseAuth = FirebaseAuth.getInstance();
+
+
         firebaseAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    setUserData(user);
+                } else {
+                    goRegisterScreen();
+                }
             }
         };
+    }
+
+    private void setUserData(FirebaseUser user) {
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
         firebaseAuth.addAuthStateListener(firebaseAuthListener);
-    }
-
-    private void handleSignInResult(GoogleSignInResult result) {
-       if (result.isSuccess()) {
-           GoogleSignInAccount account = result.getSignInAccount();
-       } else {
-           goRegisterScreen();
-       }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (firebaseAuthListener != null) {
-            firebaseAuth.removeAuthStateListener(firebaseAuthListener);
-        }
+        firebaseAuth.removeAuthStateListener(firebaseAuthListener);
+
     }
 
     private void goRegisterScreen() {
@@ -88,7 +85,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     public void logout(View view) {
         FirebaseAuth.getInstance().signOut();
-        LoginManager.getInstance().logOut();
+        //LoginManager.getInstance().logOut();
+
         goRegisterScreen();
 
         Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
@@ -103,6 +101,22 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         });
 
 
+    }
+
+    public void revoke(View view) {
+        FirebaseAuth.getInstance().signOut();
+        //LoginManager.getInstance().logOut();
+
+        Auth.GoogleSignInApi.revokeAccess(googleApiClient).setResultCallback(new ResultCallback<Status>() {
+            @Override
+            public void onResult(@NonNull Status status) {
+                if (status.isSuccess()) {
+                    goRegisterScreen();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Access could NOT been revoked", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override

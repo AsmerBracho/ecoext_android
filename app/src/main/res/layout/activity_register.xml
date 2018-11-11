@@ -72,8 +72,7 @@
                 android:layout_marginLeft="40dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginRight="40dp"
-                android:layout_marginBottom="10dp">
-            </com.google.android.gms.common.SignInButton>
+                android:layout_marginBottom="10dp"></com.google.android.gms.common.SignInButton>
 
             <View
                 android:id="@+id/view"
