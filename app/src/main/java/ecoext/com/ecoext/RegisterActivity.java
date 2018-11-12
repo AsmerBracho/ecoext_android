@@ -1,5 +1,6 @@
 package ecoext.com.ecoext;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -42,6 +43,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
 
     private ProgressBar progressBar;
+    private ProgressDialog progressDialog;
 
     // Start of the OnCreate Method
     @Override
@@ -50,7 +52,8 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
         setContentView(R.layout.activity_register);
 
         // Initialize progress Bar
-        progressBar = findViewById(R.id.progr);
+        //progressBar = findViewById(R.id.progr);
+        progressDialog = new ProgressDialog(this);
 
         googleLoginButton = findViewById(R.id.btnRegisterGoogle);
         googleLoginButton.setColorScheme(SignInButton.COLOR_DARK);
@@ -78,46 +81,6 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
                 }
             }
         });
-
-
-
-
-        /* Facebook Log In
-        callbackManager = CallbackManager.Factory.create();
-        facebookLoginButton = findViewById(R.id.loginFacebookButton);
-        facebookLoginButton.setReadPermissions("email", "public_profile");
-        //facebookLoginButton.setReadPermissions(Arrays.asList("email"));
-
-        facebookLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                //Log.d(TAG, "facebook:onSuccess:" + loginResult);
-                handleFacebookAccessToken(loginResult.getAccessToken());
-            }
-
-            @Override
-            public void onCancel() {
-                //Log.d(TAG, "facebook:onCancel");
-                Toast.makeText(getApplicationContext(), R.string.login_cancelled, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onError(FacebookException exception) {
-                //Log.d(TAG, "facebook:onError", error);
-                Toast.makeText(getApplicationContext(), R.string.login_error, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        TextView loginLink = findViewById(R.id.textViewLogin);
-        loginLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent loginPage = new Intent(getApplicationContext(), LoginActivity.class);
-                loginPage.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(loginPage);
-            }
-        });
-        */
 
         Button registerEmail = findViewById(R.id.btnRegisterEmail);
         registerEmail.setOnClickListener(new View.OnClickListener() {
@@ -164,7 +127,6 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //callbackManager.onActivityResult(requestCode, resultCode, data);
 
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -184,39 +146,15 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 
     }
 
-    /*
-    private void handleFacebookAccessToken(AccessToken accessToken) {
-
-        //set visibilities so progress bar is shown and loginButton hidden
-        progressBar.setVisibility(View.VISIBLE);
-        facebookLoginButton.setVisibility(View.GONE);
-
-        AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
-        firebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            //Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = firebaseAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            //Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(getApplicationContext(), R.string.firebase_error_login, Toast.LENGTH_SHORT).show();
-                            updateUI(null);
-                        }
-
-                        // ...
-                    }
-                });
-
-    }
-    */
-
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         //Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+
+        //set visibilities so progress bar is shown and loginButton hidden
+
+        progressDialog.setMessage("Singing in ...");
+        progressDialog.show();
+        //progressBar.setVisibility(View.VISIBLE);
+       // googleLoginButton.setVisibility(View.GONE);
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         firebaseAuth.signInWithCredential(credential)
@@ -235,6 +173,8 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
                             updateUI(null);
                         }
 
+                       // progressBar.setVisibility(View.GONE);
+                       // googleLoginButton.setVisibility(View.VISIBLE);
                         // ...
                     }
                 });
