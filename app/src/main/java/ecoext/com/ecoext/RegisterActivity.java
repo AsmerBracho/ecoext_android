@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -44,7 +44,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 
     private ProgressBar progressBar;
     private ProgressDialog progressDialog;
-
+    private CheckBox terms; 
     // Start of the OnCreate Method
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,18 +70,29 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        findViewById(R.id.btnRegisterGoogle).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                switch (view.getId()) {
-                    case R.id.btnRegisterGoogle:
-                        signIn();
-                        break;
-                    // ...
-                }
-            }
-        });
+        
+        terms = findViewById(R.id.checkBoxTermsAndConditions);
+        
 
+            findViewById(R.id.btnRegisterGoogle).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    switch (view.getId()) {
+                        case R.id.btnRegisterGoogle:
+                            if (terms.isChecked()) {
+                                signIn();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "You Must Agree to our Terms and Conditions", Toast.LENGTH_SHORT).show();
+                            }
+                            break;
+                        // ...
+                    }
+                }
+            });
+
+
+        // Register with Emmail and Password
+        /*
         Button registerEmail = findViewById(R.id.btnRegisterEmail);
         registerEmail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +102,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
                 startActivity(registerEmailPage);
             }
         });
-
+        */
 
     } // End of onCreate
 
@@ -101,7 +112,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
     }
 
     private void goMainScreen() {
-        Intent goMainScreen = new Intent(this, MainActivity.class);
+        Intent goMainScreen = new Intent(this, Home.class);
         goMainScreen.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(goMainScreen);
     }

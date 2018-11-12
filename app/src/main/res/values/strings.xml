@@ -8,4 +8,11 @@
     <string name="firebase_error_login">An Error has Occurred while trying to access Firebase</string>
     <string name="login_error">Error Occurred</string>
     <string name="login_cancelled">Login Cancelled</string>
+    <string name="title_activity_home">Home</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Username</string>
+    <string name="nav_header_subtitle">Email</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Notification Here</string>
 </resources>
