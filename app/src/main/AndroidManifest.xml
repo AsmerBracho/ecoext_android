@@ -18,7 +18,6 @@
         <activity
             android:name=".RegisterWithEmailActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".MainActivity"></activity>
         <activity
             android:name=".LoginActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
@@ -44,7 +43,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Home"
+            android:name=".MainActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

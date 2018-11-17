@@ -112,7 +112,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
     }
 
     private void goMainScreen() {
-        Intent goMainScreen = new Intent(this, Home.class);
+        Intent goMainScreen = new Intent(this, MainActivity.class);
         goMainScreen.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(goMainScreen);
     }
