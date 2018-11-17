@@ -62,6 +62,8 @@ public class Home extends AppCompatActivity
         });
         */
 
+
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -71,13 +73,20 @@ public class Home extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        // Start Application in the Home Page
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new HomeFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_home);
+        }
+
         View nagView = navigationView.getHeaderView(0);
 
         photoImageView = nagView.findViewById(R.id.photoUser);
         nameTextView =  nagView.findViewById(R.id.username);
         emailTextView =  nagView.findViewById(R.id.email);
 
-        idTextView =  findViewById(R.id.idTextView);
+        //idTextView =  findViewById(R.id.idTextView);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -145,16 +154,18 @@ public class Home extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
+        if (id == R.id.nav_records) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new RecordsFragment()).commit();
+        } else if (id == R.id.nav_reports) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new ReportsStatisticsFragment()).commit();
+        } else if (id == R.id.nav_notifications) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new NotificationsFragment()).commit();
+        } else if (id == R.id.nav_home) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new HomeFragment()).commit();
         } else if (id == R.id.logout) {
             logout();
         }
@@ -167,7 +178,7 @@ public class Home extends AppCompatActivity
     private void setUserData(FirebaseUser user) {
         nameTextView.setText(user.getDisplayName());
         emailTextView.setText(user.getEmail());
-        idTextView.setText(user.getUid());
+        //idTextView.setText(user.getUid());
         Glide.with(this).load(user.getPhotoUrl())
                 .bitmapTransform(new RoundedCornersTransformation( Home.this,sCorner, sMargin))
                 .into(photoImageView);
