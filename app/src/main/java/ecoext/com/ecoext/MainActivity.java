@@ -1,15 +1,19 @@
 package ecoext.com.ecoext;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,6 +29,8 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
@@ -44,6 +50,8 @@ public class MainActivity extends AppCompatActivity
     public static int sCorner = 50;
     public static int sMargin = 1;
 
+    IntentIntegrator integrator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,18 +59,23 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /*
+        // Calling the QR Scanner
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final Activity activity = this;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                integrator = new IntentIntegrator(activity);
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+                integrator.setPrompt("EcoExT QR Scanner");
+                integrator.setCameraId(0);
+                integrator.setBeepEnabled(false);
+                integrator.setBarcodeImageEnabled(false);
+                integrator.initiateScan();
             }
         });
-        */
 
-
+        fab.bringToFront();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -83,8 +96,8 @@ public class MainActivity extends AppCompatActivity
         View nagView = navigationView.getHeaderView(0);
 
         photoImageView = nagView.findViewById(R.id.photoUser);
-        nameTextView =  nagView.findViewById(R.id.username);
-        emailTextView =  nagView.findViewById(R.id.email);
+        nameTextView = nagView.findViewById(R.id.username);
+        emailTextView = nagView.findViewById(R.id.email);
 
         //idTextView =  findViewById(R.id.idTextView);
 
@@ -113,8 +126,62 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         };
-
     }
+
+    // onActivityResult we are going to manage the QRScanner actions
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null) {
+            if (result.getContents() == null) {
+                Toast.makeText(this, "Scan Cancelled", Toast.LENGTH_LONG).show();
+            } else {
+                if (result.getContents().contains("gabrielselollevaalaboca ")) {
+
+                    // get the transaction ID
+                    String s = result.getContents();
+                    String[] transactionID = s.split(" ");
+                    String finalID = "";
+                    for (int i = 1; i < transactionID.length; i++) {
+                        finalID = finalID.concat(transactionID[i] + " ");
+                    }
+                    new AlertDialog.Builder(this)
+                            .setTitle("RECEIPT SCANNED")
+                            .setMessage("You have successfully scanned your receipt \n\nID: " + finalID)
+                            .setPositiveButton("SEE RECEIPT", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            })
+                            .setNegativeButton("EXIT", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Log.d("MainActivity", "Aborting...");
+                                }
+                            })
+                            .show();
+
+                } else {
+                    new AlertDialog.Builder(this, R.style.CustomDialogTheme)
+                            .setTitle("WRONG QR CODE")
+                            .setMessage("This is not a valid EcoExT QR Code, please SCAN a VALID code")
+                            .setPositiveButton("SCAN", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    integrator.initiateScan();
+                                }
+                            })
+                            .show();
+                }
+
+            }
+
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -126,6 +193,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -144,10 +212,9 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
-
+    */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -180,11 +247,10 @@ public class MainActivity extends AppCompatActivity
         emailTextView.setText(user.getEmail());
         //idTextView.setText(user.getUid());
         Glide.with(this).load(user.getPhotoUrl())
-                .bitmapTransform(new RoundedCornersTransformation( MainActivity.this,sCorner, sMargin))
+                .bitmapTransform(new RoundedCornersTransformation(MainActivity.this, sCorner, sMargin))
                 .into(photoImageView);
 
     }
-
 
     @Override
     protected void onStart() {

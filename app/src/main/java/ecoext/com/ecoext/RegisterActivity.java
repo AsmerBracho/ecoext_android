@@ -82,7 +82,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
                             if (terms.isChecked()) {
                                 signIn();
                             } else {
-                                Toast.makeText(getApplicationContext(), "You Must Agree to our Terms and Conditions", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "You Must Agree to our Terms and Conditions", Toast.LENGTH_LONG).show();
                             }
                             break;
                         // ...
