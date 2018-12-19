@@ -52,6 +52,9 @@ public class MainActivity extends AppCompatActivity
 
     IntentIntegrator integrator;
 
+    //Database Variables
+    private final  String HASH_VALIDATOR = "0";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,7 +139,7 @@ public class MainActivity extends AppCompatActivity
             if (result.getContents() == null) {
                 Toast.makeText(this, "Scan Cancelled", Toast.LENGTH_LONG).show();
             } else {
-                if (result.getContents().contains("gabrielselollevaalaboca ")) {
+                if (result.getContents().contains(HASH_VALIDATOR)) {
 
                     // get the transaction ID
                     String s = result.getContents();
