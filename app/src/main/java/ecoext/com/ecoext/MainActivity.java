@@ -47,13 +47,16 @@ public class MainActivity extends AppCompatActivity
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
 
+    // Values used for given round corners to images
     public static int sCorner = 50;
     public static int sMargin = 1;
 
     IntentIntegrator integrator;
 
     //Database Variables
-    private final  String HASH_VALIDATOR = "0";
+    private final String HASH_VALIDATOR = "0";
+
+    //*********************************************************************
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,12 +99,11 @@ public class MainActivity extends AppCompatActivity
             navigationView.setCheckedItem(R.id.nav_home);
         }
 
+        // Pulling data from header to our views
         View nagView = navigationView.getHeaderView(0);
-
         photoImageView = nagView.findViewById(R.id.photoUser);
         nameTextView = nagView.findViewById(R.id.username);
         emailTextView = nagView.findViewById(R.id.email);
-
         //idTextView =  findViewById(R.id.idTextView);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -129,6 +131,7 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         };
+
     }
 
     // onActivityResult we are going to manage the QRScanner actions
@@ -177,9 +180,7 @@ public class MainActivity extends AppCompatActivity
                             })
                             .show();
                 }
-
             }
-
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
@@ -218,6 +219,7 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
     */
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -248,11 +250,15 @@ public class MainActivity extends AppCompatActivity
     private void setUserData(FirebaseUser user) {
         nameTextView.setText(user.getDisplayName());
         emailTextView.setText(user.getEmail());
-        //idTextView.setText(user.getUid());
+        // idTextView.setText(user.getUid());
+
+        /**
+         * In order to stylize the picture we will apply a rounded corners style
+         * provided by javier Gonzales in the class RoundedCornersTransformation
+         */
         Glide.with(this).load(user.getPhotoUrl())
                 .bitmapTransform(new RoundedCornersTransformation(MainActivity.this, sCorner, sMargin))
                 .into(photoImageView);
-
     }
 
     @Override
@@ -290,9 +296,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void revoke(View view) {
+        // revoke firebase Instance
         FirebaseAuth.getInstance().signOut();
-        //LoginManager.getInstance().logOut();
+        // revoke Facebook instance
+        // LoginManager.getInstance().logOut();
 
+        // revoke Google Instance
         Auth.GoogleSignInApi.revokeAccess(googleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(@NonNull Status status) {
