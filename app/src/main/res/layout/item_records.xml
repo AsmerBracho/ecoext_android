@@ -8,17 +8,16 @@
 
 
     <ImageView
-        android:id="@+id/photoUser"
-        android:layout_width="75dp"
-        android:layout_height="wrap_content"
+        android:id="@+id/recordLogo"
+        android:layout_width="71dp"
+        android:layout_height="64dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:contentDescription="@string/nav_header_desc"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:paddingBottom="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/ic_launcher_round" />
@@ -33,47 +32,50 @@
         android:layout_marginTop="28dp"
         android:text="Title of Record"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/photoUser"
+        app:layout_constraintStart_toEndOf="@+id/recordLogo"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/purse"
+        android:id="@+id/recordDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/photoUser"
+        android:layout_alignBottom="@+id/recordLogo"
         android:layout_marginStart="12dp"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="4dp"
         android:text="Purse"
         android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/photoUser"
+        app:layout_constraintStart_toEndOf="@+id/recordLogo"
         app:layout_constraintTop_toBottomOf="@+id/recordTitle" />
 
     <TextView
-        android:id="@+id/price"
+        android:id="@+id/recordPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:text="Price"
+        android:paddingLeft="10dp"
         android:textColor="#ed0c1f"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/recordDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:text="Date"
+        android:paddingLeft="10dp"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/price" />
+        app:layout_constraintTop_toBottomOf="@+id/recordPrice" />
 
+    <!--
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
@@ -84,9 +86,11 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:src="@drawable/ic_eye"
-        app:layout_constraintEnd_toStartOf="@+id/price"
+        app:layout_constraintEnd_toStartOf="@+id/recordPrice"
         app:layout_constraintHorizontal_bias="0.447"
         app:layout_constraintStart_toEndOf="@+id/recordTitle"
         app:layout_constraintTop_toTopOf="parent" />
+    -->
+
 
 </android.support.constraint.ConstraintLayout>

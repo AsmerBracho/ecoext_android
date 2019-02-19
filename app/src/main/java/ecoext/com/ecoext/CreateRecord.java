@@ -28,7 +28,6 @@ public class CreateRecord {
         this.price = price;
     }
 
-
     public String getLogo() {
         return logo;
     }

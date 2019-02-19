@@ -5,10 +5,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static ecoext.com.ecoext.MainActivity.sCorner;
+import static ecoext.com.ecoext.MainActivity.sMargin;
 
 public class ItemRecordsAdapter extends BaseAdapter {
 
@@ -16,15 +23,10 @@ public class ItemRecordsAdapter extends BaseAdapter {
      * We will need to define the following global variables
      */
     private LayoutInflater mInflator;
+    private Context context;
 
     // Create a global listOfRecords that will hold the records from database
     private ArrayList<CreateRecord> listOfRecords;
-
-    private List<String> logos;
-    private List<String> title;
-    private List<String> description;
-    private List<String> date;
-    private List<Double> price;
 
     /**
      * Create the constructor which will take the parameters
@@ -35,18 +37,8 @@ public class ItemRecordsAdapter extends BaseAdapter {
         mInflator = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         this.listOfRecords = listOfRecords;
-
-        // create and fill the list of elements with data
-        logos = new ArrayList<String>();
-        title = new ArrayList<String>();
-
-        for (CreateRecord item: this.listOfRecords) {
-            logos.add(item.getLogo());
-            title.add(item.getTitle());
-        }
-
+        context = c;
     }
-
 
     @Override
     public int getCount() {
@@ -66,10 +58,33 @@ public class ItemRecordsAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
 
+        // create a view that will allow us to access the resources
         View v = mInflator.inflate(R.layout.item_records, null);
-        TextView titleTextView = v.findViewById(R.id.recordTitle);
 
+        /**
+         * Create the Views and math the source with id that comes from the
+         * Item_record layout
+         */
+        ImageView logoImageView = v.findViewById(R.id.recordLogo);
+        TextView titleTextView = v.findViewById(R.id.recordTitle);
+        TextView descriptionTextView = v.findViewById(R.id.recordDescription);
+        TextView priceTextView = v.findViewById(R.id.recordPrice);
+        TextView dateTextView = v.findViewById(R.id.recordDate);
+
+        //load logo with picasso
+        String url = listOfRecords.get(position).getLogo();
+
+        // Stylize and handle error in the picture using glide
+        Glide.with(context).load(url)
+                .error(R.drawable.error_logo)
+                .override(60, 60)
+                .bitmapTransform(new ecoext.com.ecoext.RoundedCornersTransformation(context, sCorner, sMargin))
+                .into(logoImageView);
+        //set the text view
         titleTextView.setText(listOfRecords.get(position).getTitle());
+        descriptionTextView.setText(listOfRecords.get(position).getDescription());
+        dateTextView.setText(listOfRecords.get(position).getDate());
+        priceTextView.setText(Double.toString(listOfRecords.get(position).getPrice()));
 
         return v;
     }
