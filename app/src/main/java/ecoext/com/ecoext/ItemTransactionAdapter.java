@@ -9,15 +9,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static ecoext.com.ecoext.MainActivity.sCorner;
 import static ecoext.com.ecoext.MainActivity.sMargin;
 
-public class ItemRecordsAdapter extends BaseAdapter {
+public class ItemTransactionAdapter extends BaseAdapter {
 
     /**
      * We will need to define the following global variables
@@ -26,14 +24,14 @@ public class ItemRecordsAdapter extends BaseAdapter {
     private Context context;
 
     // Create a global listOfRecords that will hold the records from database
-    private ArrayList<CreateRecord> listOfRecords;
+    private ArrayList<CreateTransaction> listOfRecords;
 
     /**
      * Create the constructor which will take the parameters
      * @param c corresponding to the inflator service
      * @param listOfRecords the list of records to be shown
      */
-    public ItemRecordsAdapter(Context c, ArrayList<CreateRecord> listOfRecords) {
+    public ItemTransactionAdapter(Context c, ArrayList<CreateTransaction> listOfRecords) {
         mInflator = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         this.listOfRecords = listOfRecords;
@@ -60,7 +58,6 @@ public class ItemRecordsAdapter extends BaseAdapter {
 
         // create a view that will allow us to access the resources
         View v = mInflator.inflate(R.layout.item_records, null);
-
         /**
          * Create the Views and math the source with id that comes from the
          * Item_record layout

@@ -1,9 +1,9 @@
 package ecoext.com.ecoext;
 
 /**
- * Class used to create instances of the records brought from database
+ * Class used to create instances of the transactions brought from database
  */
-public class CreateRecord {
+public class CreateTransaction {
 
     private String logo;
     private String title;
@@ -20,7 +20,7 @@ public class CreateRecord {
      * @param date
      * @param price
      */
-    public CreateRecord(String logo, String title, String description, String date, double price) {
+    public CreateTransaction(String logo, String title, String description, String date, double price) {
         this.logo = logo;
         this.title = title;
         this.description = description;
