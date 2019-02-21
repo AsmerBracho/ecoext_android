@@ -61,6 +61,18 @@ public class RecordsFragment extends Fragment {
         myRecords.add(r2);
         myRecords.add(r3);
         myRecords.add(r4);
+        myRecords.add(r4);
+        myRecords.add(r4);
+        myRecords.add(r4);
+        myRecords.add(r4);
+        myRecords.add(r4);
+        myRecords.add(r4);
+        myRecords.add(r4);
+        myRecords.add(r4);
+        myRecords.add(r4);
+        myRecords.add(r4);
+        myRecords.add(r4);
+        myRecords.add(r4);
 
 
         itemTransactionAdapter = new ItemTransactionAdapter(this.getContext(), myRecords);
@@ -70,7 +82,7 @@ public class RecordsFragment extends Fragment {
         listOfRecords.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent showReceipt = new Intent(getContext(), Receipt.class);
+                Intent showReceipt = new Intent(getContext(), ReceiptActivity.class);
                 startActivity(showReceipt);
             }
         });

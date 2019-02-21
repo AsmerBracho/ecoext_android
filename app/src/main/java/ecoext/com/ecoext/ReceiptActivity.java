@@ -9,7 +9,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class Receipt extends AppCompatActivity {
+public class ReceiptActivity extends AppCompatActivity {
 
     ItemReceiptAdapter itemReceiptAdapter;
     ListView listOfItems;

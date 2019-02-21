@@ -251,6 +251,11 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * This methos will be called to set the userData from firebase
+     * It takes a firebase instance as argument
+     * @param user
+     */
     private void setUserData(FirebaseUser user) {
         nameTextView.setText(user.getDisplayName());
         emailTextView.setText(user.getEmail());
