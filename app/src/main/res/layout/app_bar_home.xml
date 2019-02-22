@@ -8,6 +8,7 @@ android:layout_height="match_parent"
 android:background="@color/grayBackground"
 tools:context=".MainActivity">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,30 +18,30 @@ tools:context=".MainActivity">
         app:layout_constraintEnd_toEndOf="parent"
         android:gravity="center_horizontal">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="50dp" />
-
-            <FrameLayout
-                android:id="@+id/fragment_container"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                />
-        </LinearLayout>
     </LinearLayout>
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/click_out"
-        android:layout_width="1000dp"
-        android:layout_height="1500dp"
-        android:background="@drawable/background_circle"
+        <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+        <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
         />
+
+        <TextView
+            android:id="@+id/click_out"
+            android:layout_width="1000dp"
+            android:layout_height="1500dp"
+            android:background="@drawable/background_circle"
+            />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -50,9 +51,8 @@ tools:context=".MainActivity">
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:gravity="center_horizontal"
-        android:layout_marginBottom="15dp"
-        android:layout_marginRight="10dp"
         >
+
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
@@ -97,10 +97,9 @@ tools:context=".MainActivity">
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:orientation="vertical"
-        android:layout_marginBottom="95dp"
-        android:layout_marginRight="95dp"
+        android:layout_marginBottom="80dp"
+        android:layout_marginRight="80dp"
         android:gravity="center_horizontal"
-
         >
 
         <TextView
@@ -127,6 +126,7 @@ tools:context=".MainActivity">
             />
 
     </LinearLayout>
+
 
 </FrameLayout>
 
