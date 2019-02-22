@@ -4,4 +4,9 @@
     <color name="colorPrimaryDark">#157d28</color>
     <color name="colorAccent">#D81B60</color>
     <color name="grayBackground">#f4f3f3</color>
+    <color name="labelBackground">#e3101010</color>
+    <color name="fabSecondButton">#ffffff</color>
+    <color name="fabSecondPressed">#cac9c9</color>
+    <color name="black_transparent">#a3000000</color>
+
 </resources>

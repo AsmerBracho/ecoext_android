@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +34,8 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
 
     private ImageView photoImageView;
@@ -56,6 +58,21 @@ public class MainActivity extends AppCompatActivity
     //Database Variables
     private final String HASH_VALIDATOR = "0";
 
+    /**
+     * Variables for Floating Menu
+     * 2 submenus
+     */
+    FloatingActionButton fabMain;
+    FloatingActionButton fabOne;
+    FloatingActionButton fabTwo;
+    TextView labelQR;
+    TextView labelCreate;
+    View clickOut;
+    Float translationY = 100f;
+    OvershootInterpolator interpolator = new OvershootInterpolator();
+    private static final String TAG = "MainActivity";
+    Boolean isMenuOpen = false;
+
     //*********************************************************************
 
     @Override
@@ -64,8 +81,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -116,25 +131,8 @@ public class MainActivity extends AppCompatActivity
             }
         };
 
-
-        // Calling the QR Scanner
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        final Activity activity = this;
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                integrator = new IntentIntegrator(activity);
-                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-                integrator.setPrompt("EcoExT QR Scanner");
-                integrator.setCameraId(0);
-                integrator.setBeepEnabled(false);
-                integrator.setBarcodeImageEnabled(false);
-                integrator.initiateScan();
-            }
-        });
-
-        fab.bringToFront();
-
+        // Initiate the Fab Menu
+        initFabMenu();
 
     }
 
@@ -193,11 +191,16 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+        //check if drawer is closed if not close it
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+            //close fab menu
+            closeMenu();
         } else {
             super.onBackPressed();
+            // close fab menu
+            closeMenu();
         }
     }
 
@@ -246,6 +249,7 @@ public class MainActivity extends AppCompatActivity
             logout();
         }
 
+        closeMenu();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -254,6 +258,7 @@ public class MainActivity extends AppCompatActivity
     /**
      * This methos will be called to set the userData from firebase
      * It takes a firebase instance as argument
+     *
      * @param user
      */
     private void setUserData(FirebaseUser user) {
@@ -327,4 +332,115 @@ public class MainActivity extends AppCompatActivity
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
+    /**
+     * Methods to follow are used for the animation and functionality
+     * of the Fab button
+     */
+    private void initFabMenu() {
+        // find the views
+        fabMain = findViewById(R.id.fabMain);
+        fabOne = findViewById(R.id.fabOne);
+        fabTwo = findViewById(R.id.fabTwo);
+        labelCreate = findViewById(R.id.label_create);
+        labelQR = findViewById(R.id.label_QR);
+        clickOut = findViewById(R.id.click_out);
+
+        //set alphas
+        fabOne.setAlpha(0f);
+        fabTwo.setAlpha(0f);
+        labelCreate.setAlpha(0f);
+        labelQR.setAlpha(0f);
+        clickOut.setAlpha(0f);
+
+        //set translations
+        fabOne.setTranslationY(translationY);
+        fabTwo.setTranslationY(translationY);
+        labelCreate.setTranslationY(translationY);
+        labelQR.setTranslationY(translationY);
+        clickOut.setTranslationY(translationY);
+        clickOut.setTranslationX(translationY/2);
+
+        //set Listeners
+        fabMain.setOnClickListener(this);
+        fabOne.setOnClickListener(this);
+        fabTwo.setOnClickListener(this);
+        labelCreate.setOnClickListener(this);
+        labelQR.setOnClickListener(this);
+        clickOut.setOnClickListener(this);
+    }
+
+    private void openMenu() {
+        isMenuOpen = !isMenuOpen;
+
+        fabMain.animate().setInterpolator(interpolator).rotation(45f).setDuration(300).start();
+
+        fabOne.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
+        fabTwo.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
+        labelCreate.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
+        labelQR.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
+        clickOut.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
+        clickOut.animate().translationX(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
+    }
+
+    private void closeMenu() {
+        isMenuOpen = !isMenuOpen;
+
+        fabMain.animate().setInterpolator(interpolator).rotation(0f).setDuration(300).start();
+
+        fabOne.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
+        fabTwo.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
+        labelCreate.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
+        labelQR.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
+        clickOut.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
+        clickOut.animate().translationX(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
+    }
+
+
+    private void handleFabTwo() {
+        Log.i(TAG, "handleFabTwo: ");
+        final Activity activity = this;
+
+        //call the QR Scanner
+        fabTwo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                integrator = new IntentIntegrator(activity);
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+                integrator.setPrompt("EcoExT QR Scanner");
+                integrator.setCameraId(0);
+                integrator.setBeepEnabled(false);
+                integrator.setBarcodeImageEnabled(false);
+                integrator.initiateScan();
+            }
+        });
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.fabMain:
+                Log.i(TAG, "onClick: fab main");
+                if (isMenuOpen) {
+                    closeMenu();
+                } else {
+                    openMenu();
+                }
+                break;
+            case R.id.fabOne:
+                Log.i(TAG, "onClick: fab one");
+                //handleFabOne();
+
+            case R.id.fabTwo:
+                Log.i(TAG, "onClick: fab two");
+                handleFabTwo();
+                break;
+            case R.id.click_out:
+                closeMenu();
+
+
+
+        }
+    }
+
 }

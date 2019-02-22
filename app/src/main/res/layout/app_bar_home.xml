@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<FrameLayout
 xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
@@ -8,30 +8,107 @@ android:layout_height="match_parent"
 android:background="@color/grayBackground"
 tools:context=".MainActivity">
 
-<android.support.design.widget.AppBarLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:theme="@style/AppTheme.AppBarOverlay">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom|end"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center_horizontal"
+        >
 
-</android.support.design.widget.AppBarLayout>
+        <TextView
+            android:id="@+id/click_out"
+            android:layout_width="1000dp"
+            android:layout_height="1500dp"
+            android:background="@drawable/background_circle"
+            />
+    </LinearLayout>
 
 
-<FrameLayout
-    android:id="@+id/fragment_inflate"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:clickable="true"
-        android:backgroundTint="@color/colorPrimary"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center_horizontal"
+        >
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tint="@android:color/white"
+        app:fabSize="normal"
         app:borderWidth="0dp"
-        android:src="@drawable/ic_add" />
+        android:backgroundTint="@color/fabSecondPressed"
+        android:id="@+id/fabTwo"
+        android:layout_margin="4dp"
+        android:src="@drawable/ic_menu_reports"
+
+        />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tint="@android:color/white"
+        app:fabSize="mini"
+        app:borderWidth="0dp"
+        android:backgroundTint="@color/fabSecondPressed"
+        android:id="@+id/fabOne"
+        android:layout_margin="15dp"
+        android:src="@drawable/ic_edit"
+        />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabMain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabSize="normal"
+            app:borderWidth="0dp"
+            android:backgroundTint="@color/colorPrimary"
+            app:fab_colorPressed="@color/colorPrimaryDark"
+            android:tint="@android:color/white"
+            android:layout_margin="4dp"
+            android:src="@drawable/ic_add"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:orientation="vertical"
+        android:layout_marginBottom="80dp"
+        android:layout_marginRight="80dp"
+        android:gravity="center_horizontal"
+        >
+
+        <TextView
+            android:id="@+id/label_QR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Scan QR"
+            android:background="@drawable/fab_label_background"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:layout_marginBottom="25dp"
+            android:layout_gravity="end"
+            />
+
+        <TextView
+            android:id="@+id/label_create"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create Record"
+            android:background="@drawable/fab_label_background"
+            android:padding="10dp"
+            android:layout_gravity="end"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
 
 </FrameLayout>
 
-</android.support.design.widget.CoordinatorLayout>
