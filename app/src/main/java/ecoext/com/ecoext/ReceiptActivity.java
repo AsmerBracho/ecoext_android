@@ -45,7 +45,6 @@ public class ReceiptActivity extends AppCompatActivity {
         myItems.add(i3);
         myItems.add(i3);
 
-
         itemReceiptAdapter = new ItemReceiptAdapter(this, myItems);
         listOfItems.setAdapter(itemReceiptAdapter);
 

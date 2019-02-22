@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.github.clans.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -58,6 +59,7 @@ public class ItemTransactionAdapter extends BaseAdapter {
 
         // create a view that will allow us to access the resources
         View v = mInflator.inflate(R.layout.item_records, null);
+
         /**
          * Create the Views and math the source with id that comes from the
          * Item_record layout

@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity
      * Variables for Floating Menu
      * 2 submenus
      */
+
     FloatingActionButton fabMain;
     FloatingActionButton fabOne;
     FloatingActionButton fabTwo;
@@ -395,7 +396,6 @@ public class MainActivity extends AppCompatActivity
         clickOut.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
         clickOut.animate().translationX(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
     }
-
 
     private void handleFabTwo() {
         Log.i(TAG, "handleFabTwo: ");
