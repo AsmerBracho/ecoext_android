@@ -1,12 +1,15 @@
 package ecoext.com.ecoext;
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -345,30 +349,27 @@ public class MainActivity extends AppCompatActivity
         fabTwo = findViewById(R.id.fabTwo);
         labelCreate = findViewById(R.id.label_create);
         labelQR = findViewById(R.id.label_QR);
-        clickOut = findViewById(R.id.click_out);
 
         //set alphas
         fabOne.setAlpha(0f);
         fabTwo.setAlpha(0f);
         labelCreate.setAlpha(0f);
         labelQR.setAlpha(0f);
-        clickOut.setAlpha(0f);
 
         //set translations
         fabOne.setTranslationY(translationY);
         fabTwo.setTranslationY(translationY);
         labelCreate.setTranslationY(translationY);
         labelQR.setTranslationY(translationY);
-        clickOut.setTranslationY(translationY);
-        clickOut.setTranslationX(translationY/2);
 
         //set Listeners
         fabMain.setOnClickListener(this);
+
         fabOne.setOnClickListener(this);
         fabTwo.setOnClickListener(this);
         labelCreate.setOnClickListener(this);
         labelQR.setOnClickListener(this);
-        clickOut.setOnClickListener(this);
+
     }
 
     private void openMenu() {
@@ -380,8 +381,21 @@ public class MainActivity extends AppCompatActivity
         fabTwo.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
         labelCreate.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
         labelQR.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
-        clickOut.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
-        clickOut.animate().translationX(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
+
+        View layoutMain = findViewById(R.id.layout_main);
+        View layoutBackground = findViewById(R.id.layout_background);
+
+        int x = layoutBackground.getRight();
+        int y = layoutBackground.getBottom();
+
+        int startRadius = 0;
+        int endRadius = (int) Math.hypot(layoutMain.getWidth(), layoutMain.getHeight());
+
+        Animator anim = ViewAnimationUtils.createCircularReveal(layoutBackground, x, y, startRadius, endRadius);
+
+        layoutBackground.setVisibility(View.VISIBLE);
+        anim.start();
+
     }
 
     private void closeMenu() {
@@ -393,8 +407,47 @@ public class MainActivity extends AppCompatActivity
         fabTwo.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
         labelCreate.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
         labelQR.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
-        clickOut.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
-        clickOut.animate().translationX(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
+
+
+        View layoutMain = findViewById(R.id.layout_main);
+        final View layoutBackground = findViewById(R.id.layout_background);
+
+        int x = layoutBackground.getRight();
+        int y = layoutBackground.getBottom();
+
+        int startRadius = Math.max(layoutMain.getWidth(), layoutMain.getHeight());
+        int endRadius = 0;
+
+        Animator anim = ViewAnimationUtils.createCircularReveal(layoutBackground, x, y, startRadius, endRadius);
+        anim.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                layoutBackground.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+        anim.start();
+
+        layoutBackground.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                closeMenu();
+            }
+        });
     }
 
     private void handleFabTwo() {
@@ -435,9 +488,6 @@ public class MainActivity extends AppCompatActivity
                 Log.i(TAG, "onClick: fab two");
                 handleFabTwo();
                 break;
-            case R.id.click_out:
-                closeMenu();
-
 
 
         }

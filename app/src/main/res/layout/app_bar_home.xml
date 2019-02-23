@@ -1,132 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:background="@color/grayBackground"
-tools:context=".MainActivity">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grayBackground"
+    tools:context=".MainActivity">
 
-
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="bottom|end"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center_horizontal">
+        android:orientation="vertical">
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimary"
+                android:elevation="4dp"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-        <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp" />
+            <FrameLayout
+                android:id="@+id/fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
 
-        <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        />
+        <LinearLayout
+            android:id="@+id/layout_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom|end"
+            android:background="@color/black_transparent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-        <TextView
-            android:id="@+id/click_out"
-            android:layout_width="1000dp"
-            android:layout_height="1500dp"
-            android:background="@drawable/background_circle"
-            />
-    </LinearLayout>
+        </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center_horizontal"
-        >
-
-
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:tint="@android:color/white"
-        app:fabSize="normal"
-        app:borderWidth="0dp"
-        android:backgroundTint="@color/fabSecondPressed"
-        android:id="@+id/fabTwo"
-        android:layout_margin="4dp"
-        android:src="@drawable/ic_photo_qr"
-        />
-
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:tint="@android:color/white"
-        app:fabSize="mini"
-        app:borderWidth="0dp"
-        android:backgroundTint="@color/fabSecondPressed"
-        android:id="@+id/fabOne"
-        android:layout_margin="15dp"
-        android:src="@drawable/ic_edit"
-        />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fabMain"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fabSize="normal"
-            app:borderWidth="0dp"
-            android:backgroundTint="@color/colorPrimary"
-            app:fab_colorPressed="@color/colorPrimaryDark"
-            android:tint="@android:color/white"
-            android:layout_margin="4dp"
-            android:src="@drawable/ic_add"/>
+            android:layout_gravity="bottom|end"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-    </LinearLayout>
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fabTwo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:backgroundTint="@color/fabSecondPressed"
+                android:src="@drawable/ic_photo_qr"
+                android:tint="@android:color/white"
+                app:borderWidth="0dp"
+                app:fabSize="normal" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:orientation="vertical"
-        android:layout_marginBottom="80dp"
-        android:layout_marginRight="80dp"
-        android:gravity="center_horizontal"
-        >
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fabOne"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:backgroundTint="@color/fabSecondPressed"
+                android:src="@drawable/ic_edit"
+                android:tint="@android:color/white"
+                app:borderWidth="0dp"
+                app:fabSize="mini" />
 
-        <TextView
-            android:id="@+id/label_QR"
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fabMain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:src="@drawable/ic_add"
+                android:tint="@android:color/white"
+                app:borderWidth="0dp"
+                app:fabSize="normal"
+                app:fab_colorPressed="@color/colorPrimaryDark" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Scan QR"
-            android:background="@drawable/fab_label_background"
-            android:padding="10dp"
-            android:textStyle="bold"
-            android:layout_marginBottom="25dp"
-            android:layout_gravity="end"
-            />
+            android:layout_gravity="bottom|end"
+            android:layout_marginRight="90dp"
+            android:layout_marginBottom="90dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/label_create"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Create Record"
-            android:background="@drawable/fab_label_background"
-            android:padding="10dp"
-            android:layout_gravity="end"
-            android:textStyle="bold"
-            />
+            <TextView
+                android:id="@+id/label_QR"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginBottom="25dp"
+                android:background="@drawable/fab_label_background"
+                android:padding="10dp"
+                android:text="Scan QR"
+                android:textStyle="bold" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/label_create"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:background="@drawable/fab_label_background"
+                android:padding="10dp"
+                android:text="Create Record"
+                android:textStyle="bold" />
 
-
+        </LinearLayout>
+    </FrameLayout>
 </FrameLayout>
 
