@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ScrollView;
 
 import java.util.ArrayList;
 
@@ -21,7 +22,6 @@ public class ReceiptActivity extends AppCompatActivity {
         setContentView(R.layout.activity_receipt);
 
         listOfItems = findViewById(R.id.items_receipt);
-
 
         /**
          * Create a Record here for te Item
@@ -44,6 +44,22 @@ public class ReceiptActivity extends AppCompatActivity {
         myItems.add(i3);
         myItems.add(i3);
         myItems.add(i3);
+        myItems.add(i3);
+        myItems.add(i3);
+        myItems.add(i3);
+        myItems.add(i3);
+        myItems.add(i3);
+        myItems.add(i3);
+        myItems.add(i3);
+        myItems.add(i3);
+        myItems.add(i3);
+        myItems.add(i3);
+        myItems.add(i3);
+        myItems.add(i3);
+        myItems.add(i3);
+        myItems.add(i3);
+        myItems.add(i3);
+
 
         itemReceiptAdapter = new ItemReceiptAdapter(this, myItems);
         listOfItems.setAdapter(itemReceiptAdapter);
@@ -51,6 +67,9 @@ public class ReceiptActivity extends AppCompatActivity {
         // call method to allow scroll of ListView inside ScrollView
         setListViewHeightBasedOnChildren(listOfItems);
 
+        // Get ScrollView and scroll up to top in case the list is too big
+        ScrollView scrollView = findViewById(R.id.scrollView3);
+        scrollView.smoothScrollTo(0, 0);
     }
 
     /**** Method for Setting the Height of the ListView dynamically.
@@ -76,6 +95,9 @@ public class ReceiptActivity extends AppCompatActivity {
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
+        listView.setSelection(0);
+
+
     }
 
 

@@ -37,7 +37,7 @@ public class ItemReceiptAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return listOfItems.get(position).getDescription() ;
+        return listOfItems.get(position).getDescription();
     }
 
     @Override
@@ -65,6 +65,9 @@ public class ItemReceiptAdapter extends BaseAdapter {
         qty.setText(Integer.toString(listOfItems.get(position).getQty()));
         description.setText(listOfItems.get(position).getDescription());
         unitPrice.setText(currance + Double.toString(listOfItems.get(position).getUnitPrice()));
+        if (listOfItems.get(position).getQty() == 1) {
+            unitPrice.setVisibility(View.GONE);
+        }
         totalPrice.setText(currance + Double.toString(listOfItems.get(position).getTotalprice()));
 
         return v;

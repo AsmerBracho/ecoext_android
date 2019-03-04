@@ -139,6 +139,12 @@ public class MainActivity extends AppCompatActivity
         // Initiate the Fab Menu
         initFabMenu();
 
+        /**
+         * Get the information from database and process it accordingly into the application
+         * by creating lists that will contain the user data
+         */
+        GetUserInformationFromDataBase task = new GetUserInformationFromDataBase();
+        task.execute("https://samples.openweathermap.org/data/2.5/weather?q=London,uk&appid=b6907d289e10d714a6e88b30761fae22");
     }
 
     // onActivityResult we are going to manage the QRScanner actions
@@ -337,6 +343,7 @@ public class MainActivity extends AppCompatActivity
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
 
     /**
      * Methods to follow are used for the animation and functionality

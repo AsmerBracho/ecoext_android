@@ -1,29 +1,33 @@
 package ecoext.com.ecoext;
 
+import java.util.ArrayList;
+
 /**
  * Class used to create instances of the transactions brought from database
  */
 public class CreateTransaction {
 
+    private int id;
     private String logo;
     private String title;
-    private String description;
+    private String purse;
     private String date;
     private double price;
+    private ArrayList<CreateItem> listOfItems;
 
     /**
      * Constructor to create Records
      * take the parameters:
      * @param logo
      * @param title
-     * @param description
+     * @param purse
      * @param date
      * @param price
      */
-    public CreateTransaction(String logo, String title, String description, String date, double price) {
+    public CreateTransaction(String logo, String title, String purse, String date, double price) {
         this.logo = logo;
         this.title = title;
-        this.description = description;
+        this.purse = purse;
         this.date = date;
         this.price = price;
     }
@@ -44,12 +48,12 @@ public class CreateTransaction {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
+    public String getPurse() {
+        return purse;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setPurse(String purse) {
+        this.purse = purse;
     }
 
     public String getDate() {

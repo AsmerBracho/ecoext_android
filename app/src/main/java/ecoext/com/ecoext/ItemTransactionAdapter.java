@@ -81,7 +81,7 @@ public class ItemTransactionAdapter extends BaseAdapter {
                 .into(logoImageView);
         //set the text view
         titleTextView.setText(listOfRecords.get(position).getTitle());
-        descriptionTextView.setText(listOfRecords.get(position).getDescription());
+        descriptionTextView.setText(listOfRecords.get(position).getPurse());
         dateTextView.setText(listOfRecords.get(position).getDate());
         priceTextView.setText(Double.toString(listOfRecords.get(position).getPrice()));
 
