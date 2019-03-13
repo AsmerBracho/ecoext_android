@@ -88,6 +88,22 @@ public class RecordsFragment extends Fragment {
         myRecords.add(r1);
         myRecords.add(r2);
         myRecords.add(r3);
+        myRecords.add(r3);
+        myRecords.add(r2);
+        myRecords.add(r1);
+        myRecords.add(r3);
+        myRecords.add(r2);
+        myRecords.add(r1);
+        myRecords.add(r1);
+        myRecords.add(r2);
+        myRecords.add(r3);
+        myRecords.add(r3);
+        myRecords.add(r2);
+        myRecords.add(r1);
+        myRecords.add(r2);
+        myRecords.add(r3);
+        myRecords.add(r3);
+        myRecords.add(r2);
 
         itemTransactionAdapter = new ItemTransactionAdapter(this.getContext(), myRecords);
         listOfRecords.setAdapter(itemTransactionAdapter);
@@ -166,11 +182,13 @@ public class RecordsFragment extends Fragment {
 
     // Set the visibility of the filter Alert
     public void setFilters(int i) {
+        // 1 if we want to show
         if (i == 1) {
             alertBackground.setBackgroundColor(Color.parseColor("#dc7f27"));
             onFilters.setVisibility(View.VISIBLE);
             onDate.setVisibility(View.VISIBLE);
             onAccount.setVisibility(View.VISIBLE);
+        // 0 if we want to hide
         } else {
             filterAccount.setText("");
             filterDate.setText("");

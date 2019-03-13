@@ -11,7 +11,7 @@
         android:id="@+id/backgroundAlert"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:background="#dc7f27" />
+        android:background="#556ce2" />
 
     <TextView
         android:id="@+id/onFilters"
