@@ -11,6 +11,8 @@ import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,8 +30,16 @@ import java.util.Calendar;
 
 public class RecordsFragment extends Fragment {
 
-    ItemTransactionAdapter itemTransactionAdapter;
-    ListView listOfRecords;
+    //ItemTransactionAdapter itemTransactionAdapter;
+
+    /**
+     * Variables needed
+     */
+    private RecyclerView listOfRecords;
+    ItemTransactionAdapterWithReciclerView itemTransactionAdapterWithReciclerView;
+
+
+    //ListView listOfRecords;
 
     ArrayList<CreateTransaction> myRecords = new ArrayList<CreateTransaction>();
 
@@ -105,9 +116,20 @@ public class RecordsFragment extends Fragment {
         myRecords.add(r3);
         myRecords.add(r2);
 
+    /*
         itemTransactionAdapter = new ItemTransactionAdapter(this.getContext(), myRecords);
         listOfRecords.setAdapter(itemTransactionAdapter);
+*/
 
+        // create an instance of my recycler view Adapter
+       itemTransactionAdapterWithReciclerView = new ItemTransactionAdapterWithReciclerView(
+                this.getContext(), myRecords);
+
+        LinearLayoutManager layouutManager = new LinearLayoutManager(this.getContext());
+        listOfRecords.setLayoutManager(layouutManager);
+        listOfRecords.setAdapter(itemTransactionAdapterWithReciclerView);
+
+        /*
         // set the listener so we open up the receipt when the record is clicked
         listOfRecords.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -116,6 +138,9 @@ public class RecordsFragment extends Fragment {
                 startActivity(showReceipt);
             }
         });
+        */
+
+
 
         /**
          * Set click Listener for the different option for filters
