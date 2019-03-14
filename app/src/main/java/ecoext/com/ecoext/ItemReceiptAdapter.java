@@ -47,29 +47,44 @@ public class ItemReceiptAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
+        ViewHolder viewHolder;
+        if (view == null) {
+            mInflator = LayoutInflater.from(context);
+            view = mInflator.inflate(R.layout.receipt_item, null);
+            viewHolder = new ViewHolder();
 
-        View v = mInflator.inflate(R.layout.receipt_item, null);
+            /**
+             * Create the Views and math the source with id that comes from the
+             * receipt_item layout
+             */
+            viewHolder.qty = view.findViewById(R.id.qtyTextView);
+            viewHolder.description = view.findViewById(R.id.descriptionTextView);
+            viewHolder.unitPrice = view.findViewById(R.id.unitPriceTextView);
+            viewHolder.totalPrice = view.findViewById(R.id.totalPriceTextView);
 
-        /**
-         * Create the Views and math the source with id that comes from the
-         * receipt_item layout
-         */
-
-        TextView qty = v.findViewById(R.id.qtyTextView);
-        TextView description = v.findViewById(R.id.descriptionTextView);
-        TextView unitPrice = v.findViewById(R.id.unitPriceTextView);
-        TextView totalPrice = v.findViewById(R.id.totalPriceTextView);
+            view.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) view.getTag();
+        }
 
         //set the views
 
-        qty.setText(Integer.toString(listOfItems.get(position).getQty()));
-        description.setText(listOfItems.get(position).getDescription());
-        unitPrice.setText(currance + Double.toString(listOfItems.get(position).getUnitPrice()));
+        viewHolder.qty.setText(Integer.toString(listOfItems.get(position).getQty()));
+        viewHolder.description.setText(listOfItems.get(position).getDescription());
+        viewHolder.unitPrice.setText(currance + Double.toString(listOfItems.get(position).getUnitPrice()));
+        // if there is not more that 1 item don't show the unit price
         if (listOfItems.get(position).getQty() == 1) {
-            unitPrice.setVisibility(View.GONE);
+            viewHolder.unitPrice.setVisibility(View.GONE);
         }
-        totalPrice.setText(currance + Double.toString(listOfItems.get(position).getTotalprice()));
+        viewHolder.totalPrice.setText(currance + Double.toString(listOfItems.get(position).getTotalprice()));
 
-        return v;
+        return view;
+    }
+
+    private static class ViewHolder {
+        TextView qty;
+        TextView description;
+        TextView unitPrice;
+        TextView totalPrice;
     }
 }
