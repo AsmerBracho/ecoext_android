@@ -1,0 +1,7 @@
+query getAllAccounts{
+account {
+  account_id
+  lastName
+  firstName
+}
+}

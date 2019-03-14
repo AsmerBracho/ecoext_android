@@ -25,6 +25,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.apollographql.apollo.ApolloCall;
+import com.apollographql.apollo.api.Response;
+import com.apollographql.apollo.exception.ApolloException;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -36,6 +39,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+
+import org.jetbrains.annotations.NotNull;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -143,8 +148,11 @@ public class MainActivity extends AppCompatActivity
          * Get the information from database and process it accordingly into the application
          * by creating lists that will contain the user data
          */
-        GetUserInformationFromDataBase task = new GetUserInformationFromDataBase();
-        task.execute("https://samples.openweathermap.org/data/2.5/weather?q=London,uk&appid=b6907d289e10d714a6e88b30761fae22");
+
+        getInfoDataBase();
+
+        //GetUserInformationFromDataBase task = new GetUserInformationFromDataBase();
+        //task.execute("https://samples.openweathermap.org/data/2.5/weather?q=London,uk&appid=b6907d289e10d714a6e88b30761fae22");
     }
 
     // onActivityResult we are going to manage the QRScanner actions
@@ -500,4 +508,22 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    private void getInfoDataBase() {
+        MyApolloClient.getMyApolloClient().query(
+                GetAllAccountsQuery.builder().build()).enqueue(new ApolloCall.Callback<GetAllAccountsQuery.Data>() {
+            @Override
+            public void onResponse(@NotNull Response<GetAllAccountsQuery.Data> response) {
+                for (int i = 0; i < response.data().account.size(); i++) {
+                    Log.d(TAG, "onResponse: " + response.data().account().get(i).firstName());
+
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull ApolloException e) {
+
+            }
+        });
+
+    }
 }
