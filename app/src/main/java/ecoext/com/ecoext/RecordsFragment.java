@@ -30,16 +30,11 @@ import java.util.Calendar;
 
 public class RecordsFragment extends Fragment {
 
-    //ItemTransactionAdapter itemTransactionAdapter;
-
     /**
      * Variables needed
      */
     private RecyclerView listOfRecords;
     ItemTransactionAdapterWithReciclerView itemTransactionAdapterWithReciclerView;
-
-
-    //ListView listOfRecords;
 
     ArrayList<CreateTransaction> myRecords = new ArrayList<CreateTransaction>();
 
@@ -116,31 +111,13 @@ public class RecordsFragment extends Fragment {
         myRecords.add(r3);
         myRecords.add(r2);
 
-    /*
-        itemTransactionAdapter = new ItemTransactionAdapter(this.getContext(), myRecords);
-        listOfRecords.setAdapter(itemTransactionAdapter);
-*/
-
         // create an instance of my recycler view Adapter
        itemTransactionAdapterWithReciclerView = new ItemTransactionAdapterWithReciclerView(
                 this.getContext(), myRecords);
 
-        LinearLayoutManager layouutManager = new LinearLayoutManager(this.getContext());
-        listOfRecords.setLayoutManager(layouutManager);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
+        listOfRecords.setLayoutManager(layoutManager);
         listOfRecords.setAdapter(itemTransactionAdapterWithReciclerView);
-
-        /*
-        // set the listener so we open up the receipt when the record is clicked
-        listOfRecords.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent showReceipt = new Intent(getContext(), ReceiptActivity.class);
-                startActivity(showReceipt);
-            }
-        });
-        */
-
-
 
         /**
          * Set click Listener for the different option for filters
@@ -209,7 +186,7 @@ public class RecordsFragment extends Fragment {
     public void setFilters(int i) {
         // 1 if we want to show
         if (i == 1) {
-            alertBackground.setBackgroundColor(Color.parseColor("#dc7f27"));
+            alertBackground.setBackgroundColor(Color.parseColor("#556ce2"));
             onFilters.setVisibility(View.VISIBLE);
             onDate.setVisibility(View.VISIBLE);
             onAccount.setVisibility(View.VISIBLE);
