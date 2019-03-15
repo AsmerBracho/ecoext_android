@@ -1,29 +1,23 @@
 package ecoext.com.ecoext;
 
 import android.app.DatePickerDialog;
-import android.content.ComponentCallbacks;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,7 +30,7 @@ public class RecordsFragment extends Fragment {
     private RecyclerView listOfRecords;
     ItemTransactionAdapterWithReciclerView itemTransactionAdapterWithReciclerView;
 
-    ArrayList<CreateTransaction> myRecords = new ArrayList<CreateTransaction>();
+    private ArrayList<CreateTransaction> myRecords = new ArrayList<CreateTransaction>();
 
     //Variables for CalendarPicker
     Calendar calendar;
@@ -57,6 +51,8 @@ public class RecordsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        // set the option menu to be true
+        setHasOptionsMenu(true);
 
         View view = inflater.inflate(R.layout.records, container, false);
         listOfRecords = view.findViewById(R.id.listOfRecords);
@@ -124,6 +120,7 @@ public class RecordsFragment extends Fragment {
          * for each filter add the listener that call the specific action
          */
 
+
         filterAccount = view.findViewById(R.id.filterValue1);
         filterAccountClick = view.findViewById(R.id.filterAccountClick);
         filterDate = view.findViewById(R.id.filterValue2);
@@ -162,6 +159,33 @@ public class RecordsFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    /**
+     * Handle the filter in the action search menu
+     * @param menu
+     * @param inflater
+     */
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.filter_menu, menu);
+        super.onCreateOptionsMenu(menu,inflater);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                itemTransactionAdapterWithReciclerView.getFilter().filter(s);
+                return false;
+            }
+        });
     }
 
     public void callDatePicker() {

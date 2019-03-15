@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,12 +17,13 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static ecoext.com.ecoext.MainActivity.sCorner;
 import static ecoext.com.ecoext.MainActivity.sMargin;
 
 public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter<
-        ItemTransactionAdapterWithReciclerView.ViewHolder> {
+        ItemTransactionAdapterWithReciclerView.ViewHolder> implements Filterable {
 
     /**
      * We will need to define the following global variables
@@ -33,10 +36,13 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
 
     // Create a global listOfRecords that will hold the records from database
     private ArrayList<CreateTransaction> listOfRecords;
+    private ArrayList<CreateTransaction> listOfRecordsFull;
 
     public ItemTransactionAdapterWithReciclerView(Context c, ArrayList<CreateTransaction> listOfRecords) {
         this.context = c;
         this.listOfRecords = listOfRecords;
+        // create a copy of records in order to use with filters
+        this.listOfRecordsFull = new ArrayList<>(listOfRecords);
     }
 
     @NonNull
@@ -82,6 +88,42 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
     public int getItemCount() {
         return listOfRecords.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return recordsFilter;
+    }
+
+    private Filter recordsFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            ArrayList<CreateTransaction> filterlist = new ArrayList<>();
+
+            // if there is not input in search box then return the whole list
+            if (charSequence == null || charSequence.length() == 0) {
+                filterlist.addAll(listOfRecordsFull);
+            } else {
+                String filterPattern = charSequence.toString().toLowerCase().trim();
+
+                for (CreateTransaction transaction: listOfRecordsFull) {
+                    if (transaction.getTitle().toLowerCase().contains(filterPattern)) {
+                        filterlist.add(transaction);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filterlist;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            listOfRecords.clear();
+            listOfRecords.addAll((List) filterResults.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
