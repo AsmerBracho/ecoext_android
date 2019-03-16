@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static ecoext.com.ecoext.MainActivity.sCorner;
@@ -55,7 +56,6 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final CreateTransaction transaction = listOfRecords.get(position);
-
 
         //get Url logo
         String url = transaction.getLogo();
@@ -97,22 +97,23 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
     private Filter recordsFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
-            ArrayList<CreateTransaction> filterlist = new ArrayList<>();
+            ArrayList<CreateTransaction> filterList = new ArrayList<>();
 
             // if there is not input in search box then return the whole list
             if (charSequence == null || charSequence.length() == 0) {
-                filterlist.addAll(listOfRecordsFull);
+                filterList.addAll(listOfRecordsFull);
             } else {
                 String filterPattern = charSequence.toString().toLowerCase().trim();
 
                 for (CreateTransaction transaction: listOfRecordsFull) {
-                    if (transaction.getTitle().toLowerCase().contains(filterPattern)) {
-                        filterlist.add(transaction);
+                    if (transaction.getTitle().toLowerCase().contains(filterPattern) ||
+                            transaction.getDate().contains(filterPattern)) {
+                        filterList.add(transaction);
                     }
                 }
             }
             FilterResults results = new FilterResults();
-            results.values = filterlist;
+            results.values = filterList;
 
             return results;
         }
@@ -120,7 +121,7 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
             listOfRecords.clear();
-            listOfRecords.addAll((List) filterResults.values);
+            listOfRecords.addAll((Collection<? extends CreateTransaction>) filterResults.values);
             notifyDataSetChanged();
         }
     };
