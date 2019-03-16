@@ -499,15 +499,21 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.fabOne:
                 Log.i(TAG, "onClick: fab one");
-                //handleFabOne();
+                handleFabOne();
+                break;
 
             case R.id.fabTwo:
                 Log.i(TAG, "onClick: fab two");
                 handleFabTwo();
                 break;
 
-
         }
+    }
+
+    private void handleFabOne() {
+        Intent createNewRecords = new Intent(getApplicationContext(), CreateNewRecord.class);
+        createNewRecords.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(createNewRecords);
     }
 
     private void getInfoDataBase() {

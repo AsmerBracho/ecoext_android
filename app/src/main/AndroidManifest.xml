@@ -58,6 +58,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".ReceiptActivity" />
+        <activity
+            android:name=".CreateNewRecord"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>

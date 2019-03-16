@@ -44,8 +44,10 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 
     private ProgressBar progressBar;
     private ProgressDialog progressDialog;
-    private CheckBox terms; 
+    private CheckBox terms;
+
     // Start of the OnCreate Method
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,7 +136,6 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Toast.makeText(getApplicationContext(), R.string.login_error, Toast.LENGTH_SHORT).show();
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
