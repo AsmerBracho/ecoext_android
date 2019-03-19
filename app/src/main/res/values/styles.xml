@@ -45,6 +45,7 @@
         <item name="android:paddingBottom">15dp</item>
         <item name="android:clickable">true</item>
         <item name="android:gravity">center</item>
+        <item name="android:radius">3dp</item>
         <item name="android:scaleType">centerInside</item>
         <item name="android:background">@drawable/keyboard_button_bg</item>
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>

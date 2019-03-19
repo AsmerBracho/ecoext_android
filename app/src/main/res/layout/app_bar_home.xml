@@ -53,6 +53,7 @@
             android:layout_gravity="bottom|end"
             android:gravity="center_horizontal"
             android:orientation="vertical"
+            android:padding="5dp"
             android:layout_marginBottom="15dp"
             android:layout_marginRight="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -88,7 +89,7 @@
                 android:backgroundTint="@color/colorPrimary"
                 android:src="@drawable/ic_add"
                 android:tint="@android:color/white"
-                app:borderWidth="0dp"
+
                 app:fabSize="normal"
                 app:fab_colorPressed="@color/colorPrimaryDark" />
 
@@ -123,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:background="@drawable/fab_label_background"
-                android:paddingBottom="8dp"
+                android:paddingBottom="10dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:paddingTop="8dp"

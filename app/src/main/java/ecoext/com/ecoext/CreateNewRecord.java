@@ -1,22 +1,87 @@
 package ecoext.com.ecoext;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 
 public class CreateNewRecord extends AppCompatActivity implements View.OnClickListener {
 
-    private EditText amountField;
+    private EditText amountField = null;
+    Context context = this;
+
+    TextView income;
+    TextView outcome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_new_record);
         initViews();
+
+        // get the field Cancel
+        TextView cancel = findViewById(R.id.cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(context)
+                        .setTitle("Cancel")
+                        .setMessage("Do you want to delete the changes?")
+                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent main = new Intent(getApplicationContext(), MainActivity.class);
+                                main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(main);
+                            }
+                        })
+                        .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .show();
+            }
+        });
+
+        income = findViewById(R.id.income);
+        outcome= findViewById(R.id.outcome);
+        income.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                outcome.setBackground(context.getResources().getDrawable(R.drawable.background_gray_with_top_stroke));
+                income.setBackground(context.getResources().getDrawable(R.drawable.background_graypluss_with_top_stroke));
+
+            }
+        });
+
+      outcome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                income.setBackground(context.getResources().getDrawable(R.drawable.background_gray_with_top_stroke));
+                outcome.setBackground(context.getResources().getDrawable(R.drawable.background_graypluss_with_top_stroke));
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent main = new Intent(getApplicationContext(), MainActivity.class);
+        main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(main);
     }
 
     /**
@@ -36,6 +101,7 @@ public class CreateNewRecord extends AppCompatActivity implements View.OnClickLi
         $(R.id.t9_key_8).setOnClickListener(this);
         $(R.id.t9_key_9).setOnClickListener(this);
         $(R.id.t9_key_clear).setOnClickListener(this);
+        $(R.id.t9_key_dot).setOnClickListener(this);
         $(R.id.t9_key_backspace).setOnClickListener(this);
     }
 
@@ -45,6 +111,16 @@ public class CreateNewRecord extends AppCompatActivity implements View.OnClickLi
         if (v.getTag() != null && "number_button".equals(v.getTag())) {
             amountField.append(((TextView) v).getText());
             return;
+        }
+        if (v.getId() == R.id.t9_key_dot) {
+            if (amountField.getText().toString().contains(".")) {
+                // Do Nothing
+            } else if (amountField.getText().toString() == null) {
+                amountField.append("0.");
+            } else {
+                amountField.append(".");
+            }
+
         }
         switch (v.getId()) {
             case R.id.t9_key_clear: { // handle clear button

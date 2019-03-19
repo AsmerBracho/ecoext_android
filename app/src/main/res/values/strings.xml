@@ -29,5 +29,7 @@
     <string name="number_nine">9</string>
     <string name="btn_clear">Clear</string>
     <string name="btn_backspace">Back</string>
+    <string name="btn_dot">.</string>
+
 
 </resources>

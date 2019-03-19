@@ -8,9 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:background="#eeeeee">
-
 
         <EditText
             android:id="@+id/amount_field"
@@ -24,7 +23,35 @@
             android:singleLine="true"
             android:autoSizeTextType="uniform"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="80dp" />
+            android:textSize="60dp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/income"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/background_gray_with_top_stroke"
+                android:padding="10dp"
+                android:text="INCOME"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/outcome"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/background_graypluss_with_top_stroke"
+                android:padding="10dp"
+                android:text="EXPENSE"
+                android:textAlignment="center" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -94,20 +121,27 @@
         <TableRow style="@style/keyboard_row">
 
             <TextView
-                android:id="@+id/t9_key_clear"
+                android:id="@+id/t9_key_dot"
                 style="@style/keyboard_button"
-                android:text="@string/btn_clear"
+                android:text="@string/btn_dot"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
+            <ImageView
+                android:id="@+id/t9_key_backspace"
+                style="@style/keyboard_button"
+                android:src="@drawable/ic_back"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
             <TextView
                 android:id="@+id/t9_key_0"
                 style="@style/keyboard_number_button"
                 android:text="@string/number_zero" />
+        </TableRow>
 
+        <TableRow style="@style/keyboard_row">
             <TextView
-                android:id="@+id/t9_key_backspace"
+                android:id="@+id/t9_key_clear"
                 style="@style/keyboard_button"
-                android:text="@string/btn_backspace"
+                android:text="@string/btn_clear"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </TableRow>
     </TableLayout>
