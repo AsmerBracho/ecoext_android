@@ -125,24 +125,41 @@
                 style="@style/keyboard_button"
                 android:text="@string/btn_dot"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
+            <TextView
+                android:id="@+id/t9_key_0"
+                style="@style/keyboard_number_button"
+                android:text="@string/number_zero" />
 
             <ImageView
                 android:id="@+id/t9_key_backspace"
                 style="@style/keyboard_button"
                 android:src="@drawable/ic_back"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
-            <TextView
-                android:id="@+id/t9_key_0"
-                style="@style/keyboard_number_button"
-                android:text="@string/number_zero" />
+
         </TableRow>
 
         <TableRow style="@style/keyboard_row">
+
+            <TextView
+                android:id="@+id/cancel"
+                style="@style/keyboard_button"
+                android:text="X"
+                android:background="@color/grayBlue"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
             <TextView
                 android:id="@+id/t9_key_clear"
                 style="@style/keyboard_button"
                 android:text="@string/btn_clear"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <ImageView
+                android:id="@+id/next-done"
+                style="@style/keyboard_button"
+                android:background="@color/colorPrimary"
+                android:src="@drawable/ic_navigate_next"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
         </TableRow>
     </TableLayout>
 </LinearLayout>
