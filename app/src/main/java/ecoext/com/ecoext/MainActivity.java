@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity
     // Firebase Variables
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
+    private String userID = null;
 
     // Values used for given round corners to images
     public static int sCorner = 50;
@@ -136,6 +137,8 @@ public class MainActivity extends AppCompatActivity
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
+                    // set User ID
+
                     setUserData(user);
                 } else {
                     goRegisterScreen();
@@ -285,7 +288,7 @@ public class MainActivity extends AppCompatActivity
     private void setUserData(FirebaseUser user) {
         nameTextView.setText(user.getDisplayName());
         emailTextView.setText(user.getEmail());
-        // idTextView.setText(user.getUid());
+        //idTextView.setText(user.getUid());
 
         /**
          * In order to stylize the picture we will apply a rounded corners style
@@ -517,6 +520,25 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void getInfoDataBase() {
+
+        MyApolloClient.getMyApolloClient().query(
+                GetUserTransactionsQuery.builder().id(firebaseAuth.getCurrentUser().getUid())
+                        .build()).enqueue(new ApolloCall.Callback<GetUserTransactionsQuery.Data>() {
+            @Override
+            public void onResponse(@NotNull Response<GetUserTransactionsQuery.Data> response) {
+                for (int i = 0; i < response.data().user.size(); i++) {
+                    Log.d(TAG, "onResponse: " + response.data()
+                    .user().get(i).account().purse().get(i).transaction().get(i).items().get(1).product());
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull ApolloException e) {
+
+            }
+        });
+
+    /*
         MyApolloClient.getMyApolloClient().query(
                 GetAllAccountsQuery.builder().build()).enqueue(new ApolloCall.Callback<GetAllAccountsQuery.Data>() {
             @Override
@@ -532,6 +554,6 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-
+*/
     }
 }

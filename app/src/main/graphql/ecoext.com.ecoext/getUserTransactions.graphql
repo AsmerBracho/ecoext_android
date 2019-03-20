@@ -1,0 +1,33 @@
+
+query getUserTransactions ($id: String) {
+	user (user_id: $id) {
+	  account_id
+	  email
+	  passwrod
+	  user_id
+    account {
+      account_id
+      firstName
+      lastName
+      dob
+      purse {
+        purse_id
+        name
+        description
+        transaction {
+          transaction_id
+          date
+          label
+          description
+          items {
+            transaction_id
+            product
+            price
+            quantity
+            tax
+          }
+        }
+      }
+    }
+	}
+}

@@ -101,10 +101,10 @@
 
             <CheckBox
                 android:id="@+id/checkBoxTermsAndConditions"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:textAlignment="inherit"
+                android:textAlignment="center"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:text="I agreed to the Terms and Conditions, and the Privacy Policy regarding the consent for
