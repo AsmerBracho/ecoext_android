@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -109,15 +110,6 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
     }
 
     private Filter recordsFilter = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence charSequence) {
-            return null;
-        }
-
-        @Override
-        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-
-        }
 
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
@@ -131,7 +123,7 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
             } else {
                 String filterPattern = charSequence.toString().toLowerCase().trim();
 
-                for (GetUserTransactionsQuery.Transaction transaction: listOfTransactions) {
+                for (GetUserTransactionsQuery.Transaction transaction: listOfTransactionsFull) {
                     if (transaction.label().toLowerCase().contains(filterPattern) ||
                             transaction.date.contains(filterPattern)) {
                         filterList.add(transaction);
@@ -146,12 +138,12 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            listOfTransactions.clear();
-            listOfTransactions.addAll((Collection<? extends GetUserTransactionsQuery.Transaction>) filterResults.values);
+            listOfTransactionsFull.clear();
+            listOfTransactionsFull.addAll((Collection<? extends GetUserTransactionsQuery.Transaction>) filterResults.values);
             notifyDataSetChanged();
         }
-
     };
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
