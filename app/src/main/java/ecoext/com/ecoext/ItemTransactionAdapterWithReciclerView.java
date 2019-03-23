@@ -46,7 +46,15 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
     public ItemTransactionAdapterWithReciclerView(Context c, ArrayList<GetUserTransactionsQuery.Purse> listOfPurses) {
         this.context = c;
         this.listOfPurses = listOfPurses;
-        // create a copy of records in order to use with filters
+
+        // fill list of transactions
+        for (int i = 0 ; i < listOfPurses.size() ; i ++) {
+            listOfTransactions.addAll(listOfPurses.get(i).transaction());
+        }
+
+        // list of Transactions for Filters
+        listOfTransactionsFull = listOfTransactions;
+
     }
 
     @NonNull
@@ -58,16 +66,8 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        final GetUserTransactionsQuery.Purse purse = listOfPurses.get(position);
+        final GetUserTransactionsQuery.Transaction transaction = listOfTransactions.get(position);
 
-        // put the transaction in a single list of transaction for filters
-        listOfTransactions.addAll(purse.transaction());
-        listOfTransactionsFull = listOfTransactions;
-
-        Log.d(TAG, "outSideMy: " + purse.name());
-
-        for (int i = 0; i < listOfTransactions.size(); i ++) {
-            final GetUserTransactionsQuery.Transaction transaction = purse.transaction().get(i);
 
             Log.d(TAG, "inSideMy: " + transaction.label());
             //get Url logo
@@ -82,7 +82,7 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
         */
 
             holder.titleTextView.setText(transaction.label());
-            holder.descriptionTextView.setText(purse.name());
+            holder.descriptionTextView.setText("Purse");
             holder.dateTextView.setText(transaction.date());
             holder.priceTextView.setText(currance + "23");
 
@@ -96,12 +96,12 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
                     context.startActivity(showReceipt);
                 }
             });
-        }
+
     }
 
     @Override
     public int getItemCount() {
-        return listOfPurses.size();
+        return listOfTransactions.size();
     }
 
 
