@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,14 +37,15 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
     private String currance = "€";
 
     // Create a global listOfRecords that will hold the records from database
-    private ArrayList<CreateTransaction> listOfRecords;
-    private ArrayList<CreateTransaction> listOfRecordsFull;
+    private ArrayList<GetUserTransactionsQuery.Purse> listOfPurses;
 
-    public ItemTransactionAdapterWithReciclerView(Context c, ArrayList<CreateTransaction> listOfRecords) {
+    private ArrayList<GetUserTransactionsQuery.Transaction> listOfTransactions = new ArrayList<>();
+    private ArrayList<GetUserTransactionsQuery.Transaction> listOfTransactionsFull = new ArrayList<>();
+
+    public ItemTransactionAdapterWithReciclerView(Context c, ArrayList<GetUserTransactionsQuery.Purse> listOfPurses) {
         this.context = c;
-        this.listOfRecords = listOfRecords;
+        this.listOfPurses = listOfPurses;
         // create a copy of records in order to use with filters
-        this.listOfRecordsFull = new ArrayList<>(listOfRecords);
     }
 
     @NonNull
@@ -55,38 +57,50 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        final CreateTransaction transaction = listOfRecords.get(position);
+        final GetUserTransactionsQuery.Purse purse = listOfPurses.get(position);
 
-        //get Url logo
-        String url = transaction.getLogo();
+        // put the transaction in a single list of transaction for filters
+        listOfTransactions.addAll(purse.transaction());
+        listOfTransactionsFull = listOfTransactions;
 
+        Log.d(TAG, "outSideMy: " + purse.name());
+
+        for (int i = 0; i < purse.transaction().size(); i ++) {
+            final GetUserTransactionsQuery.Transaction transaction = listOfTransactions.get(i);
+
+            Log.d(TAG, "inSideMy: " + transaction.label());
+            //get Url logo
+            //String url = transaction.getLogo();
+        /*
         // Stylize and handle error in the picture using glide
         Glide.with(context).load(url)
                 .error(R.drawable.error_logo)
                 .override(40, 40)
                 .bitmapTransform(new ecoext.com.ecoext.RoundedCornersTransformation(context, sCorner, sMargin))
                 .into(holder.logoImageView);
+        */
 
-        holder.titleTextView.setText(transaction.getTitle());
-        holder.descriptionTextView.setText(transaction.getPurse());
-        holder.dateTextView.setText(transaction.getDate());
-        holder.priceTextView.setText(currance + Double.toString(transaction.getPrice()));
+            holder.titleTextView.setText(transaction.label());
+            holder.descriptionTextView.setText(purse.name());
+            holder.dateTextView.setText(transaction.date());
+            holder.priceTextView.setText(currance + "23");
 
-        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Toast.makeText(context,listOfRecords.get(position).getTitle(), Toast.LENGTH_SHORT).show();
-                Intent showReceipt = new Intent(context, ReceiptActivity.class);
+            holder.parentLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //Toast.makeText(context,listOfRecords.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+                    Intent showReceipt = new Intent(context, ReceiptActivity.class);
 
-                //put extras to pass to next activity and know with receipt are we currently clicking
-                context.startActivity(showReceipt);
-            }
-        });
+                    //put extras to pass to next activity and know with receipt are we currently clicking
+                    context.startActivity(showReceipt);
+                }
+            });
+        }
     }
 
     @Override
     public int getItemCount() {
-        return listOfRecords.size();
+        return listOfPurses.size();
     }
 
     @Override
@@ -97,17 +111,29 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
     private Filter recordsFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
-            ArrayList<CreateTransaction> filterList = new ArrayList<>();
+            return null;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+
+        }
+
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+
+            ArrayList<GetUserTransactionsQuery.Transaction> filterList = new ArrayList<>();
+
 
             // if there is not input in search box then return the whole list
             if (charSequence == null || charSequence.length() == 0) {
-                filterList.addAll(listOfRecordsFull);
+                filterList.addAll(listOfTransactionsFull);
             } else {
                 String filterPattern = charSequence.toString().toLowerCase().trim();
 
-                for (CreateTransaction transaction: listOfRecordsFull) {
-                    if (transaction.getTitle().toLowerCase().contains(filterPattern) ||
-                            transaction.getDate().contains(filterPattern)) {
+                for (GetUserTransactionsQuery.Transaction transaction: listOfTransactions) {
+                    if (transaction.label().toLowerCase().contains(filterPattern) ||
+                            transaction.date.contains(filterPattern)) {
                         filterList.add(transaction);
                     }
                 }
@@ -120,10 +146,11 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            listOfRecords.clear();
-            listOfRecords.addAll((Collection<? extends CreateTransaction>) filterResults.values);
+            listOfTransactions.clear();
+            listOfTransactions.addAll((Collection<? extends GetUserTransactionsQuery.Transaction>) filterResults.values);
             notifyDataSetChanged();
         }
+
     };
 
     public class ViewHolder extends RecyclerView.ViewHolder {

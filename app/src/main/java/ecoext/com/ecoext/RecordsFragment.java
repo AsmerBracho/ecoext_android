@@ -1,5 +1,6 @@
 package ecoext.com.ecoext;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -29,8 +30,6 @@ public class RecordsFragment extends Fragment {
     private RecyclerView listOfRecords;
     ItemTransactionAdapterWithReciclerView itemTransactionAdapterWithReciclerView;
 
-    private ArrayList<CreateTransaction> myRecords = new ArrayList<CreateTransaction>();
-
     //Variables for CalendarPicker
     Calendar calendar;
     DatePickerDialog datePickerDialog;
@@ -47,6 +46,18 @@ public class RecordsFragment extends Fragment {
     TextView onAccount;
     ImageView cancelFilters;
 
+    // array of purses
+    ArrayList<GetUserTransactionsQuery.Purse> purses;
+
+    public RecordsFragment() {
+
+    }
+
+    @SuppressLint("ValidFragment")
+    public RecordsFragment(ArrayList<GetUserTransactionsQuery.Purse> purses) {
+        this.purses = purses;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -56,59 +67,9 @@ public class RecordsFragment extends Fragment {
         View view = inflater.inflate(R.layout.records, container, false);
         listOfRecords = view.findViewById(R.id.listOfRecords);
 
-        /**
-         * HERE we are going to call database CONECTION AND populate the ListOfRecords
-         *
-         * SIMULATION NOW
-         */
-
-        // putting data in the Array
-
-        CreateTransaction r1 = new CreateTransaction("https://pbs.twimg.com/profile_images/1083750510895742976/qXusMdTt_400x400.jpg", "This is a title", "Tesco the best supermarker",
-                "07/12/2018", 12.85);
-
-        CreateTransaction r2 = new CreateTransaction("https://yt3.ggpht.com/a-/AAuE7mD1_8RTDAP3x93qrF-tbMtg8RbAMizHILb9_w=s900-mo-c-c0xffffffff-rj-k-no", "Lidl", "ALDI the best supermarker",
-                "24/01/2019", 22.10);
-
-        CreateTransaction r3 = new CreateTransaction("url:/logo/2", "Tesco", "ALDI the best supermarker",
-                "24/01/2019", 22.10);
-
-        CreateTransaction r4 = new CreateTransaction("url:/logo/2", "El Chino", "ALDI the best supermarker",
-                "24/01/2019", 22.10);
-
-        CreateTransaction r5 = new CreateTransaction("url:/logo/2", "GameStop", "ALDI the best supermarker",
-                "24/01/2019", 22.10);
-
-        CreateTransaction r6 = new CreateTransaction("url:/logo/2", "Aldi", "ALDI the best supermarker",
-                "24/01/2019", 22.10);
-
-
-        CreateTransaction r7 = new CreateTransaction("url:/logo/2", "Tesco", "ALDI the best supermarker",
-                "24/01/2019", 22.10);
-
-        myRecords.add(r1);
-        myRecords.add(r2);
-        myRecords.add(r3);
-        myRecords.add(r3);
-        myRecords.add(r4);
-        myRecords.add(r5);
-        myRecords.add(r6);
-        myRecords.add(r7);
-        myRecords.add(r2);
-        myRecords.add(r1);
-        myRecords.add(r2);
-        myRecords.add(r4);
-        myRecords.add(r2);
-        myRecords.add(r7);
-        myRecords.add(r3);
-        myRecords.add(r5);
-        myRecords.add(r6);
-        myRecords.add(r5);
-        myRecords.add(r4);
-
         // create an instance of my recycler view Adapter
        itemTransactionAdapterWithReciclerView = new ItemTransactionAdapterWithReciclerView(
-                this.getContext(), myRecords);
+                this.getContext(), purses);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         listOfRecords.setLayoutManager(layoutManager);

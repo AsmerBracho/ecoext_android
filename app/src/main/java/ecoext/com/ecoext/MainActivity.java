@@ -4,12 +4,10 @@ import android.animation.Animator;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,16 +15,13 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.apollographql.apollo.ApolloCall;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
@@ -41,9 +36,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-
 import org.jetbrains.annotations.NotNull;
+import java.util.ArrayList;
 
+/**
+ * Class: Main Activity
+ */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
@@ -52,14 +50,13 @@ public class MainActivity extends AppCompatActivity
     private ImageView photoImageView;
     private TextView nameTextView;
     private TextView emailTextView;
-    private TextView idTextView;
+
 
     private GoogleApiClient googleApiClient;
 
     // Firebase Variables
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
-    private String userID = null;
 
     // Values used for given round corners to images
     public static int sCorner = 50;
@@ -72,7 +69,7 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * Variables for Floating Menu
-     * 2 submenus
+     * and 2 submenus
      */
 
     FloatingActionButton fabMain;
@@ -85,6 +82,9 @@ public class MainActivity extends AppCompatActivity
     OvershootInterpolator interpolator = new OvershootInterpolator();
     private static final String TAG = "MainActivity";
     Boolean isMenuOpen = false;
+
+    // Data Lists
+    ArrayList<GetUserTransactionsQuery.Purse> purses = new ArrayList<>();
 
     //*********************************************************************
 
@@ -137,8 +137,6 @@ public class MainActivity extends AppCompatActivity
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    // set User ID
-
                     setUserData(user);
                 } else {
                     goRegisterScreen();
@@ -259,7 +257,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_records) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new RecordsFragment()).commit();
+                    new RecordsFragment(purses)).commit();
         } else if (id == R.id.nav_reports) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new ReportsStatisticsFragment()).commit();
@@ -280,7 +278,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * This methos will be called to set the userData from firebase
+     * This methods will be called to set the userData from firebase
      * It takes a firebase instance as argument
      *
      * @param user
@@ -288,7 +286,6 @@ public class MainActivity extends AppCompatActivity
     private void setUserData(FirebaseUser user) {
         nameTextView.setText(user.getDisplayName());
         emailTextView.setText(user.getEmail());
-        //idTextView.setText(user.getUid());
 
         /**
          * In order to stylize the picture we will apply a rounded corners style
@@ -520,15 +517,25 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void getInfoDataBase() {
-
+        purses.clear();
         MyApolloClient.getMyApolloClient().query(
                 GetUserTransactionsQuery.builder().id(firebaseAuth.getCurrentUser().getUid())
                         .build()).enqueue(new ApolloCall.Callback<GetUserTransactionsQuery.Data>() {
             @Override
             public void onResponse(@NotNull Response<GetUserTransactionsQuery.Data> response) {
-                for (int i = 0; i < response.data().user.size(); i++) {
-                    Log.d(TAG, "onResponse: " + response.data()
-                    .user().get(i).account().purse().get(i).transaction().get(i).items().get(1).product());
+                for (int i = 0; i < response.data().user().size(); i++) {
+                    for (int j = 0; j < response.data().user().get(i).account().purse().size(); j++) {
+                        purses.add(new GetUserTransactionsQuery.Purse(
+                                "Purse + j",
+                                response.data().user().get(i).account().purse().get(j).purse_id(),
+                                response.data().user().get(i).account().purse().get(j).name(),
+                                response.data().user().get(i).account().purse().get(j).description(),
+                                response.data().user().get(i).account().purse().get(j).transaction()
+                        ));
+                    }
+
+                    Log.d(TAG, "onResponse: " + purses.get(0).transaction().size());
+                    Log.d(TAG, "onResponse: " + purses.get(1).transaction().size());
                 }
             }
 
@@ -537,23 +544,6 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-
-    /*
-        MyApolloClient.getMyApolloClient().query(
-                GetAllAccountsQuery.builder().build()).enqueue(new ApolloCall.Callback<GetAllAccountsQuery.Data>() {
-            @Override
-            public void onResponse(@NotNull Response<GetAllAccountsQuery.Data> response) {
-                for (int i = 0; i < response.data().account.size(); i++) {
-                    Log.d(TAG, "onResponse: " + response.data().account().get(i).firstName());
-
-                }
-            }
-
-            @Override
-            public void onFailure(@NotNull ApolloException e) {
-
-            }
-        });
-*/
     }
+
 }
