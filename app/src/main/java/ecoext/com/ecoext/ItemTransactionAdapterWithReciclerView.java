@@ -26,7 +26,7 @@ import static ecoext.com.ecoext.MainActivity.sCorner;
 import static ecoext.com.ecoext.MainActivity.sMargin;
 
 public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter<
-        ItemTransactionAdapterWithReciclerView.ViewHolder> implements Filterable {
+        ItemTransactionAdapterWithReciclerView.ViewHolder> implements Filterable  {
 
     /**
      * We will need to define the following global variables
@@ -66,8 +66,8 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
 
         Log.d(TAG, "outSideMy: " + purse.name());
 
-        for (int i = 0; i < purse.transaction().size(); i ++) {
-            final GetUserTransactionsQuery.Transaction transaction = listOfTransactions.get(i);
+        for (int i = 0; i < listOfTransactions.size(); i ++) {
+            final GetUserTransactionsQuery.Transaction transaction = purse.transaction().get(i);
 
             Log.d(TAG, "inSideMy: " + transaction.label());
             //get Url logo
@@ -104,6 +104,7 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
         return listOfPurses.size();
     }
 
+
     @Override
     public Filter getFilter() {
         return recordsFilter;
@@ -138,11 +139,12 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            listOfTransactionsFull.clear();
-            listOfTransactionsFull.addAll((Collection<? extends GetUserTransactionsQuery.Transaction>) filterResults.values);
+            listOfTransactions.clear();
+            listOfTransactions.addAll((Collection<? extends GetUserTransactionsQuery.Transaction>) filterResults.values);
             notifyDataSetChanged();
         }
     };
+
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {

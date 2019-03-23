@@ -128,6 +128,7 @@ public class RecordsFragment extends Fragment {
      * @param inflater
      */
 
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater ) {
         inflater.inflate(R.menu.filter_menu, menu);
@@ -147,7 +148,7 @@ public class RecordsFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                itemTransactionAdapterWithReciclerView.getFilter().filter(newText);
+               itemTransactionAdapterWithReciclerView.getFilter().filter(newText);
                 return false;
             }
         });
