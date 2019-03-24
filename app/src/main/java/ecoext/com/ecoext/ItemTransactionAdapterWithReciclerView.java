@@ -46,15 +46,13 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
     public ItemTransactionAdapterWithReciclerView(Context c, ArrayList<GetUserTransactionsQuery.Purse> listOfPurses) {
         this.context = c;
         this.listOfPurses = listOfPurses;
+        // create a copy of records in order to use with filters
 
-        // fill list of transactions
-        for (int i = 0 ; i < listOfPurses.size() ; i ++) {
+        for (int i = 0; i < listOfPurses.size() ; i++) {
             listOfTransactions.addAll(listOfPurses.get(i).transaction());
         }
-
-        // list of Transactions for Filters
+        // create a copy of transaction for filters
         listOfTransactionsFull = listOfTransactions;
-
     }
 
     @NonNull
@@ -68,6 +66,7 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final GetUserTransactionsQuery.Transaction transaction = listOfTransactions.get(position);
 
+        //Log.d(TAG, "outSideMy: " + purse.name());
 
             Log.d(TAG, "inSideMy: " + transaction.label());
             //get Url logo
@@ -82,7 +81,7 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
         */
 
             holder.titleTextView.setText(transaction.label());
-            holder.descriptionTextView.setText("Purse");
+            holder.descriptionTextView.setText("name");
             holder.dateTextView.setText(transaction.date());
             holder.priceTextView.setText(currance + "23");
 
