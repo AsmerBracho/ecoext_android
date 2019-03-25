@@ -172,7 +172,7 @@ public class RecordsFragment extends Fragment {
             @Override
             public void onDateSet(DatePicker datePicker, int mDay, int mMonth, int mYear) {
                 mMonth = mMonth + 1;
-                dateForFilter = mYear + "-" + mMonth + "-" + mDay;
+                dateForFilter = mYear + "/" + mMonth + "/" + mDay;
                 filterDate.setText(dateForFilter);
                 onDate.setText(dateForFilter);
 

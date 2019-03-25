@@ -51,15 +51,21 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
     private ArrayList<GetUserTransactionsQuery.Transaction> listOfTransactions;
     private ArrayList<GetUserTransactionsQuery.Transaction> listOfTransactionsFull;
 
+    private ArrayList<String> purseNames = new ArrayList<>();
+
     public ItemTransactionAdapterWithReciclerView(Context c, ArrayList<GetUserTransactionsQuery.Purse> listOfPurses,
                                                   ArrayList<GetUserTransactionsQuery.Transaction> transactions) {
         this.context = c;
         this.listOfPurses = listOfPurses;
-
         this.listOfTransactions = transactions;
-
         // create a copy of transaction for filters
         listOfTransactionsFull = new ArrayList<>(listOfTransactions);
+
+        for (int j = 0; j <listOfPurses.size(); j++) {
+            for (int i = 0; i < listOfPurses.get(j).transaction().size(); i++) {
+                purseNames.add(listOfPurses.get(j).name());
+            }
+        }
     }
 
     @NonNull
@@ -90,9 +96,9 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
             }
 
             holder.titleTextView.setText(transaction.label());
-            holder.descriptionTextView.setText("name");
+            holder.descriptionTextView.setText(purseNames.get(position));
 
-            SimpleDateFormat format = new SimpleDateFormat("dd-MM-YYYY");
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/YYYY");
             Date date = new Date(Long.parseLong(transaction.date()));
             holder.dateTextView.setText(format.format(date));
 
@@ -152,7 +158,7 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
                 for (GetUserTransactionsQuery.Transaction transaction: listOfTransactionsFull) {
 
                     // parse the date
-                    SimpleDateFormat format = new SimpleDateFormat("dd-MM-YYYY");
+                    SimpleDateFormat format = new SimpleDateFormat("dd/MM/YYYY");
                     Date date = new Date(Long.parseLong(transaction.date()));
 
                     if (transaction.label().toLowerCase().contains(filterPattern) ||

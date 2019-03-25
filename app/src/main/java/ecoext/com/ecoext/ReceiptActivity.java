@@ -28,13 +28,9 @@ public class ReceiptActivity extends AppCompatActivity {
 
         listOfItems = findViewById(R.id.items_receipt);
 
-        /**
-         * Create a Record here for te Item
-         */
-
+        // get the list from the previous activity
         items = (ArrayList<Item>) getIntent().getExtras().getSerializable("listOfItems");
 
-        Log.d(TAG, "miguel" + items.get(0).getName());
 
         itemReceiptAdapter = new ItemReceiptAdapter(this, items);
         listOfItems.setAdapter(itemReceiptAdapter);
