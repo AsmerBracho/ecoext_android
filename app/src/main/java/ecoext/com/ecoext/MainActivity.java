@@ -534,6 +534,7 @@ public class MainActivity extends AppCompatActivity
                         ));
                     }
 
+                    // troubelshooting logs
                     Log.d(TAG, "onResponse: " + purses.get(0).transaction().size());
                     Log.d(TAG, "onResponse: " + purses.get(1).transaction().size());
                 }

@@ -49,6 +49,9 @@ public class RecordsFragment extends Fragment {
     // array of purses
     ArrayList<GetUserTransactionsQuery.Purse> purses;
 
+    // array of transactions
+    ArrayList<GetUserTransactionsQuery.Transaction> transactions = new ArrayList<>();
+
     public RecordsFragment() {
 
     }
@@ -56,6 +59,10 @@ public class RecordsFragment extends Fragment {
     @SuppressLint("ValidFragment")
     public RecordsFragment(ArrayList<GetUserTransactionsQuery.Purse> purses) {
         this.purses = purses;
+
+        for (int i = 0; i < purses.size() ; i++) {
+            transactions.addAll(purses.get(i).transaction());
+        }
     }
 
     @Nullable
@@ -69,7 +76,7 @@ public class RecordsFragment extends Fragment {
 
         // create an instance of my recycler view Adapter
        itemTransactionAdapterWithReciclerView = new ItemTransactionAdapterWithReciclerView(
-                this.getContext(), purses);
+                this.getContext(), purses, transactions);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         listOfRecords.setLayoutManager(layoutManager);
@@ -149,7 +156,7 @@ public class RecordsFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                itemTransactionAdapterWithReciclerView.getFilter().filter(newText);
-                return false;
+               return false;
             }
         });
 
@@ -165,7 +172,7 @@ public class RecordsFragment extends Fragment {
             @Override
             public void onDateSet(DatePicker datePicker, int mDay, int mMonth, int mYear) {
                 mMonth = mMonth + 1;
-                dateForFilter = mYear + "/" + mMonth + "/" + mDay;
+                dateForFilter = mYear + "-" + mMonth + "-" + mDay;
                 filterDate.setText(dateForFilter);
                 onDate.setText(dateForFilter);
 
