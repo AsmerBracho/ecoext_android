@@ -19,7 +19,8 @@
 
     <TextView
         android:id="@+id/descriptionTextView"
-        android:layout_width="164dp"
+        android:layout_width="wrap_content"
+        android:maxWidth="100dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="35dp"
         android:layout_marginLeft="35dp"
@@ -30,18 +31,17 @@
 
     <TextView
         android:id="@+id/unitPriceTextView"
-        android:layout_width="40dp"
+        android:layout_width="wrap_content"
         android:layout_height="18dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginEnd="120dp"
         android:text="Unit Price"
-        app:layout_constraintEnd_toStartOf="@+id/totalPriceTextView"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/totalPriceTextView"
-        android:layout_width="42dp"
+        android:layout_width="wrap_content"
         android:layout_height="18dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"

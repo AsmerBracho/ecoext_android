@@ -10,12 +10,14 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class ItemReceiptAdapter extends BaseAdapter {
 
     //define the currance
     private String currance = "€";
+    private static DecimalFormat df = new DecimalFormat(".##");
 
     private LayoutInflater mInflator;
     private Context context;
@@ -76,9 +78,10 @@ public class ItemReceiptAdapter extends BaseAdapter {
         if (listOfItems.get(position).getQuantity() == 1) {
             viewHolder.unitPrice.setVisibility(View.GONE);
         }
+        double total = (listOfItems.get(position).getQuantity())
+                *listOfItems.get(position).getPrice();
 
-        viewHolder.totalPrice.setText(currance + (listOfItems.get(position).getQuantity())
-                *listOfItems.get(position).getPrice());
+        viewHolder.totalPrice.setText(currance + df.format(total));
 
         return view;
     }

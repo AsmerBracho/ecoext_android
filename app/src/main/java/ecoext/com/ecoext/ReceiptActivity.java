@@ -16,10 +16,8 @@ public class ReceiptActivity extends AppCompatActivity {
 
     private static final String TAG = ItemTransactionAdapterWithReciclerView.class.getSimpleName();
     ItemReceiptAdapter itemReceiptAdapter;
+
     ListView listOfItems;
-
-    ArrayList<CreateItem> myItems = new ArrayList<CreateItem>();
-
 
     ArrayList<Item> items;
 
@@ -37,41 +35,6 @@ public class ReceiptActivity extends AppCompatActivity {
         items = (ArrayList<Item>) getIntent().getExtras().getSerializable("listOfItems");
 
         Log.d(TAG, "miguel" + items.get(0).getName());
-
-        /*
-        CreateItem i1 = new CreateItem(2, "Cherry Tomatos", 2.35, 4.70);
-        CreateItem i2 = new CreateItem(1, "Milk", 1.69, 1.69);
-        CreateItem i3 = new CreateItem(1, "Bag Mix Peppers", 4.15, 4.15);
-
-        myItems.add(i1);
-        myItems.add(i2);
-        myItems.add(i3);
-        myItems.add(i3);
-        myItems.add(i3);
-        myItems.add(i3);
-        myItems.add(i3);
-        myItems.add(i3);
-        myItems.add(i3);
-        myItems.add(i3);
-        myItems.add(i3);
-        myItems.add(i3);
-        myItems.add(i3);
-        myItems.add(i3);
-        myItems.add(i3);
-        myItems.add(i3);
-        myItems.add(i3);
-        myItems.add(i3);
-        myItems.add(i3);
-        myItems.add(i3);
-        myItems.add(i3);
-        myItems.add(i3);
-        myItems.add(i3);
-        myItems.add(i3);
-        myItems.add(i3);
-        myItems.add(i3);
-        myItems.add(i3);
-        myItems.add(i3);
-        */
 
         itemReceiptAdapter = new ItemReceiptAdapter(this, items);
         listOfItems.setAdapter(itemReceiptAdapter);
