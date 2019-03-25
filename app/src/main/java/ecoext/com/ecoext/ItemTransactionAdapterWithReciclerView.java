@@ -33,7 +33,7 @@ import static ecoext.com.ecoext.MainActivity.sCorner;
 import static ecoext.com.ecoext.MainActivity.sMargin;
 
 public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter<
-        ItemTransactionAdapterWithReciclerView.ViewHolder> implements Filterable  {
+        ItemTransactionAdapterWithReciclerView.ViewHolder> implements Filterable {
 
     /**
      * We will need to define the following global variables
@@ -61,7 +61,7 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
         // create a copy of transaction for filters
         listOfTransactionsFull = new ArrayList<>(listOfTransactions);
 
-        for (int j = 0; j <listOfPurses.size(); j++) {
+        for (int j = 0; j < listOfPurses.size(); j++) {
             for (int i = 0; i < listOfPurses.get(j).transaction().size(); i++) {
                 purseNames.add(listOfPurses.get(j).name());
             }
@@ -79,55 +79,60 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final GetUserTransactionsQuery.Transaction transaction = listOfTransactions.get(position);
 
-            Log.d(TAG, "inSideMy: " + transaction.label());
+        Log.d(TAG, "inSideMy: " + transaction.label());
 
-            String l = transaction.label().toUpperCase();
-            String bLogo = String.valueOf(l.charAt(0));
-            holder.logo.setText(bLogo);
+        String l = transaction.label().toUpperCase();
+        String bLogo = String.valueOf(l.charAt(0));
+        holder.logo.setText(bLogo);
 
-            Log.d(TAG, "chart: " + l.charAt(0));
+        Log.d(TAG, "chart: " + l.charAt(0));
 
-            if (("A").equals(bLogo) || ("B").equals(bLogo) || ("C").equals(bLogo) || ("D").equals(bLogo) || ("E").equals(bLogo) || ("P").equals(bLogo)) {
-                holder.logo.setBackground(ContextCompat.getDrawable(context, R.drawable.logo_background));
-            } else if (("F").equals(bLogo) || ("G").equals(bLogo) || ("H").equals(bLogo) || ("I").equals(bLogo) || ("K").equals(bLogo) || ("Z").equals(bLogo)) {
-                holder.logo.setBackground(ContextCompat.getDrawable(context, R.drawable.logo_background2));
-            } else {
-                holder.logo.setBackground(ContextCompat.getDrawable(context, R.drawable.logo_background3));
-            }
+        if (("A").equals(bLogo) || ("B").equals(bLogo) || ("C").equals(bLogo) || ("D").equals(bLogo) || ("E").equals(bLogo) || ("P").equals(bLogo)) {
+            holder.logo.setBackground(ContextCompat.getDrawable(context, R.drawable.logo_background));
+        } else if (("F").equals(bLogo) || ("G").equals(bLogo) || ("H").equals(bLogo) || ("I").equals(bLogo) || ("K").equals(bLogo) || ("Z").equals(bLogo)) {
+            holder.logo.setBackground(ContextCompat.getDrawable(context, R.drawable.logo_background2));
+        } else {
+            holder.logo.setBackground(ContextCompat.getDrawable(context, R.drawable.logo_background3));
+        }
 
-            holder.titleTextView.setText(transaction.label());
-            holder.descriptionTextView.setText(purseNames.get(position));
+        holder.titleTextView.setText(transaction.label());
+        holder.descriptionTextView.setText(purseNames.get(position));
 
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/YYYY");
-            Date date = new Date(Long.parseLong(transaction.date()));
-            holder.dateTextView.setText(format.format(date));
+        final SimpleDateFormat format = new SimpleDateFormat("dd/MM/YYYY");
+        final Date date = new Date(Long.parseLong(transaction.date()));
+        holder.dateTextView.setText(format.format(date));
 
-            // Loop the items to extract the price
-            double total = 0;
-            for (int i = 0; i < transaction.items().size(); i++) {
-                total += transaction.items().get(i).price() * transaction.items().get(i).quantity();
-            }
-            holder.priceTextView.setText(currance + df.format(total));
+        // Loop the items to extract the price
+        double total = 0;
+        for (int i = 0; i < transaction.items().size(); i++) {
+            total += transaction.items().get(i).price() * transaction.items().get(i).quantity();
+        }
+        holder.priceTextView.setText(currance + df.format(total));
 
-            holder.parentLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent showReceipt = new Intent(context, ReceiptActivity.class);
-                    ArrayList<Item> listOfItems = new ArrayList<>();
-                    for (int j = 0; j < transaction.items().size() ; j ++) {
-                        listOfItems.add(new Item(
-                                transaction.items().get(j).transaction_id(),
-                                transaction.items().get(j).product(),
-                                transaction.items().get(j).price(),
-                                transaction.items().get(j).quantity(),
-                                transaction.items().get(j).tax()
-                        ));
-                    }
-                    //put extras to pass to next activity and know with receipt are we currently clicking
-                    showReceipt.putParcelableArrayListExtra("listOfItems", listOfItems);
-                    context.startActivity(showReceipt);
+        // to be pass as extra
+        final double finalTotal = total;
+        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent showReceipt = new Intent(context, ReceiptActivity.class);
+                ArrayList<Item> listOfItems = new ArrayList<>();
+                for (int j = 0; j < transaction.items().size(); j++) {
+                    listOfItems.add(new Item(
+                            transaction.items().get(j).transaction_id(),
+                            transaction.items().get(j).product(),
+                            transaction.items().get(j).price(),
+                            transaction.items().get(j).quantity(),
+                            transaction.items().get(j).tax()
+                    ));
                 }
-            });
+                //put extras to pass to next activity and know with receipt are we currently clicking
+                showReceipt.putParcelableArrayListExtra("listOfItems", listOfItems);
+                showReceipt.putExtra("date", format.format(date));
+                showReceipt.putExtra("number", transaction.transaction_id().toString());
+                showReceipt.putExtra("total", Double.toString(finalTotal));
+                context.startActivity(showReceipt);
+            }
+        });
 
     }
 
@@ -155,7 +160,7 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
             } else {
                 String filterPattern = charSequence.toString().toLowerCase().trim();
 
-                for (GetUserTransactionsQuery.Transaction transaction: listOfTransactionsFull) {
+                for (GetUserTransactionsQuery.Transaction transaction : listOfTransactionsFull) {
 
                     // parse the date
                     SimpleDateFormat format = new SimpleDateFormat("dd/MM/YYYY");

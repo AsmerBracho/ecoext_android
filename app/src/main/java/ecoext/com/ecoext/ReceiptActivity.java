@@ -9,6 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -20,16 +26,36 @@ public class ReceiptActivity extends AppCompatActivity {
     ListView listOfItems;
 
     ArrayList<Item> items;
+    private String currance = "€";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receipt);
 
+        // get the views
         listOfItems = findViewById(R.id.items_receipt);
+        TextView name = findViewById(R.id.userNameReceipt);
+        TextView email = findViewById(R.id.userEmailReceipt);
+        TextView total = findViewById(R.id.totalReceipt);
+        TextView date = findViewById(R.id.dateReceipt);
+        TextView number = findViewById(R.id.receiptNumber);
 
         // get the list from the previous activity
         items = (ArrayList<Item>) getIntent().getExtras().getSerializable("listOfItems");
+        String t = getIntent().getStringExtra("total");
+        String num = getIntent().getStringExtra("number");
+        String dat = getIntent().getStringExtra("date");
+
+        //set the views
+        name.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+        email.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        total.setText(currance + t);
+        date.setText(dat);
+
+        // add leading zeros to receipt number
+        String formatted = String.format("%05d", Integer.parseInt(num));
+        number.setText("Receipt #" + formatted);
 
 
         itemReceiptAdapter = new ItemReceiptAdapter(this, items);
