@@ -21,9 +21,9 @@ public class ItemReceiptAdapter extends BaseAdapter {
     private Context context;
 
     // list of items
-    ArrayList<CreateItem> listOfItems;
+    ArrayList<Item> listOfItems;
 
-    public ItemReceiptAdapter(Context c, ArrayList<CreateItem> items) {
+    public ItemReceiptAdapter(Context c, ArrayList<Item> items) {
         mInflator = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         this.listOfItems = items;
@@ -37,7 +37,7 @@ public class ItemReceiptAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return listOfItems.get(position).getDescription();
+        return listOfItems.get(position).getName();
     }
 
     @Override
@@ -69,14 +69,16 @@ public class ItemReceiptAdapter extends BaseAdapter {
 
         //set the views
 
-        viewHolder.qty.setText(Integer.toString(listOfItems.get(position).getQty()));
-        viewHolder.description.setText(listOfItems.get(position).getDescription());
-        viewHolder.unitPrice.setText(currance + Double.toString(listOfItems.get(position).getUnitPrice()));
+        viewHolder.qty.setText(Integer.toString(listOfItems.get(position).getQuantity()));
+        viewHolder.description.setText(listOfItems.get(position).getName());
+        viewHolder.unitPrice.setText(currance + listOfItems.get(position).getPrice());
         // if there is not more that 1 item don't show the unit price
-        if (listOfItems.get(position).getQty() == 1) {
+        if (listOfItems.get(position).getQuantity() == 1) {
             viewHolder.unitPrice.setVisibility(View.GONE);
         }
-        viewHolder.totalPrice.setText(currance + Double.toString(listOfItems.get(position).getTotalprice()));
+
+        viewHolder.totalPrice.setText(currance + (listOfItems.get(position).getQuantity())
+                *listOfItems.get(position).getPrice());
 
         return view;
     }

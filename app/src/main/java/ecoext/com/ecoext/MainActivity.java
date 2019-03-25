@@ -151,7 +151,6 @@ public class MainActivity extends AppCompatActivity
          * Get the information from database and process it accordingly into the application
          * by creating lists that will contain the user data
          */
-
         getInfoDataBase();
 
         //GetUserInformationFromDataBase task = new GetUserInformationFromDataBase();
@@ -210,7 +209,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
     @Override
     public void onBackPressed() {
         //check if drawer is closed if not close it
@@ -259,6 +257,11 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new RecordsFragment(purses)).commit();
         } else if (id == R.id.nav_reports) {
+
+
+
+            // THIS NET TO BE TAKEN OFF
+            getInfoDataBase();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new ReportsStatisticsFragment()).commit();
         } else if (id == R.id.nav_notifications) {

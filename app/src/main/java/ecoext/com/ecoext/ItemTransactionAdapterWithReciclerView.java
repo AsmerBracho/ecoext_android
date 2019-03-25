@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -99,9 +100,21 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
 
                     Intent showReceipt = new Intent(context, ReceiptActivity.class);
 
+                    ArrayList<Item> listOfItems = new ArrayList<>();
+
+                    for (int j = 0; j < transaction.items().size() ; j ++) {
+                        listOfItems.add(new Item(
+                                transaction.items().get(j).transaction_id(),
+                                transaction.items().get(j).product(),
+                                transaction.items().get(j).price(),
+                                transaction.items().get(j).quantity(),
+                                transaction.items().get(j).tax()
+                        ));
+                    }
+
 
                     //put extras to pass to next activity and know with receipt are we currently clicking
-
+                    showReceipt.putParcelableArrayListExtra("listOfItems", listOfItems);
                     context.startActivity(showReceipt);
                 }
             });
