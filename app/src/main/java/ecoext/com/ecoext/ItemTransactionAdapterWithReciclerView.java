@@ -82,7 +82,7 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
         Log.d(TAG, "inSideMy: " + transaction.label());
 
         String l = transaction.label().toUpperCase();
-        String bLogo = String.valueOf(l.charAt(0));
+        final String bLogo = String.valueOf(l.charAt(0));
         holder.logo.setText(bLogo);
 
         Log.d(TAG, "chart: " + l.charAt(0));
@@ -130,6 +130,7 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
                 showReceipt.putExtra("date", format.format(date));
                 showReceipt.putExtra("number", transaction.transaction_id().toString());
                 showReceipt.putExtra("total", Double.toString(finalTotal));
+                showReceipt.putExtra("name", bLogo);
                 context.startActivity(showReceipt);
             }
         });

@@ -30,6 +30,7 @@
     <string name="btn_clear">Clear</string>
     <string name="btn_backspace">Back</string>
     <string name="btn_dot">.</string>
+    <string name="copyright">Created by EcoExT. All Rights Reserved</string>
 
 
 </resources>

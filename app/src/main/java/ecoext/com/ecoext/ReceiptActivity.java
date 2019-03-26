@@ -40,18 +40,21 @@ public class ReceiptActivity extends AppCompatActivity {
         TextView total = findViewById(R.id.totalReceipt);
         TextView date = findViewById(R.id.dateReceipt);
         TextView number = findViewById(R.id.receiptNumber);
+        TextView bLogo = findViewById(R.id.logoInsideReceipt);
 
         // get the list from the previous activity
         items = (ArrayList<Item>) getIntent().getExtras().getSerializable("listOfItems");
         String t = getIntent().getStringExtra("total");
         String num = getIntent().getStringExtra("number");
         String dat = getIntent().getStringExtra("date");
+        String bL = getIntent().getStringExtra("name");
 
         //set the views
         name.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
         email.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
         total.setText(currance + t);
         date.setText(dat);
+        bLogo.setText(bL);
 
         // add leading zeros to receipt number
         String formatted = String.format("%05d", Integer.parseInt(num));
