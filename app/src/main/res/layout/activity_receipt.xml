@@ -154,88 +154,147 @@
         <View
             android:id="@+id/view3"
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/background_rectangle"
+            android:layout_height="30dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/botom_top_line"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/userEmailReceipt" />
+
+        <View
+            android:id="@+id/view4"
+            android:layout_width="wrap_content"
+            android:layout_height="52dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/botom_top_line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/items_receipt" />
+
+        <View
+            android:id="@+id/view5"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/bottom_line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view4" />
+
+        <TextView
+            android:id="@+id/subTotalReceiptTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="4dp"
+            android:text="SUBTOTAL"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/taxReceipt"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/taxReceiptTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="TAX"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/view4"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/totalReceiptTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="4dp"
-            android:text="Receipt Total"
-            android:textSize="18dp"
+            android:layout_marginTop="5dp"
+            android:text="TOTAL"
+            android:textSize="14dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/view3"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/view3" />
+            app:layout_constraintTop_toTopOf="@+id/view5" />
+
+        <TextView
+            android:id="@+id/subTotalReceipt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="4dp"
+            android:text="SubTotal"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/taxReceipt"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/taxReceipt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="Tax"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/view4"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
             android:id="@+id/totalReceipt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
             android:text="Total"
-            android:textSize="18dp"
+            android:textSize="14dp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/view3"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/totalReceiptTextView"
-            app:layout_constraintTop_toTopOf="@+id/view3" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view5" />
 
         <TextView
             android:id="@+id/qtyReceipt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            android:text="QTY"
+            android:layout_marginTop="6dp"
+            android:text="Qty."
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view3" />
+            app:layout_constraintTop_toTopOf="@+id/view3" />
 
         <TextView
             android:id="@+id/descriptionReceipt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="16dp"
-            android:text="DESCRIPTION"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="6dp"
+            android:text="Item"
             app:layout_constraintStart_toEndOf="@+id/qtyReceipt"
-            app:layout_constraintTop_toBottomOf="@+id/view3" />
+            app:layout_constraintTop_toTopOf="@+id/view3" />
 
         <TextView
             android:id="@+id/unitPriceReceipt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="60dp"
-            android:text="UNIT"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="80dp"
+            android:text="Unit"
             app:layout_constraintEnd_toStartOf="@+id/totalPriceReceipt"
-            app:layout_constraintTop_toBottomOf="@+id/view3" />
+            app:layout_constraintTop_toTopOf="@+id/view3" />
 
         <TextView
             android:id="@+id/totalPriceReceipt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="6dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:text="TOTAL"
+            android:text="Total"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view3" />
-
+            app:layout_constraintTop_toTopOf="@+id/view3" />
 
         <ListView
             android:id="@+id/items_receipt"
@@ -244,28 +303,29 @@
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/descriptionReceipt" />
+            app:layout_constraintTop_toBottomOf="@+id/view3" />
 
         <ImageView
             android:id="@+id/imageView2"
-            android:layout_width="85dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="80dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:src="@drawable/logo"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/items_receipt" />
+            app:layout_constraintEnd_toStartOf="@+id/textView6"
+            app:layout_constraintTop_toBottomOf="@+id/view5" />
 
 
         <TextView
+            android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="48dp"
             android:text="@string/copyright"
             android:textSize="12dp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-            app:layout_constraintStart_toEndOf="@+id/imageView2" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view5" />
 
 
     </android.support.constraint.ConstraintLayout>
