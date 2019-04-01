@@ -258,7 +258,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
-            // THIS NET TO BE TAKEN OFF
+            // THIS NEED TO BE TAKEN OFF
             getInfoDataBase();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new ReportsStatisticsFragment()).commit();
@@ -535,7 +535,7 @@ public class MainActivity extends AppCompatActivity
                         ));
                     }
 
-                    // troubelshooting logs
+                    // troubleshooting logs
                     Log.d(TAG, "onResponse: " + purses.get(0).transaction().size());
                     Log.d(TAG, "onResponse: " + purses.get(1).transaction().size());
                 }

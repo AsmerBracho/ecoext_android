@@ -12,104 +12,106 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <View
-            android:id="@+id/view2"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:background="#afaeae"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <ImageView
             android:id="@+id/download_icon"
             android:layout_width="33dp"
             android:layout_height="35dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
             android:src="@drawable/ic_arrow_download"
+            app:layout_constraintBottom_toBottomOf="@+id/logoInsideReceipt"
             app:layout_constraintEnd_toStartOf="@+id/share_icon"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/establishmentName"
+            app:layout_constraintTop_toTopOf="@+id/logoInsideReceipt" />
 
         <ImageView
             android:id="@+id/share_icon"
             android:layout_width="32dp"
             android:layout_height="33dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
             android:src="@drawable/ic_share"
-            app:layout_constraintEnd_toEndOf="@+id/view2"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/download_icon" />
 
         <TextView
             android:id="@+id/logoInsideReceipt"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:text="E"
-            android:textSize="25dp"
-            android:textColor="#ffffff"
-            android:textAlignment="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/logo_background3"
+            android:paddingLeft="16dp"
             android:paddingTop="10dp"
             android:paddingRight="16dp"
-            android:paddingLeft="16dp"
-            android:background="@drawable/logo_background3"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="28dp"
+            android:text="E"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="25dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view2"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@mipmap/ic_launcher_round" />
 
         <TextView
             android:id="@+id/establishmentName"
             android:layout_width="wrap_content"
             android:layout_height="28dp"
-            android:layout_marginTop="28dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:text="Stablishment Name"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="30dp"
+            android:text="Establishment Name"
             android:textSize="18dp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view2" />
+            app:layout_constraintStart_toEndOf="@+id/logoInsideReceipt"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/establishmentAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:text="Stablishment Address"
-            android:textSize="15dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Establishment Address"
+            android:textSize="12dp"
+            app:layout_constraintStart_toStartOf="@+id/establishmentName"
             app:layout_constraintTop_toBottomOf="@+id/establishmentName" />
 
         <TextView
-            android:id="@+id/billTo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="25dp"
-            android:text="BILL TO"
-            android:textSize="18dp"
-            android:textStyle="bold"
+            android:text="Establisment Phone"
+            android:textSize="12dp"
+            app:layout_constraintStart_toStartOf="@+id/establishmentName"
+            app:layout_constraintTop_toBottomOf="@+id/establishmentAddress" />
+
+        <TextView
+            android:id="@+id/headerTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="8dp"
+            android:text="TotalReceipt"
+            android:textSize="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/logoInsideReceipt" />
+
+        <View
+            android:id="@+id/view6"
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/headerTotal" />
 
         <TextView
             android:id="@+id/userNameReceipt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
             android:text="User Name"
-            android:textSize="18dp"
+            android:textSize="14dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/billTo" />
+            app:layout_constraintTop_toTopOf="@+id/view6" />
 
         <TextView
             android:id="@+id/userEmailReceipt"
@@ -118,7 +120,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:text="User Email"
-            android:textSize="16dp"
+            android:textSize="12dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/userNameReceipt" />
 
@@ -127,15 +129,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
             android:text="Receipt Number"
-            android:textSize="16dp"
+            android:textSize="14dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/userNameReceipt"
-            app:layout_constraintTop_toBottomOf="@+id/billTo" />
+            app:layout_constraintTop_toTopOf="@+id/view6" />
 
         <TextView
             android:id="@+id/dateReceipt"
@@ -146,7 +146,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginBottom="8dp"
             android:text="Date"
-            android:textSize="16dp"
+            android:textSize="12dp"
             app:layout_constraintBottom_toBottomOf="@+id/userEmailReceipt"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/receiptNumber" />
@@ -155,12 +155,11 @@
             android:id="@+id/view3"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:layout_marginTop="16dp"
             android:background="@drawable/botom_top_line"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/userEmailReceipt" />
+            app:layout_constraintTop_toBottomOf="@+id/view6" />
 
         <View
             android:id="@+id/view4"

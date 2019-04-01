@@ -41,6 +41,7 @@ public class ReceiptActivity extends AppCompatActivity {
         TextView date = findViewById(R.id.dateReceipt);
         TextView number = findViewById(R.id.receiptNumber);
         TextView bLogo = findViewById(R.id.logoInsideReceipt);
+        TextView headerTotal = findViewById(R.id.headerTotal);
 
         // get the list from the previous activity
         items = (ArrayList<Item>) getIntent().getExtras().getSerializable("listOfItems");
@@ -55,6 +56,7 @@ public class ReceiptActivity extends AppCompatActivity {
         total.setText(currance + t);
         date.setText(dat);
         bLogo.setText(bL);
+        headerTotal.setText(currance +t);
 
         // add leading zeros to receipt number
         String formatted = String.format("%05d", Integer.parseInt(num));
