@@ -35,7 +35,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/selectCateg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="50dp"
@@ -51,9 +51,9 @@
             android:text="Select a Category"
             android:textColor="@color/grayText"
             android:textSize="10dp"
-            app:layout_constraintEnd_toEndOf="@+id/textView5"
-            app:layout_constraintStart_toStartOf="@+id/textView5"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+            app:layout_constraintEnd_toEndOf="@+id/selectCateg"
+            app:layout_constraintStart_toStartOf="@+id/selectCateg"
+            app:layout_constraintTop_toBottomOf="@+id/selectCateg" />
     </android.support.constraint.ConstraintLayout>
 
     <include
@@ -94,4 +94,5 @@
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
     -->
+
 </android.support.constraint.ConstraintLayout>

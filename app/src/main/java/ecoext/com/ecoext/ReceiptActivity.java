@@ -20,7 +20,6 @@ import java.util.ArrayList;
 
 public class ReceiptActivity extends AppCompatActivity {
 
-    private static final String TAG = ItemTransactionAdapterWithReciclerView.class.getSimpleName();
     ItemReceiptAdapter itemReceiptAdapter;
 
     ListView listOfItems;

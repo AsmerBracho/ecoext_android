@@ -9,11 +9,14 @@ import android.support.annotation.IdRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import static ecoext.com.ecoext.R.id.categotiesLayout;
 
 
 public class CreateNewRecord extends AppCompatActivity implements View.OnClickListener {
@@ -23,6 +26,8 @@ public class CreateNewRecord extends AppCompatActivity implements View.OnClickLi
 
     TextView income;
     TextView outcome;
+    TextView selectCateg;
+    android.support.constraint.ConstraintLayout catLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +62,10 @@ public class CreateNewRecord extends AppCompatActivity implements View.OnClickLi
         });
 
         income = findViewById(R.id.income);
-        outcome= findViewById(R.id.outcome);
+        outcome = findViewById(R.id.outcome);
+        selectCateg = findViewById(R.id.selectCateg);
+        catLayout = findViewById(R.id.categotiesLayout);
+
         income.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,12 +75,22 @@ public class CreateNewRecord extends AppCompatActivity implements View.OnClickLi
             }
         });
 
-      outcome.setOnClickListener(new View.OnClickListener() {
+        outcome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 income.setBackground(context.getResources().getDrawable(R.drawable.background_gray_with_top_stroke));
                 outcome.setBackground(context.getResources().getDrawable(R.drawable.background_graypluss_with_top_stroke));
             }
+        });
+
+        selectCateg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent categories = new Intent(getApplicationContext(), Categories.class);
+                categories.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(categories);
+            }
+
         });
     }
 
@@ -142,6 +160,7 @@ public class CreateNewRecord extends AppCompatActivity implements View.OnClickLi
 
     /**
      * Get the Input from the textField
+     *
      * @return the amount as String
      */
     public String getInputText() {
