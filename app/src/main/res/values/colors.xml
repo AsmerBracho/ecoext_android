@@ -6,7 +6,7 @@
     <color name="grayBackground">#f4f3f3</color>
     <color name="fabSecondButton">#ffffff</color>
     <color name="fabSecondPressed">#cac9c9</color>
-    <color name="black_transparent">#a3000000</color>
+    <color name="white_transparent">#ccffffff</color>
     <color name="grayText">#848282</color>
 
     <color name="grayBlue">#BEC5AD</color>
