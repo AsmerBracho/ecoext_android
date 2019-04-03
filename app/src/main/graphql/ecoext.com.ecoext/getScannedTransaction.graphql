@@ -1,0 +1,15 @@
+query getScannedTransaction ($id: Int){
+  transaction(transaction_id: $id) {
+    transaction_id
+    date
+    label
+    description
+    items {
+      transaction_id
+      product
+      price
+      quantity
+      tax
+    }
+  }
+  }

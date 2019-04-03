@@ -2,6 +2,7 @@ package ecoext.com.ecoext;
 
 import android.animation.Animator;
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,7 +38,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import org.jetbrains.annotations.NotNull;
+
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Class: Main Activity
@@ -51,7 +56,6 @@ public class MainActivity extends AppCompatActivity
     private TextView nameTextView;
     private TextView emailTextView;
 
-
     private GoogleApiClient googleApiClient;
 
     // Firebase Variables
@@ -64,9 +68,6 @@ public class MainActivity extends AppCompatActivity
 
     IntentIntegrator integrator;
 
-    //Database Variables
-    private final String HASH_VALIDATOR = "0";
-
     /**
      * Variables for Floating Menu
      * and 2 submenus
@@ -77,7 +78,6 @@ public class MainActivity extends AppCompatActivity
     FloatingActionButton fabTwo;
     TextView labelQR;
     TextView labelCreate;
-    View clickOut;
     Float translationY = 100f;
     OvershootInterpolator interpolator = new OvershootInterpolator();
     private static final String TAG = "MainActivity";
@@ -163,22 +163,75 @@ public class MainActivity extends AppCompatActivity
             if (result.getContents() == null) {
                 Toast.makeText(this, "Scan Cancelled", Toast.LENGTH_LONG).show();
             } else {
-                if (result.getContents().contains(HASH_VALIDATOR)) {
+                // Get the token from the Pi
+                String token = result.getContents();
+                // create a transaction
+                final GetScannedTransactionQuery.Transaction[] transaction = new GetScannedTransactionQuery.Transaction[1];
+                //Create an Array of Items
+                final ArrayList<Item> listOfItems = new ArrayList<>();
+                // create Intent to sent info to receipt
+                final Intent showReceipt = new Intent(getApplicationContext(), ReceiptActivity.class);
 
-                    // get the transaction ID
-                    String s = result.getContents();
-                    String[] transactionID = s.split(" ");
-                    String finalID = "";
-                    for (int i = 1; i < transactionID.length; i++) {
-                        finalID = finalID.concat(transactionID[i] + " ");
+                Toast.makeText(this, token, Toast.LENGTH_SHORT).show();
+                // create a response for validation
+                final Response<GetScannedTransactionQuery.Data>[] isNull = new Response[]{null};
+
+                // Query DataBase
+                MyApolloClient.getMyApolloClient().query(
+                        GetScannedTransactionQuery.builder().id(20).build()).enqueue(new ApolloCall.Callback<GetScannedTransactionQuery.Data>() {
+                    @Override
+                    public void onResponse(@NotNull Response<GetScannedTransactionQuery.Data> response) {
+
+                        transaction[0] = response.data().transaction().get(0);
+                        isNull[0] = response;
+                        Log.d(TAG, "onScannedQR: " + response.data().transaction().get(0));
+
+                        final SimpleDateFormat format = new SimpleDateFormat("dd/MM/YYYY");
+                        final Date date = new Date(Long.parseLong(transaction[0].date()));
+                        String l = transaction[0].label().toUpperCase();
+                        final String bLogo = String.valueOf(l.charAt(0));
+
+                        double total = 0;
+                        for (int i = 0; i < transaction[0].items().size(); i++) {
+                            total += transaction[0].items().get(i).price() * transaction[0].items().get(i).quantity();
+                        }
+
+                        final double finalTotal = total;
+                        for (int j = 0; j < transaction[0].items().size(); j++) {
+                            listOfItems.add(new Item(
+                                    transaction[0].items().get(j).transaction_id(),
+                                    transaction[0].items().get(j).product(),
+                                    transaction[0].items().get(j).price(),
+                                    transaction[0].items().get(j).quantity(),
+                                    transaction[0].items().get(j).tax()
+                            ));
+                        }
+
+                        //put extras to pass to next activity and know with receipt are we currently clicking
+                        showReceipt.putParcelableArrayListExtra("listOfItems", listOfItems);
+                        showReceipt.putExtra("date", format.format(date));
+                        showReceipt.putExtra("number", transaction[0].transaction_id().toString());
+                        showReceipt.putExtra("total", Double.toString(finalTotal));
+                        showReceipt.putExtra("name", bLogo);
+
                     }
+
+                    @Override
+                    public void onFailure(@NotNull ApolloException e) {
+
+                    }
+                });
+
+                if(isNull != null) {
+                    // showed OK
                     new AlertDialog.Builder(this)
                             .setTitle("RECEIPT SCANNED")
-                            .setMessage("You have successfully scanned your receipt \n\nID: " + finalID)
+                            .setMessage("You have successfully scanned your receipt")
                             .setPositiveButton("SEE RECEIPT", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-
+                                    // start Intent
+                                    getApplicationContext().startActivity(showReceipt);
                                 }
                             })
                             .setNegativeButton("EXIT", new DialogInterface.OnClickListener() {
@@ -255,7 +308,6 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new RecordsFragment(purses)).commit();
         } else if (id == R.id.nav_reports) {
-
 
 
             // THIS NEED TO BE TAKEN OFF
