@@ -188,7 +188,6 @@ public class MainActivity extends AppCompatActivity
                         GetScannedTransactionQuery.builder().id(20).build()).enqueue(new ApolloCall.Callback<GetScannedTransactionQuery.Data>() {
                     @Override
                     public void onResponse(@NotNull Response<GetScannedTransactionQuery.Data> response) {
-
                         transaction[0] = response.data().transaction().get(0);
                         isNull[0] = response;
                         Log.d(TAG, "onScannedQR: " + response.data().transaction().get(0));
@@ -197,14 +196,16 @@ public class MainActivity extends AppCompatActivity
                         final Date date = new Date(Long.parseLong(transaction[0].date()));
                         String l = transaction[0].label().toUpperCase();
                         final String bLogo = String.valueOf(l.charAt(0));
-
+                        final double[] totalTax = {0};
                         double total = 0;
                         for (int i = 0; i < transaction[0].items().size(); i++) {
                             total += transaction[0].items().get(i).price() * transaction[0].items().get(i).quantity();
                         }
 
-                        final double finalTotal = total;
+                        DecimalFormat df = new DecimalFormat(".##");
+                        final String finalTotal = df.format(total);
                         for (int j = 0; j < transaction[0].items().size(); j++) {
+                            totalTax[0] += transaction[0].items().get(j).tax();
                             listOfItems.add(new Item(
                                     transaction[0].items().get(j).transaction_id(),
                                     transaction[0].items().get(j).product(),
@@ -218,8 +219,9 @@ public class MainActivity extends AppCompatActivity
                         showReceipt.putParcelableArrayListExtra("listOfItems", listOfItems);
                         showReceipt.putExtra("date", format.format(date));
                         showReceipt.putExtra("number", transaction[0].transaction_id().toString());
-                        showReceipt.putExtra("total", Double.toString(finalTotal));
+                        showReceipt.putExtra("total", finalTotal);
                         showReceipt.putExtra("name", bLogo);
+                        showReceipt.putExtra("tax", (df.format(totalTax[0])));
 
                     }
 
@@ -228,6 +230,9 @@ public class MainActivity extends AppCompatActivity
 
                     }
                 });
+
+                //Close favMenu after Scanning
+                closeMenu();
 
                 if (isNull != null) {
                     // showed OK

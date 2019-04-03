@@ -110,13 +110,15 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
         holder.priceTextView.setText(currance + df.format(total));
 
         // to be pass as extra
-        final double finalTotal = total;
+        final String finalTotal = df.format(total);
+        final double[] totalTax = {0};
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent showReceipt = new Intent(context, ReceiptActivity.class);
                 ArrayList<Item> listOfItems = new ArrayList<>();
                 for (int j = 0; j < transaction.items().size(); j++) {
+                    totalTax[0] += transaction.items().get(j).tax();
                     listOfItems.add(new Item(
                             transaction.items().get(j).transaction_id(),
                             transaction.items().get(j).product(),
@@ -129,8 +131,9 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
                 showReceipt.putParcelableArrayListExtra("listOfItems", listOfItems);
                 showReceipt.putExtra("date", format.format(date));
                 showReceipt.putExtra("number", transaction.transaction_id().toString());
-                showReceipt.putExtra("total", Double.toString(finalTotal));
+                showReceipt.putExtra("total", finalTotal);
                 showReceipt.putExtra("name", bLogo);
+                showReceipt.putExtra("tax", (df.format(totalTax[0])));
                 context.startActivity(showReceipt);
             }
         });

@@ -41,6 +41,8 @@ public class ReceiptActivity extends AppCompatActivity {
         TextView number = findViewById(R.id.receiptNumber);
         TextView bLogo = findViewById(R.id.logoInsideReceipt);
         TextView headerTotal = findViewById(R.id.headerTotal);
+        TextView tax = findViewById(R.id.taxReceipt);
+        TextView subTotal = findViewById(R.id.subTotalReceipt);
 
         // get the list from the previous activity
         items = (ArrayList<Item>) getIntent().getExtras().getSerializable("listOfItems");
@@ -48,14 +50,18 @@ public class ReceiptActivity extends AppCompatActivity {
         String num = getIntent().getStringExtra("number");
         String dat = getIntent().getStringExtra("date");
         String bL = getIntent().getStringExtra("name");
+        String taX = getIntent().getStringExtra("tax");
 
         //set the views
         name.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
         email.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-        total.setText(currance + t);
+        subTotal.setText(currance + t);
+        double tot = Double.parseDouble(t) + Double.parseDouble(taX);
+        total.setText(currance + Double.toString(tot));
         date.setText(dat);
         bLogo.setText(bL);
-        headerTotal.setText(currance +t);
+        tax.setText(currance + taX);
+        headerTotal.setText(currance + Double.toString(tot));
 
         // add leading zeros to receipt number
         String formatted = String.format("%05d", Integer.parseInt(num));
