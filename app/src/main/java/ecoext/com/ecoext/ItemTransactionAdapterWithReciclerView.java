@@ -173,6 +173,7 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
                     if (transaction.label().toLowerCase().contains(filterPattern) ||
                             (format.format(date)).contains(filterPattern)) {
                         filterList.add(transaction);
+                        Log.d(TAG, "giveMeDate2: " + filterPattern);
                     }
                 }
             }

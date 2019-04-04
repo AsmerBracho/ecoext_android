@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     setUserData(user);
+                    getInfoDataBase();
                 } else {
                     goRegisterScreen();
                 }
@@ -158,7 +159,7 @@ public class MainActivity extends AppCompatActivity
          * Get the information from database and process it accordingly into the application
          * by creating lists that will contain the user data
          */
-        getInfoDataBase();
+
 
     }
 

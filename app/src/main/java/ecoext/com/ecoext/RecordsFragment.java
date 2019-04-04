@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,7 +30,7 @@ public class RecordsFragment extends Fragment {
      */
     private RecyclerView listOfRecords;
     ItemTransactionAdapterWithReciclerView itemTransactionAdapterWithReciclerView;
-
+    private static final String TAG = "RecordFradment";
     //Variables for CalendarPicker
     Calendar calendar;
     DatePickerDialog datePickerDialog;
@@ -175,6 +176,8 @@ public class RecordsFragment extends Fragment {
                 dateForFilter = mYear + "/" + mMonth + "/" + mDay;
                 filterDate.setText(dateForFilter);
                 onDate.setText(dateForFilter);
+
+                Log.d(TAG, "giveMeDate: " +dateForFilter);
 
                 // apply filter for date
                 itemTransactionAdapterWithReciclerView.getFilter().filter(dateForFilter);
