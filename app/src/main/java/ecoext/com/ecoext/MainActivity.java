@@ -3,9 +3,12 @@ package ecoext.com.ecoext;
 import android.animation.Animator;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
@@ -26,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apollographql.apollo.ApolloCall;
+import com.apollographql.apollo.ApolloClient;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
 import com.bumptech.glide.Glide;
@@ -46,6 +50,9 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.EventListener;
+
+import static java.lang.Thread.sleep;
 
 /**
  * Class: Main Activity
@@ -54,7 +61,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
-
+    private Context context;
     private ImageView photoImageView;
     private TextView nameTextView;
     private TextView emailTextView;
@@ -71,6 +78,8 @@ public class MainActivity extends AppCompatActivity
 
     IntentIntegrator integrator;
 
+    //create a progress Dialog
+    private ProgressDialog progressDialog;
     /**
      * Variables for Floating Menu
      * and 2 submenus
@@ -89,6 +98,8 @@ public class MainActivity extends AppCompatActivity
     // Data Lists
     ArrayList<GetUserTransactionsQuery.Purse> purses = new ArrayList<>();
 
+    // Validator for my Scan
+    boolean validation = false;
     //*********************************************************************
 
     @Override
@@ -97,6 +108,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        context = this;
+        progressDialog = new ProgressDialog(context);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -135,7 +149,6 @@ public class MainActivity extends AppCompatActivity
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-
         // Initialize Firebase variables
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -155,12 +168,6 @@ public class MainActivity extends AppCompatActivity
         // Initiate the Fab Menu
         initFabMenu();
 
-        /**
-         * Get the information from database and process it accordingly into the application
-         * by creating lists that will contain the user data
-         */
-
-
     }
 
     // onActivityResult we are going to manage the QRScanner actions
@@ -172,58 +179,62 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(this, "Scan Cancelled", Toast.LENGTH_LONG).show();
             } else {
                 // Get the token from the Pi
-                String token = result.getContents();
-                // create a transaction
-                final GetScannedTransactionQuery.Transaction[] transaction = new GetScannedTransactionQuery.Transaction[1];
+                final String token = result.getContents();
+                 //create a transaction
+                final GetTransactionByTokenQuery.TransactionByToken[] transaction = new GetTransactionByTokenQuery.TransactionByToken[1];
                 //Create an Array of Items
                 final ArrayList<Item> listOfItems = new ArrayList<>();
                 // create Intent to sent info to receipt
                 final Intent showReceipt = new Intent(getApplicationContext(), ReceiptActivity.class);
 
-                Toast.makeText(this, token, Toast.LENGTH_SHORT).show();
-                // create a response for validation
-                final Response<GetScannedTransactionQuery.Data>[] isNull = new Response[]{null};
-
                 // Query DataBase
-                MyApolloClient.getMyApolloClient().query(
-                        GetScannedTransactionQuery.builder().id(20).build()).enqueue(new ApolloCall.Callback<GetScannedTransactionQuery.Data>() {
+                MyApolloClient.getMyApolloClient().query(GetTransactionByTokenQuery.builder().
+                        token(token).build()).enqueue(new ApolloCall.Callback<GetTransactionByTokenQuery.Data>() {
                     @Override
-                    public void onResponse(@NotNull Response<GetScannedTransactionQuery.Data> response) {
-                        transaction[0] = response.data().transaction().get(0);
-                        isNull[0] = response;
-                        Log.d(TAG, "onScannedQR: " + response.data().transaction().get(0));
+                    public void onResponse(@NotNull Response<GetTransactionByTokenQuery.Data> response) {
+                        Log.d(TAG, "responseResults: " + response.data());
+                        Log.d(TAG, "msg:" + validation);
 
-                        final SimpleDateFormat format = new SimpleDateFormat("dd/MM/YYYY");
-                        final Date date = new Date(Long.parseLong(transaction[0].date()));
-                        String l = transaction[0].label().toUpperCase();
-                        final String bLogo = String.valueOf(l.charAt(0));
-                        final double[] totalTax = {0};
-                        double total = 0;
-                        for (int i = 0; i < transaction[0].items().size(); i++) {
-                            total += transaction[0].items().get(i).price() * transaction[0].items().get(i).quantity();
+                        if (response.data().transactionByToken() != null) {
+                            validation = true;
+                            transaction[0] = response.data().transactionByToken();
+
+                            Log.d(TAG, "onScannedQR: " + response.data().transactionByToken());
+                            Log.d(TAG, "onScannedQRValidation: " + validation);
+
+                            final SimpleDateFormat format = new SimpleDateFormat("dd/MM/YYYY");
+                            final Date date = new Date(Long.parseLong(transaction[0].date()));
+                            String l = transaction[0].label().toUpperCase();
+                            final String bLogo = String.valueOf(l.charAt(0));
+                            final double[] totalTax = {0};
+                            double total = 0;
+                            for (int i = 0; i < transaction[0].items().size(); i++) {
+                                total += transaction[0].items().get(i).price() * transaction[0].items().get(i).quantity();
+                            }
+                            DecimalFormat df = new DecimalFormat(".##");
+                            final String finalTotal = df.format(total);
+                            for (int j = 0; j < transaction[0].items().size(); j++) {
+                                totalTax[0] += transaction[0].items().get(j).tax();
+                                listOfItems.add(new Item(
+                                        transaction[0].items().get(j).transaction_id(),
+                                        transaction[0].items().get(j).product(),
+                                        transaction[0].items().get(j).price(),
+                                        transaction[0].items().get(j).quantity(),
+                                        transaction[0].items().get(j).tax()
+                                ));
+                            }
+                            //put extras to pass to next activity and know with receipt are we currently clicking
+                            showReceipt.putParcelableArrayListExtra("listOfItems", listOfItems);
+                            showReceipt.putExtra("date", format.format(date));
+                            showReceipt.putExtra("number", transaction[0].transaction_id().toString());
+                            showReceipt.putExtra("total", finalTotal);
+                            showReceipt.putExtra("name", bLogo);
+                            showReceipt.putExtra("tax", (df.format(totalTax[0])));
+
+                        } else {
+                            validation = false;
+                            Log.d(TAG, "onScannedQRValidation: " + validation);
                         }
-
-                        DecimalFormat df = new DecimalFormat(".##");
-                        final String finalTotal = df.format(total);
-                        for (int j = 0; j < transaction[0].items().size(); j++) {
-                            totalTax[0] += transaction[0].items().get(j).tax();
-                            listOfItems.add(new Item(
-                                    transaction[0].items().get(j).transaction_id(),
-                                    transaction[0].items().get(j).product(),
-                                    transaction[0].items().get(j).price(),
-                                    transaction[0].items().get(j).quantity(),
-                                    transaction[0].items().get(j).tax()
-                            ));
-                        }
-
-                        //put extras to pass to next activity and know with receipt are we currently clicking
-                        showReceipt.putParcelableArrayListExtra("listOfItems", listOfItems);
-                        showReceipt.putExtra("date", format.format(date));
-                        showReceipt.putExtra("number", transaction[0].transaction_id().toString());
-                        showReceipt.putExtra("total", finalTotal);
-                        showReceipt.putExtra("name", bLogo);
-                        showReceipt.putExtra("tax", (df.format(totalTax[0])));
-
                     }
 
                     @Override
@@ -232,46 +243,70 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
 
+                progressDialog.setTitle("EcoExTing");
+                progressDialog.setMessage("Please wait while we retrieve your Receipt...");
+                progressDialog.show();
+
+                // Validate Results
+
+                Runnable progressRunnable = new Runnable() {
+
+                    @Override
+                    public void run() {
+                        try {
+                            sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (validation) {
+                            // showed OK
+                            progressDialog.dismiss();
+                            new AlertDialog.Builder(context)
+                                    .setTitle("RECEIPT SCANNED")
+                                    .setMessage("You have successfully scanned your receipt")
+                                    .setPositiveButton("SEE RECEIPT", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            // start Intent
+                                            getApplicationContext().startActivity(showReceipt);
+                                        }
+                                    })
+                                    .setNegativeButton("EXIT", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Log.d("MainActivity", "Aborting...");
+                                        }
+                                    })
+                                    .show();
+
+                        } else {
+                            progressDialog.dismiss();
+                            new AlertDialog.Builder(context, R.style.CustomDialogTheme)
+                                    .setTitle("WRONG QR CODE")
+                                    .setMessage("This is not a valid EcoExT QR Code, please SCAN a VALID code")
+                                    .setPositiveButton("SCAN", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            integrator.initiateScan();
+                                        }
+                                    })
+                                    .show();
+                        }
+                    }
+                };
+
+                Handler pdCanceller = new Handler();
+                pdCanceller.postDelayed(progressRunnable, 1000);
+
                 //Close favMenu after Scanning
                 closeMenu();
-
-                if (isNull != null) {
-                    // showed OK
-                    new AlertDialog.Builder(this)
-                            .setTitle("RECEIPT SCANNED")
-                            .setMessage("You have successfully scanned your receipt")
-                            .setPositiveButton("SEE RECEIPT", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // start Intent
-                                    getApplicationContext().startActivity(showReceipt);
-                                }
-                            })
-                            .setNegativeButton("EXIT", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Log.d("MainActivity", "Aborting...");
-                                }
-                            })
-                            .show();
-
-                } else {
-                    new AlertDialog.Builder(this, R.style.CustomDialogTheme)
-                            .setTitle("WRONG QR CODE")
-                            .setMessage("This is not a valid EcoExT QR Code, please SCAN a VALID code")
-                            .setPositiveButton("SCAN", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    integrator.initiateScan();
-                                }
-                            })
-                            .show();
-                }
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
 
     @Override
     public void onBackPressed() {
@@ -633,5 +668,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
     }
+
 
 }

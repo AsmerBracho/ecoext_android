@@ -1,0 +1,16 @@
+query getTransactionByToken ($token: String){
+  transactionByToken(id: $token) {
+    transaction_id
+    date
+    label
+    description
+    token_id
+     items {
+          transaction_id
+          product
+          price
+          quantity
+          tax
+        }
+  }
+}
