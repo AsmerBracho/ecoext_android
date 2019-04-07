@@ -1219,14 +1219,14 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "transaction_id",
+                  "name": "transaction_token",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "SCALAR",
-                      "name": "Int",
+                      "name": "String",
                       "ofType": null
                     }
                   },

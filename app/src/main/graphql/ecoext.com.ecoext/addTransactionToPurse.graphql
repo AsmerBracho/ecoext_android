@@ -1,0 +1,9 @@
+  mutation addTransactionToPurse ($pid: Int!, $token: String!) {
+    addTransactionToPurse (
+      purse_id: $pid
+      transaction_token: $token
+  ) {
+      purse_id
+      transaction_id
+    }
+  }

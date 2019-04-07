@@ -231,6 +231,24 @@ public class MainActivity extends AppCompatActivity
                             showReceipt.putExtra("name", bLogo);
                             showReceipt.putExtra("tax", (df.format(totalTax[0])));
 
+                            // Add Transaction to Records
+                            MyApolloClient.getMyApolloClient().mutate(
+                                    AddTransactionToPurseMutation.builder()
+                                    .token(token)
+                                    .pid(purses.get(0).purse_id)
+                                    .build())
+                                    .enqueue(new ApolloCall.Callback<AddTransactionToPurseMutation.Data>() {
+                                        @Override
+                                        public void onResponse(@NotNull Response<AddTransactionToPurseMutation.Data> response) {
+                                            getInfoDataBase();
+                                        }
+
+                                        @Override
+                                        public void onFailure(@NotNull ApolloException e) {
+
+                                        }
+                                    });
+
                         } else {
                             validation = false;
                             Log.d(TAG, "onScannedQRValidation: " + validation);
@@ -306,7 +324,6 @@ public class MainActivity extends AppCompatActivity
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
-
 
     @Override
     public void onBackPressed() {
