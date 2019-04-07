@@ -63,7 +63,7 @@ public class CreateNewRecord extends AppCompatActivity implements View.OnClickLi
 
         income = findViewById(R.id.income);
         outcome = findViewById(R.id.outcome);
-        selectCateg = findViewById(R.id.selectCateg);
+        //selectCateg = findViewById(R.id.selectCateg);
         catLayout = findViewById(R.id.categotiesLayout);
 
         income.setOnClickListener(new View.OnClickListener() {
@@ -83,15 +83,15 @@ public class CreateNewRecord extends AppCompatActivity implements View.OnClickLi
             }
         });
 
-        selectCateg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent categories = new Intent(getApplicationContext(), Categories.class);
-                categories.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(categories);
-            }
-
-        });
+//        selectCateg.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent categories = new Intent(getApplicationContext(), Categories.class);
+//                categories.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(categories);
+//            }
+//
+//        });
     }
 
     @Override

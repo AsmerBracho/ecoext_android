@@ -1,9 +1,8 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="8dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,47 +10,83 @@
         android:orientation="vertical"
         android:background="#eeeeee">
 
-        <EditText
-            android:id="@+id/amount_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:background="#eeeeee"
-            android:enabled="false"
-            android:gravity="right|bottom"
-            android:padding="10dp"
-            android:singleLine="true"
-            android:autoSizeTextType="uniform"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="60dp" />
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_marginTop="16dp"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent">-->
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
+        <!--<TextView-->
+        <!--android:id="@+id/textView4"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="50dp"-->
+        <!--android:text="Purse"-->
+        <!--android:textColor="@color/grayText"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent" />-->
 
-            <TextView
-                android:id="@+id/income"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/background_gray_with_top_stroke"
-                android:padding="10dp"
-                android:text="INCOME"
-                android:textAlignment="center"/>
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="4dp"-->
+        <!--android:text="Select a Purse"-->
+        <!--android:textColor="@color/grayText"-->
+        <!--android:textSize="10dp"-->
+        <!--app:layout_constraintEnd_toEndOf="@+id/textView4"-->
+        <!--app:layout_constraintStart_toStartOf="@+id/textView4"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/textView4" />-->
 
-            <TextView
-                android:id="@+id/outcome"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/background_graypluss_with_top_stroke"
-                android:padding="10dp"
-                android:text="EXPENSE"
-                android:textAlignment="center" />
+        <!--<TextView-->
+        <!--android:id="@+id/selectCateg"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginEnd="50dp"-->
+        <!--android:text="Category"-->
+        <!--android:textColor="@color/grayText"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent" />-->
 
-        </LinearLayout>
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="4dp"-->
+        <!--android:text="Select a Category"-->
+        <!--android:textColor="@color/grayText"-->
+        <!--android:textSize="10dp"-->
+        <!--app:layout_constraintEnd_toEndOf="@+id/selectCateg"-->
+        <!--app:layout_constraintStart_toStartOf="@+id/selectCateg"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/selectCateg" />-->
+
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:weightSum="2">-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/income"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@drawable/background_gray_with_top_stroke"-->
+                <!--android:padding="10dp"-->
+                <!--android:text="INCOME"-->
+                <!--android:textAlignment="center"/>-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/outcome"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@drawable/background_graypluss_with_top_stroke"-->
+                <!--android:padding="10dp"-->
+                <!--android:text="EXPENSE"-->
+                <!--android:textAlignment="center" />-->
+
+        <!--</LinearLayout>-->
 
     </LinearLayout>
 
@@ -62,7 +97,8 @@
         android:background="@android:color/white"
         android:divider="@drawable/keyboard_divider"
         android:orientation="vertical"
-        android:showDividers="beginning|middle|end">
+        android:showDividers="beginning|middle|end"
+        android:elevation="1dp">
 
         <TableRow style="@style/keyboard_row">
 
@@ -80,6 +116,12 @@
                 android:id="@+id/t9_key_3"
                 style="@style/keyboard_number_button"
                 android:text="@string/number_three" />
+
+            <TextView
+                android:id="@+id/algo"
+                style="@style/keyboard_number_button"
+                android:background="@color/grayBlue"
+                android:text="" />
         </TableRow>
 
         <TableRow style="@style/keyboard_row">
@@ -98,6 +140,14 @@
                 android:id="@+id/t9_key_6"
                 style="@style/keyboard_number_button"
                 android:text="@string/number_six" />
+
+            <TextView
+                android:id="@+id/cancel"
+                style="@style/keyboard_button"
+                android:text="X"
+                android:background="@color/grayBlue"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
+
         </TableRow>
 
         <TableRow style="@style/keyboard_row">
@@ -116,6 +166,13 @@
                 android:id="@+id/t9_key_9"
                 style="@style/keyboard_number_button"
                 android:text="@string/number_nine" />
+
+            <TextView
+                android:id="@+id/t9_key_clear"
+                style="@style/keyboard_button"
+                android:text="@string/btn_clear"
+                android:background="@color/grayBlue"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
         </TableRow>
 
         <TableRow style="@style/keyboard_row">
@@ -136,30 +193,15 @@
                 android:src="@drawable/ic_back"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        </TableRow>
-
-        <TableRow style="@style/keyboard_row">
-
-            <TextView
-                android:id="@+id/cancel"
-                style="@style/keyboard_button"
-                android:text="X"
-                android:background="@color/grayBlue"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <TextView
-                android:id="@+id/t9_key_clear"
-                style="@style/keyboard_button"
-                android:text="@string/btn_clear"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
             <ImageView
                 android:id="@+id/next-done"
                 style="@style/keyboard_button"
                 android:background="@color/colorPrimary"
                 android:src="@drawable/ic_navigate_next"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
 
         </TableRow>
+
+
     </TableLayout>
 </LinearLayout>

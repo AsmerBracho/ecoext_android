@@ -1,62 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#eeeeee">
 
+
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout3"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/income"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/background_gray_with_top_stroke"
+            android:padding="10dp"
+            android:textSize="20dp"
+            android:text="INCOME"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/outcome"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/background_graypluss_with_top_stroke"
+            android:padding="10dp"
+            android:textSize="20dp"
+            android:text="EXPENSE"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_marginTop="16dp"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent">-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/textView4"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginStart="50dp"-->
+            <!--android:text="Purse"-->
+            <!--android:textColor="@color/grayText"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toTopOf="parent" />-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="4dp"-->
+            <!--android:text="Select a Purse"-->
+            <!--android:textColor="@color/grayText"-->
+            <!--android:textSize="10dp"-->
+            <!--app:layout_constraintEnd_toEndOf="@+id/textView4"-->
+            <!--app:layout_constraintStart_toStartOf="@+id/textView4"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/textView4" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/selectCateg"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginEnd="50dp"-->
+            <!--android:text="Category"-->
+            <!--android:textColor="@color/grayText"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintTop_toTopOf="parent" />-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="4dp"-->
+            <!--android:text="Select a Category"-->
+            <!--android:textColor="@color/grayText"-->
+            <!--android:textSize="10dp"-->
+            <!--app:layout_constraintEnd_toEndOf="@+id/selectCateg"-->
+            <!--app:layout_constraintStart_toStartOf="@+id/selectCateg"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/selectCateg" />-->
+
+    <EditText
+        android:id="@+id/amount_field"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:autoSizeTextType="uniform"
+        android:background="#eeeeee"
+        android:enabled="false"
+        android:gravity="right|bottom"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="60dp"
+        app:layout_constraintBottom_toTopOf="@+id/toolbar2" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar2"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintBottom_toTopOf="@id/include"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:layout_marginBottom="-15dp">
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:text="Purse"
-            android:textColor="@color/grayText"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Select a Purse"
-            android:textColor="@color/grayText"
-            android:textSize="10dp"
-            app:layout_constraintEnd_toEndOf="@+id/textView4"
-            app:layout_constraintStart_toStartOf="@+id/textView4"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-        <TextView
-            android:id="@+id/selectCateg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="50dp"
-            android:text="Category"
-            android:textColor="@color/grayText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Select a Category"
-            android:textColor="@color/grayText"
-            android:textSize="10dp"
-            app:layout_constraintEnd_toEndOf="@+id/selectCateg"
-            app:layout_constraintStart_toStartOf="@+id/selectCateg"
-            app:layout_constraintTop_toBottomOf="@+id/selectCateg" />
-    </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.Toolbar>
 
     <include
+        android:id="@+id/include"
         layout="@layout/keyboard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
