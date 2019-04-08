@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#eeeeee">
+    android:background="@color/PaleGreen">
 
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout3"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@color/PaleGreen"/>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -25,7 +25,8 @@
             android:layout_weight="1"
             android:background="@drawable/background_gray_with_top_stroke"
             android:padding="10dp"
-            android:textSize="20dp"
+            android:textColor="#ffffff"
+            android:textSize="18dp"
             android:text="INCOME"
             android:textAlignment="center"/>
 
@@ -36,7 +37,8 @@
             android:layout_weight="1"
             android:background="@drawable/background_graypluss_with_top_stroke"
             android:padding="10dp"
-            android:textSize="20dp"
+            android:textColor="#ffffff"
+            android:textSize="18dp"
             android:text="EXPENSE"
             android:textAlignment="center" />
 
@@ -96,11 +98,12 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:autoSizeTextType="uniform"
-        android:background="#eeeeee"
+        android:background="@color/PaleGreen"
         android:enabled="false"
         android:gravity="right|bottom"
         android:padding="10dp"
         android:singleLine="true"
+        android:textColor="#ffffff"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textSize="60dp"
         app:layout_constraintBottom_toTopOf="@+id/toolbar2" />
