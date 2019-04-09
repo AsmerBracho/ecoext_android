@@ -1,0 +1,14 @@
+mutation addUser($first: String!, $last: String!, $gender: String!, $dob: Float!, $uid: String!, $email: String, $password: String!) {
+  addUser(
+    first_name: $first
+    last_name: $last
+    gender: $gender
+    dob: $dob
+    uid: $uid
+    email: $email
+    password: $password
+  )
+    {
+     account_id
+    }
+  }

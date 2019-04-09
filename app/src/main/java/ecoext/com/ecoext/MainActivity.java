@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity
             } else {
                 // Get the token from the Pi
                 final String token = result.getContents();
-                 //create a transaction
+                //create a transaction
                 final GetTransactionByTokenQuery.TransactionByToken[] transaction = new GetTransactionByTokenQuery.TransactionByToken[1];
                 //Create an Array of Items
                 final ArrayList<Item> listOfItems = new ArrayList<>();
@@ -234,9 +234,9 @@ public class MainActivity extends AppCompatActivity
                             // Add Transaction to Records
                             MyApolloClient.getMyApolloClient().mutate(
                                     AddTransactionToPurseMutation.builder()
-                                    .token(token)
-                                    .pid(purses.get(0).purse_id)
-                                    .build())
+                                            .token(token)
+                                            .pid(purses.get(0).purse_id)
+                                            .build())
                                     .enqueue(new ApolloCall.Callback<AddTransactionToPurseMutation.Data>() {
                                         @Override
                                         public void onResponse(@NotNull Response<AddTransactionToPurseMutation.Data> response) {
@@ -657,25 +657,70 @@ public class MainActivity extends AppCompatActivity
 
     private void getInfoDataBase() {
         purses.clear();
-        MyApolloClient.getMyApolloClient().query(
-                GetUserTransactionsQuery.builder().id(firebaseAuth.getCurrentUser().getUid())
-                        .build()).enqueue(new ApolloCall.Callback<GetUserTransactionsQuery.Data>() {
-            @Override
-            public void onResponse(@NotNull Response<GetUserTransactionsQuery.Data> response) {
-                for (int i = 0; i < response.data().user().size(); i++) {
-                    for (int j = 0; j < response.data().user().get(i).account().purse().size(); j++) {
-                        purses.add(new GetUserTransactionsQuery.Purse(
-                                "Purse + j",
-                                response.data().user().get(i).account().purse().get(j).purse_id(),
-                                response.data().user().get(i).account().purse().get(j).name(),
-                                response.data().user().get(i).account().purse().get(j).description(),
-                                response.data().user().get(i).account().purse().get(j).transaction()
-                        ));
-                    }
 
-                    // troubleshooting logs
-                    Log.d(TAG, "onResponse: " + purses.get(0).transaction().size());
-                    Log.d(TAG, "onResponse: " + purses.get(1).transaction().size());
+        final FirebaseUser user = firebaseAuth.getCurrentUser();
+
+        MyApolloClient.getMyApolloClient().query(
+                GetUserQuery.builder().id(user.getUid())
+                        .build()).enqueue(new ApolloCall.Callback<GetUserQuery.Data>() {
+            @Override
+            public void onResponse(@NotNull Response<GetUserQuery.Data> response) {
+                Log.d(TAG, "onResponseUser: " + response.data().user());
+
+                if (response.data().user().size() == 0) {
+                    // Create a new User
+                    Log.d(TAG, "onResponseUserInside: I am inside If");
+                    MyApolloClient.getMyApolloClient().mutate(
+                            AddUserMutation.builder()
+                                    .first(user.getDisplayName())
+                                    .last(user.getDisplayName())
+                                    .email(user.getEmail())
+                                    .uid(user.getUid())
+                                    .password("EcoExT")
+                                    .gender("m")
+                                    .dob(11111)
+                                    .build()).enqueue(new ApolloCall.Callback<AddUserMutation.Data>() {
+                        @Override
+                        public void onResponse(@NotNull Response<AddUserMutation.Data> response) {
+                            Log.d(TAG, "onResponseUserInside: DONE WRITING USER");
+
+                        }
+
+                        @Override
+                        public void onFailure(@NotNull ApolloException e) {
+
+                        }
+                    });
+
+                } else {
+                    // query the data and get user transactions
+                    MyApolloClient.getMyApolloClient().query(
+                            GetUserTransactionsQuery.builder().id(user.getUid())
+                                    .build()).enqueue(new ApolloCall.Callback<GetUserTransactionsQuery.Data>() {
+                        @Override
+                        public void onResponse(@NotNull Response<GetUserTransactionsQuery.Data> response) {
+                            for (int i = 0; i < response.data().user().size(); i++) {
+                                for (int j = 0; j < response.data().user().get(i).account().purse().size(); j++) {
+                                    purses.add(new GetUserTransactionsQuery.Purse(
+                                            "Purse + j",
+                                            response.data().user().get(i).account().purse().get(j).purse_id(),
+                                            response.data().user().get(i).account().purse().get(j).name(),
+                                            response.data().user().get(i).account().purse().get(j).description(),
+                                            response.data().user().get(i).account().purse().get(j).transaction()
+                                    ));
+                                }
+
+                                // troubleshooting logs
+                                //Log.d(TAG, "onResponse: " + purses.get(0).transaction().size());
+                                // Log.d(TAG, "onResponse: " + purses.get(1).transaction().size());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NotNull ApolloException e) {
+
+                        }
+                    });
                 }
             }
 
@@ -684,6 +729,8 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+
+
     }
 
 

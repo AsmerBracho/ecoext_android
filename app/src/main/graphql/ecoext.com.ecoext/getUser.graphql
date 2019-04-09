@@ -1,0 +1,8 @@
+  query getUser ($id: String) {
+  	user (user_id: $id){
+  	  account_id
+  	  email
+  	  password
+  	  user_id
+  	}
+  }
