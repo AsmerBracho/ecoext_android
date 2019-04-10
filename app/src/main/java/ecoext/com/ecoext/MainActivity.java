@@ -175,6 +175,7 @@ public class MainActivity extends AppCompatActivity
         isThereReceipt = i;
 
         if ("EcoExT".equals(isThereReceipt)) {
+            isThereReceipt = null;
             new AlertDialog.Builder(context)
                     .setTitle("TRANSACTION ADDED")
                     .setMessage("You have successfully added a new transaction")

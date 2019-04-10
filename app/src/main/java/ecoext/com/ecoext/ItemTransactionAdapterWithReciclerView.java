@@ -115,26 +115,33 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent showReceipt = new Intent(context, ReceiptActivity.class);
-                ArrayList<Item> listOfItems = new ArrayList<>();
-                for (int j = 0; j < transaction.items().size(); j++) {
-                    totalTax[0] += transaction.items().get(j).tax();
-                    listOfItems.add(new Item(
-                            transaction.items().get(j).transaction_id(),
-                            transaction.items().get(j).product(),
-                            transaction.items().get(j).price(),
-                            transaction.items().get(j).quantity(),
-                            transaction.items().get(j).tax()
-                    ));
+
+                if ("User-Input-EcoExT".equals(transaction.items().get(0).product())) {
+                    // Show No Receipt Available
+                    Intent goNoReceipt = new Intent(context, NoRecords.class);
+                    context.startActivity(goNoReceipt);
+                } else {
+                    Intent showReceipt = new Intent(context, ReceiptActivity.class);
+                    ArrayList<Item> listOfItems = new ArrayList<>();
+                    for (int j = 0; j < transaction.items().size(); j++) {
+                        totalTax[0] += transaction.items().get(j).tax();
+                        listOfItems.add(new Item(
+                                transaction.items().get(j).transaction_id(),
+                                transaction.items().get(j).product(),
+                                transaction.items().get(j).price(),
+                                transaction.items().get(j).quantity(),
+                                transaction.items().get(j).tax()
+                        ));
+                    }
+                    //put extras to pass to next activity and know with receipt are we currently clicking
+                    showReceipt.putParcelableArrayListExtra("listOfItems", listOfItems);
+                    showReceipt.putExtra("date", format.format(date));
+                    showReceipt.putExtra("number", transaction.transaction_id().toString());
+                    showReceipt.putExtra("total", finalTotal);
+                    showReceipt.putExtra("name", bLogo);
+                    showReceipt.putExtra("tax", (df.format(totalTax[0])));
+                    context.startActivity(showReceipt);
                 }
-                //put extras to pass to next activity and know with receipt are we currently clicking
-                showReceipt.putParcelableArrayListExtra("listOfItems", listOfItems);
-                showReceipt.putExtra("date", format.format(date));
-                showReceipt.putExtra("number", transaction.transaction_id().toString());
-                showReceipt.putExtra("total", finalTotal);
-                showReceipt.putExtra("name", bLogo);
-                showReceipt.putExtra("tax", (df.format(totalTax[0])));
-                context.startActivity(showReceipt);
             }
         });
 
