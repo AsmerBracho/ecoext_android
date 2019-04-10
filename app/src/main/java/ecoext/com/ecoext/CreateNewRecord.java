@@ -13,8 +13,11 @@ import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import static ecoext.com.ecoext.R.id.categotiesLayout;
 
@@ -22,18 +25,27 @@ import static ecoext.com.ecoext.R.id.categotiesLayout;
 public class CreateNewRecord extends AppCompatActivity implements View.OnClickListener {
 
     private EditText amountField = null;
-    Context context = this;
+    private Context context = this;
 
-    TextView income;
-    TextView outcome;
-    TextView selectCateg;
-    android.support.constraint.ConstraintLayout catLayout;
+    private TextView income;
+    private TextView outcome;
+    private android.support.constraint.ConstraintLayout catLayout;
+    private ImageView nextDone;
+
+
+    // Array of PursesNames
+    ArrayList<String> purses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_new_record);
         initViews();
+
+        // get the purse Names from previous activity
+        ArrayList<String> p = getIntent().getStringArrayListExtra("purseNames");
+        // set the purses
+        this.purses = new ArrayList<>(p);
 
         // get the field Cancel
         TextView cancel = findViewById(R.id.cancel);
@@ -63,8 +75,8 @@ public class CreateNewRecord extends AppCompatActivity implements View.OnClickLi
 
         income = findViewById(R.id.income);
         outcome = findViewById(R.id.outcome);
-        //selectCateg = findViewById(R.id.selectCateg);
         catLayout = findViewById(R.id.categotiesLayout);
+        nextDone = findViewById(R.id.next_button_done);
 
         income.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,15 +95,18 @@ public class CreateNewRecord extends AppCompatActivity implements View.OnClickLi
             }
         });
 
-//        selectCateg.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent categories = new Intent(getApplicationContext(), Categories.class);
-//                categories.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(categories);
-//            }
-//
-//        });
+        nextDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent addNameAndPurse = new Intent(getApplicationContext(), AddNameAndPurse.class);
+                addNameAndPurse.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                // Add Extras
+                addNameAndPurse.putStringArrayListExtra("purseNames", purses);
+                addNameAndPurse.putExtra("amount", amountField.getText().toString().trim());
+                startActivity(addNameAndPurse);
+
+            }
+        });
     }
 
     @Override

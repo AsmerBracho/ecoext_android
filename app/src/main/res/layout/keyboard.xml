@@ -193,7 +193,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <ImageView
-                android:id="@+id/next-done"
+                android:id="@+id/next_button_done"
                 style="@style/keyboard_button"
                 android:background="@color/colorPrimary"
                 android:src="@drawable/ic_navigate_next"

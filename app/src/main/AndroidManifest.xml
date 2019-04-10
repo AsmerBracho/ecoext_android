@@ -67,6 +67,9 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
         <activity android:name=".Categories" />
 
+        <activity android:name=".AddNameAndPurse"
+            android:parentActivityName=".CreateNewRecord"/>
+
     </application>
 
 </manifest>

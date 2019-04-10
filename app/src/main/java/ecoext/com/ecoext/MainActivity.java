@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity
 
     // Data Lists
     ArrayList<GetUserTransactionsQuery.Purse> purses = new ArrayList<>();
+    ArrayList<String> pursesNames = new ArrayList<>();
 
     // Validator for my Scan
     boolean validation = false;
@@ -645,14 +646,15 @@ public class MainActivity extends AppCompatActivity
                 Log.i(TAG, "onClick: fab two");
                 handleFabTwo();
                 break;
-
         }
     }
 
     private void handleFabOne() {
         Intent createNewRecords = new Intent(getApplicationContext(), CreateNewRecord.class);
         createNewRecords.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        createNewRecords.putStringArrayListExtra("purseNames", pursesNames);
         startActivity(createNewRecords);
+
     }
 
     private void getInfoDataBase() {
@@ -701,6 +703,9 @@ public class MainActivity extends AppCompatActivity
                         public void onResponse(@NotNull Response<GetUserTransactionsQuery.Data> response) {
                             for (int i = 0; i < response.data().user().size(); i++) {
                                 for (int j = 0; j < response.data().user().get(i).account().purse().size(); j++) {
+                                    // add PurseName to list of Purses String.
+                                    pursesNames.add(response.data().user().get(i).account().purse().get(j).name());
+
                                     purses.add(new GetUserTransactionsQuery.Purse(
                                             "Purse + j",
                                             response.data().user().get(i).account().purse().get(j).purse_id(),
