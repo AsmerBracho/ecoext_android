@@ -68,7 +68,11 @@
         <activity android:name=".Categories" />
 
         <activity android:name=".AddNameAndPurse"
+            android:theme="@style/Theme.AppCompat.Light"
             android:parentActivityName=".CreateNewRecord"/>
+
+        <activity android:name=".CustomLoader"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
     </application>
 

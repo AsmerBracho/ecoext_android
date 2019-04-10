@@ -1,0 +1,23 @@
+mutation addTransaction ($name: String!, $amount: Float!){
+  addTransaction(
+    label: $name
+    description: "N/A"
+    paymentInfo: {
+     ammount: 1.99
+      payment_type: "Debit Card"
+    }
+    socketInfo:{
+      ipv4: "666.666.666.666",
+      port: 666
+    }
+    items:
+     	 {product: "User-Input-EcoExT",
+        quantity: 1,
+        tax: 0,
+        price: $amount},
+
+
+  ) {
+   token_id
+  }
+}

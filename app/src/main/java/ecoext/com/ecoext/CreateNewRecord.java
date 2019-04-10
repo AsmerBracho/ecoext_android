@@ -24,6 +24,7 @@ import static ecoext.com.ecoext.R.id.categotiesLayout;
 
 public class CreateNewRecord extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = "CreateNewRecord";
     private EditText amountField = null;
     private Context context = this;
 
@@ -35,6 +36,7 @@ public class CreateNewRecord extends AppCompatActivity implements View.OnClickLi
 
     // Array of PursesNames
     ArrayList<String> purses;
+    ArrayList<Integer> purseId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +46,13 @@ public class CreateNewRecord extends AppCompatActivity implements View.OnClickLi
 
         // get the purse Names from previous activity
         ArrayList<String> p = getIntent().getStringArrayListExtra("purseNames");
+        ArrayList<Integer> pI = getIntent().getIntegerArrayListExtra("purseId");
+
         // set the purses
         this.purses = new ArrayList<>(p);
+        this.purseId = new ArrayList<>(pI);
+
+        Log.d(TAG, "giveMethePurseCreateNewRecord" + purses.size());
 
         // get the field Cancel
         TextView cancel = findViewById(R.id.cancel);
@@ -102,6 +109,7 @@ public class CreateNewRecord extends AppCompatActivity implements View.OnClickLi
                 addNameAndPurse.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 // Add Extras
                 addNameAndPurse.putStringArrayListExtra("purseNames", purses);
+                addNameAndPurse.putIntegerArrayListExtra("purseId", purseId);
                 addNameAndPurse.putExtra("amount", amountField.getText().toString().trim());
                 startActivity(addNameAndPurse);
 

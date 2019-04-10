@@ -98,9 +98,11 @@ public class MainActivity extends AppCompatActivity
     // Data Lists
     ArrayList<GetUserTransactionsQuery.Purse> purses = new ArrayList<>();
     ArrayList<String> pursesNames = new ArrayList<>();
+    ArrayList<Integer> purseId = new ArrayList<>();
 
     // Validator for my Scan
     boolean validation = false;
+    private String isThereReceipt;
     //*********************************************************************
 
     @Override
@@ -165,9 +167,26 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         };
-
         // Initiate the Fab Menu
         initFabMenu();
+
+        // get Extra from CreateReceipt if Exits
+        String i = getIntent().getStringExtra("newRecord");
+        isThereReceipt = i;
+
+        if ("EcoExT".equals(isThereReceipt)) {
+            new AlertDialog.Builder(context)
+                    .setTitle("TRANSACTION ADDED")
+                    .setMessage("You have successfully added a new transaction")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Dismiss
+                        }
+                    })
+                    .show();
+        }
+
 
     }
 
@@ -653,12 +672,14 @@ public class MainActivity extends AppCompatActivity
         Intent createNewRecords = new Intent(getApplicationContext(), CreateNewRecord.class);
         createNewRecords.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         createNewRecords.putStringArrayListExtra("purseNames", pursesNames);
+        createNewRecords.putIntegerArrayListExtra("purseId", purseId);
         startActivity(createNewRecords);
 
     }
 
     private void getInfoDataBase() {
         purses.clear();
+        pursesNames.clear();
 
         final FirebaseUser user = firebaseAuth.getCurrentUser();
 
@@ -705,7 +726,7 @@ public class MainActivity extends AppCompatActivity
                                 for (int j = 0; j < response.data().user().get(i).account().purse().size(); j++) {
                                     // add PurseName to list of Purses String.
                                     pursesNames.add(response.data().user().get(i).account().purse().get(j).name());
-
+                                    purseId.add(response.data().user().get(i).account().purse().get(j).purse_id());
                                     purses.add(new GetUserTransactionsQuery.Purse(
                                             "Purse + j",
                                             response.data().user().get(i).account().purse().get(j).purse_id(),
@@ -715,9 +736,6 @@ public class MainActivity extends AppCompatActivity
                                     ));
                                 }
 
-                                // troubleshooting logs
-                                //Log.d(TAG, "onResponse: " + purses.get(0).transaction().size());
-                                // Log.d(TAG, "onResponse: " + purses.get(1).transaction().size());
                             }
                         }
 

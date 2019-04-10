@@ -12,6 +12,7 @@
         app:cardMaxElevation="2dp"
         android:elevation="1dp"
         app:cardCornerRadius="15dp"
+        android:alpha="0.2"
         android:layout_centerInParent="true">
 
         <RelativeLayout
@@ -30,15 +31,19 @@
 
             <TextView
                 android:id="@+id/purse_name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/wallet"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="22dp"
+                android:layout_alignStart="@+id/wallet"
+                android:layout_alignEnd="@+id/wallet"
+                android:layout_marginStart="-1dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="-4dp"
                 android:autoSizeMaxTextSize="15sp"
                 android:autoSizeMinTextSize="8sp"
                 android:gravity="center"
                 android:text="Purse Name"
+                android:textAlignment="center"
                 android:textColor="#ffffff" />
 
         </RelativeLayout>
