@@ -32,7 +32,7 @@ public class CreateNewRecord extends AppCompatActivity implements View.OnClickLi
     private TextView outcome;
     private android.support.constraint.ConstraintLayout catLayout;
     private ImageView nextDone;
-
+    private TextView minusPluss;
 
     // Array of PursesNames
     ArrayList<String> purses;
@@ -80,6 +80,7 @@ public class CreateNewRecord extends AppCompatActivity implements View.OnClickLi
             }
         });
 
+        minusPluss = findViewById(R.id.minus_pluss);
         income = findViewById(R.id.income);
         outcome = findViewById(R.id.outcome);
         catLayout = findViewById(R.id.categotiesLayout);
@@ -90,7 +91,10 @@ public class CreateNewRecord extends AppCompatActivity implements View.OnClickLi
             public void onClick(View view) {
                 outcome.setBackground(context.getResources().getDrawable(R.drawable.background_gray_with_top_stroke));
                 income.setBackground(context.getResources().getDrawable(R.drawable.background_graypluss_with_top_stroke));
-
+                minusPluss.setText("+");
+                minusPluss.setTextSize(100);
+                income.setElevation(2);
+                outcome.setElevation(4);
             }
         });
 
@@ -99,6 +103,10 @@ public class CreateNewRecord extends AppCompatActivity implements View.OnClickLi
             public void onClick(View view) {
                 income.setBackground(context.getResources().getDrawable(R.drawable.background_gray_with_top_stroke));
                 outcome.setBackground(context.getResources().getDrawable(R.drawable.background_graypluss_with_top_stroke));
+                minusPluss.setText("-");
+                minusPluss.setTextSize(200);
+                income.setElevation(4);
+                outcome.setElevation(2);
             }
         });
 
@@ -106,7 +114,6 @@ public class CreateNewRecord extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onClick(View view) {
                 Intent addNameAndPurse = new Intent(getApplicationContext(), AddNameAndPurse.class);
-                addNameAndPurse.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 // Add Extras
                 addNameAndPurse.putStringArrayListExtra("purseNames", purses);
                 addNameAndPurse.putIntegerArrayListExtra("purseId", purseId);

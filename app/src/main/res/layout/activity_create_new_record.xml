@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/PaleGreen">
@@ -10,38 +11,74 @@
         android:id="@+id/constraintLayout3"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@color/PaleGreen"/>
+        android:background="@color/PaleGreen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar3"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout3"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Create Record"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:textColor="#ffffff"/>
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="2">
+        android:weightSum="2"
+        android:elevation="4dp">
+
 
         <TextView
+            android:elevation="4dp"
             android:id="@+id/income"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/background_gray_with_top_stroke"
             android:padding="10dp"
-            android:textColor="#ffffff"
-            android:textSize="18dp"
             android:text="INCOME"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="18dp" />
 
         <TextView
+            android:elevation="4dp"
             android:id="@+id/outcome"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/background_graypluss_with_top_stroke"
             android:padding="10dp"
-            android:textColor="#ffffff"
-            android:textSize="18dp"
             android:text="EXPENSE"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="18dp" />
 
+    </LinearLayout>
     </LinearLayout>
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="50dp"-->
@@ -96,6 +133,8 @@
         android:id="@+id/amount_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="70dp"
         android:layout_marginBottom="8dp"
         android:autoSizeTextType="uniform"
         android:background="@color/PaleGreen"
@@ -103,10 +142,41 @@
         android:gravity="right|bottom"
         android:padding="10dp"
         android:singleLine="true"
-        android:textColor="#ffffff"
         android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#ffffff"
         android:textSize="60dp"
-        app:layout_constraintBottom_toTopOf="@+id/toolbar2" />
+        app:layout_constraintBottom_toTopOf="@+id/toolbar2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="EUR"
+        android:textColor="#ffffff"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/toolbar2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/amount_field"
+        app:layout_constraintTop_toTopOf="@+id/amount_field"
+        app:layout_constraintVertical_bias="0.423" />
+
+    <TextView
+        android:id="@+id/minus_pluss"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:text="-"
+        android:textColor="#ffffff"
+        android:textSize="200dp"
+        app:layout_constraintBottom_toBottomOf="@+id/amount_field"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/amount_field" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar2"
