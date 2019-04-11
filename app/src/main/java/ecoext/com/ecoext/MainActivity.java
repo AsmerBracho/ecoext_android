@@ -2,7 +2,6 @@ package ecoext.com.ecoext;
 
 import android.animation.Animator;
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,9 +26,7 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.apollographql.apollo.ApolloCall;
-import com.apollographql.apollo.ApolloClient;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
 import com.bumptech.glide.Glide;
@@ -43,14 +40,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-
 import org.jetbrains.annotations.NotNull;
-
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.EventListener;
 
 import static java.lang.Thread.sleep;
 
@@ -187,8 +181,6 @@ public class MainActivity extends AppCompatActivity
                     })
                     .show();
         }
-
-
     }
 
     // onActivityResult we are going to manage the QRScanner actions
@@ -389,7 +381,6 @@ public class MainActivity extends AppCompatActivity
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
                     switch (item.getItemId()) {
                         case R.id.botton_home:
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,

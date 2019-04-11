@@ -1,7 +1,7 @@
 mutation addTransaction ($name: String!, $amount: Float!){
   addTransaction(
     label: $name
-    description: "N/A"
+    description: "User-Manual-Transaction"
     paymentInfo: {
      ammount: 1.99
       payment_type: "Debit Card"
