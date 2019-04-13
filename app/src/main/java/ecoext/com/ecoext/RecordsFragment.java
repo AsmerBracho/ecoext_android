@@ -20,6 +20,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -29,29 +30,32 @@ public class RecordsFragment extends Fragment {
      * Variables needed
      */
     private RecyclerView listOfRecords;
-    ItemTransactionAdapterWithReciclerView itemTransactionAdapterWithReciclerView;
+    private ItemTransactionAdapterWithReciclerView itemTransactionAdapterWithReciclerView;
     private static final String TAG = "RecordFradment";
+    private String currency = "€";
     //Variables for CalendarPicker
-    Calendar calendar;
-    DatePickerDialog datePickerDialog;
-    String dateForFilter = "";
+    private Calendar calendar;
+    private DatePickerDialog datePickerDialog;
+    private String dateForFilter = "";
 
-    TextView filterAccount;
-    TextView filterAccountClick;
-    TextView filterDate;
-    TextView filterDateClick;
+    private TextView filterAccount;
+    private TextView filterAccountClick;
+    private TextView filterDate;
+    private TextView filterDateClick;
 
-    TextView alertBackground;
-    TextView onFilters;
-    TextView onDate;
-    TextView onAccount;
-    ImageView cancelFilters;
+    private TextView alertBackground;
+    private TextView onFilters;
+    private TextView onDate;
+    private TextView onAccount;
+    private ImageView cancelFilters;
+    private TextView totalBalance;
 
     // array of purses
-    ArrayList<GetUserTransactionsQuery.Purse> purses;
+    private ArrayList<GetUserTransactionsQuery.Purse> purses;
 
     // array of transactions
-    ArrayList<GetUserTransactionsQuery.Transaction> transactions = new ArrayList<>();
+    private ArrayList<GetUserTransactionsQuery.Transaction> transactions = new ArrayList<>();
+    private double balance;
 
     public RecordsFragment() {
 
@@ -60,9 +64,16 @@ public class RecordsFragment extends Fragment {
     @SuppressLint("ValidFragment")
     public RecordsFragment(ArrayList<GetUserTransactionsQuery.Purse> purses) {
         this.purses = purses;
-
-        for (int i = 0; i < purses.size() ; i++) {
+        for (int i = 0; i < purses.size(); i++) {
             transactions.addAll(purses.get(i).transaction());
+        }
+
+        for (int j = 0; j < transactions.size(); j++) {
+            for (int k = 0; k < transactions.get(j).items().size(); k++) {
+                double temp = transactions.get(j).items().get(k).price()
+                        + transactions.get(j).items().get(k).tax();
+                balance += temp;
+            }
         }
     }
 
@@ -76,7 +87,7 @@ public class RecordsFragment extends Fragment {
         listOfRecords = view.findViewById(R.id.listOfRecords);
 
         // create an instance of my recycler view Adapter
-       itemTransactionAdapterWithReciclerView = new ItemTransactionAdapterWithReciclerView(
+        itemTransactionAdapterWithReciclerView = new ItemTransactionAdapterWithReciclerView(
                 this.getContext(), purses, transactions);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
@@ -99,7 +110,9 @@ public class RecordsFragment extends Fragment {
         onDate = view.findViewById(R.id.onDate);
         onAccount = view.findViewById(R.id.onAccount);
         cancelFilters = view.findViewById(R.id.cancelFilters);
-
+        totalBalance = view.findViewById(R.id.balance);
+        //set the balance
+        totalBalance.setText("Σ " + currency + Double.toString(balance));
         // clear the filters when running for first time
         setFilters(0);
 
@@ -132,15 +145,16 @@ public class RecordsFragment extends Fragment {
 
     /**
      * Handle the filter in the action search menu
+     *
      * @param menu
      * @param inflater
      */
 
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater ) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.filter_menu, menu);
-        super.onCreateOptionsMenu(menu,inflater);
+        super.onCreateOptionsMenu(menu, inflater);
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
         android.support.v7.widget.SearchView searchView = (android.support.v7.widget.SearchView) searchItem.getActionView();
@@ -156,8 +170,8 @@ public class RecordsFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-               itemTransactionAdapterWithReciclerView.getFilter().filter(newText);
-               return false;
+                itemTransactionAdapterWithReciclerView.getFilter().filter(newText);
+                return false;
             }
         });
 
@@ -177,7 +191,7 @@ public class RecordsFragment extends Fragment {
                 filterDate.setText(dateForFilter);
                 onDate.setText(dateForFilter);
 
-                Log.d(TAG, "giveMeDate: " +dateForFilter);
+                Log.d(TAG, "giveMeDate: " + dateForFilter);
 
                 // apply filter for date
                 itemTransactionAdapterWithReciclerView.getFilter().filter(dateForFilter);
@@ -195,7 +209,7 @@ public class RecordsFragment extends Fragment {
             onFilters.setVisibility(View.VISIBLE);
             onDate.setVisibility(View.VISIBLE);
             onAccount.setVisibility(View.VISIBLE);
-        // 0 if we want to hide
+            // 0 if we want to hide
         } else {
             filterAccount.setText("");
             // clear field that contains date filter
