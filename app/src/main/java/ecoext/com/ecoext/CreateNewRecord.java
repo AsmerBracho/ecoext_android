@@ -33,6 +33,7 @@ public class CreateNewRecord extends AppCompatActivity implements View.OnClickLi
     private android.support.constraint.ConstraintLayout catLayout;
     private ImageView nextDone;
     private TextView minusPluss;
+    private boolean minus = true;
 
     // Array of PursesNames
     ArrayList<String> purses;
@@ -95,6 +96,7 @@ public class CreateNewRecord extends AppCompatActivity implements View.OnClickLi
                 minusPluss.setTextSize(100);
                 income.setElevation(2);
                 outcome.setElevation(4);
+                minus = false;
             }
         });
 
@@ -107,6 +109,7 @@ public class CreateNewRecord extends AppCompatActivity implements View.OnClickLi
                 minusPluss.setTextSize(200);
                 income.setElevation(4);
                 outcome.setElevation(2);
+                minus = true;
             }
         });
 
@@ -117,7 +120,13 @@ public class CreateNewRecord extends AppCompatActivity implements View.OnClickLi
                 // Add Extras
                 addNameAndPurse.putStringArrayListExtra("purseNames", purses);
                 addNameAndPurse.putIntegerArrayListExtra("purseId", purseId);
-                addNameAndPurse.putExtra("amount", amountField.getText().toString().trim());
+                String amountToPass;
+                if (minus) {
+                    amountToPass = "-" + amountField.getText().toString().trim();
+                } else {
+                    amountToPass = amountField.getText().toString().trim();
+                }
+                addNameAndPurse.putExtra("amount", amountToPass);
                 startActivity(addNameAndPurse);
 
             }

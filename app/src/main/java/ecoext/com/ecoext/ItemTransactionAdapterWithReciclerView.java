@@ -2,6 +2,7 @@ package ecoext.com.ecoext;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -107,7 +108,12 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
         for (int i = 0; i < transaction.items().size(); i++) {
             total += transaction.items().get(i).price() * transaction.items().get(i).quantity();
         }
+
         holder.priceTextView.setText(currance + df.format(total));
+        // Set Color Amount accordingly
+        if (Double.toString(total).contains("-") == false) {
+            holder.priceTextView.setTextColor(Color.parseColor("#32bf1f"));
+        }
 
         // to be pass as extra
         final String finalTotal = df.format(total);
