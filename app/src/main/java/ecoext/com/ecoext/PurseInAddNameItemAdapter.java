@@ -24,7 +24,7 @@ public class PurseInAddNameItemAdapter extends RecyclerView.Adapter<PurseInAddNa
     int selected_position = RecyclerView.NO_POSITION;
 
     public PurseInAddNameItemAdapter(Context context, AddNameAndPurse c, ArrayList<String> purses,
-    ArrayList<Integer> purseId) {
+                                     ArrayList<Integer> purseId) {
         this.purses = purses;
         this.purseId = purseId;
         this.context = context;
@@ -44,14 +44,9 @@ public class PurseInAddNameItemAdapter extends RecyclerView.Adapter<PurseInAddNa
         holder.purseName.setText(purses.get(position));
         // Set Color
         String name = String.valueOf(purses.get(position).charAt(0)).toUpperCase();
-        if (("A").equals(name) || ("B").equals(name) || ("C").equals(name) || ("D").equals(name) || ("E").equals(name) || ("P").equals(name)) {
-            holder.purseBackground.setBackgroundColor(Color.parseColor("#355ee4"));
-        } else if (("F").equals(name) || ("G").equals(name) || ("H").equals(name) || ("I").equals(name) || ("K").equals(name) || ("Z").equals(name)) {
-            holder.purseBackground.setBackgroundColor(Color.parseColor("#e49c35"));
-        } else {
-            holder.purseBackground.setBackgroundColor(Color.parseColor("#35e45e"));
-        }
+        holder.purseBackground.setBackgroundColor(Color.parseColor(Utilities.setPurseColor(name)));
 
+        // set alpha
         if (selected_position == position) {
             holder.parent.setAlpha(1);
         } else {

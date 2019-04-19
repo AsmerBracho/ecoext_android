@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
@@ -67,10 +68,12 @@ public class MainActivity extends AppCompatActivity
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
 
     // Values used for given round corners to images
-    public static int sCorner = 50;
-    public static int sMargin = 1;
+    private static int sCorner = 50;
+    private static int sMargin = 1;
+    public static int getsCorner() { return sCorner; }
+    public static int getsMargin() { return sMargin; }
 
-    IntentIntegrator integrator;
+    private IntentIntegrator integrator;
 
     //create a progress Dialog
     private ProgressDialog progressDialog;
@@ -79,24 +82,26 @@ public class MainActivity extends AppCompatActivity
      * and 2 submenus
      */
 
-    FloatingActionButton fabMain;
-    FloatingActionButton fabOne;
-    FloatingActionButton fabTwo;
-    TextView labelQR;
-    TextView labelCreate;
-    Float translationY = 100f;
-    OvershootInterpolator interpolator = new OvershootInterpolator();
+    private FloatingActionButton fabMain;
+    private FloatingActionButton fabOne;
+    private FloatingActionButton fabTwo;
+    private TextView labelQR;
+    private TextView labelCreate;
+    private Float translationY = 100f;
+    private OvershootInterpolator interpolator = new OvershootInterpolator();
     private static final String TAG = "MainActivity";
-    Boolean isMenuOpen = false;
+    private Boolean isMenuOpen = false;
 
     // Data Lists
-    ArrayList<GetUserTransactionsQuery.Purse> purses = new ArrayList<>();
-    ArrayList<String> pursesNames = new ArrayList<>();
-    ArrayList<Integer> purseId = new ArrayList<>();
+    private ArrayList<GetUserTransactionsQuery.Purse> purses = new ArrayList<>();
+    private ArrayList<String> pursesNames = new ArrayList<>();
+    private ArrayList<Integer> purseId = new ArrayList<>();
 
     // Validator for my Scan
-    boolean validation = false;
+    private  boolean validation;
     private String isThereReceipt;
+
+    private String loadInfo;
     //*********************************************************************
 
     @Override
@@ -125,7 +130,7 @@ public class MainActivity extends AppCompatActivity
         // Start Application in the MainActivity Page
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new HomeFragment()).commit();
+                    new LoaderHomeFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
         }
 
@@ -155,7 +160,6 @@ public class MainActivity extends AppCompatActivity
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     setUserData(user);
-                    getInfoDataBase();
                 } else {
                     goRegisterScreen();
                 }
@@ -163,10 +167,19 @@ public class MainActivity extends AppCompatActivity
         };
         // Initiate the Fab Menu
         initFabMenu();
+        // Dissable fabTwo
+        fabTwo.setClickable(false);
 
         // get Extra from CreateReceipt if Exits
         String i = getIntent().getStringExtra("newRecord");
         isThereReceipt = i;
+
+        // get extra from Register
+        loadInfo = getIntent().getStringExtra("loadInfo");
+        if ("LOADINFO".equals(loadInfo)) {
+            getInfoDataBase();
+            loadInfo = null;
+        }
 
         if ("EcoExT".equals(isThereReceipt)) {
             isThereReceipt = null;
@@ -199,6 +212,52 @@ public class MainActivity extends AppCompatActivity
                 final ArrayList<Item> listOfItems = new ArrayList<>();
                 // create Intent to sent info to receipt
                 final Intent showReceipt = new Intent(getApplicationContext(), ReceiptActivity.class);
+
+                final Runnable progressRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+
+                        if (validation) {
+                            // showed OK
+//                            getInfoDataBase();
+                            progressDialog.dismiss();
+                            new AlertDialog.Builder(context)
+                                    .setTitle("RECEIPT SCANNED")
+                                    .setMessage("You have successfully scanned your receipt")
+                                    .setPositiveButton("SEE RECEIPT", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            // start Intent
+                                            getApplicationContext().startActivity(showReceipt);
+                                        }
+                                    })
+                                    .setNegativeButton("EXIT", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Log.d("MainActivity", "Aborting...");
+                                        }
+                                    })
+                                    .show();
+
+                        } else {
+                            progressDialog.dismiss();
+                            new AlertDialog.Builder(context, R.style.CustomDialogTheme)
+                                    .setTitle("WRONG QR CODE")
+                                    .setMessage("This is not a valid EcoExT QR Code, please SCAN a VALID code")
+                                    .setPositiveButton("SCAN", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            integrator.initiateScan();
+                                        }
+                                    })
+                                    .show();
+                        }
+                    }
+                };
+
+                progressDialog.setTitle("EcoExTing");
+                progressDialog.setMessage("Please wait while we retrieve your Receipt...");
+                progressDialog.show();
 
                 // Query DataBase
                 MyApolloClient.getMyApolloClient().query(GetTransactionByTokenQuery.builder().
@@ -253,7 +312,8 @@ public class MainActivity extends AppCompatActivity
                                     .enqueue(new ApolloCall.Callback<AddTransactionToPurseMutation.Data>() {
                                         @Override
                                         public void onResponse(@NotNull Response<AddTransactionToPurseMutation.Data> response) {
-                                            getInfoDataBase();
+                                            Handler pdCanceller = new Handler(Looper.getMainLooper());
+                                            pdCanceller.postDelayed(progressRunnable, 1000);
                                         }
 
                                         @Override
@@ -264,6 +324,8 @@ public class MainActivity extends AppCompatActivity
 
                         } else {
                             validation = false;
+                            Handler pdCanceller = new Handler(Looper.getMainLooper());
+                            pdCanceller.postDelayed(progressRunnable, 1000);
                             Log.d(TAG, "onScannedQRValidation: " + validation);
                         }
                     }
@@ -274,61 +336,57 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
 
-                progressDialog.setTitle("EcoExTing");
-                progressDialog.setMessage("Please wait while we retrieve your Receipt...");
-                progressDialog.show();
-
                 // Validate Results
 
-                Runnable progressRunnable = new Runnable() {
+//                Runnable progressRunnable = new Runnable() {
+//
+//                    @Override
+//                    public void run() {
+//                        try {
+//                            sleep(1000);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                        if (validation) {
+//                            // showed OK
+//                            progressDialog.dismiss();
+//                            new AlertDialog.Builder(context)
+//                                    .setTitle("RECEIPT SCANNED")
+//                                    .setMessage("You have successfully scanned your receipt")
+//                                    .setPositiveButton("SEE RECEIPT", new DialogInterface.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(DialogInterface dialog, int which) {
+//                                            // start Intent
+//                                            getApplicationContext().startActivity(showReceipt);
+//                                        }
+//                                    })
+//                                    .setNegativeButton("EXIT", new DialogInterface.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(DialogInterface dialog, int which) {
+//                                            Log.d("MainActivity", "Aborting...");
+//                                        }
+//                                    })
+//                                    .show();
+//
+//                        } else {
+//                            progressDialog.dismiss();
+//                            new AlertDialog.Builder(context, R.style.CustomDialogTheme)
+//                                    .setTitle("WRONG QR CODE")
+//                                    .setMessage("This is not a valid EcoExT QR Code, please SCAN a VALID code")
+//                                    .setPositiveButton("SCAN", new DialogInterface.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(DialogInterface dialog, int which) {
+//                                            integrator.initiateScan();
+//                                        }
+//                                    })
+//                                    .show();
+//                        }
+//                    }
+//                };
 
-                    @Override
-                    public void run() {
-                        try {
-                            sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
-                        if (validation) {
-                            // showed OK
-                            progressDialog.dismiss();
-                            new AlertDialog.Builder(context)
-                                    .setTitle("RECEIPT SCANNED")
-                                    .setMessage("You have successfully scanned your receipt")
-                                    .setPositiveButton("SEE RECEIPT", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            // start Intent
-                                            getApplicationContext().startActivity(showReceipt);
-                                        }
-                                    })
-                                    .setNegativeButton("EXIT", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Log.d("MainActivity", "Aborting...");
-                                        }
-                                    })
-                                    .show();
-
-                        } else {
-                            progressDialog.dismiss();
-                            new AlertDialog.Builder(context, R.style.CustomDialogTheme)
-                                    .setTitle("WRONG QR CODE")
-                                    .setMessage("This is not a valid EcoExT QR Code, please SCAN a VALID code")
-                                    .setPositiveButton("SCAN", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            integrator.initiateScan();
-                                        }
-                                    })
-                                    .show();
-                        }
-                    }
-                };
-
-                Handler pdCanceller = new Handler();
-                pdCanceller.postDelayed(progressRunnable, 1000);
+//                Handler pdCanceller = new Handler();
+//                pdCanceller.postDelayed(progressRunnable, 1000);
 
                 //Close favMenu after Scanning
                 closeMenu();
@@ -341,7 +399,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         //check if drawer is closed if not close it
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
             //close fab menu
@@ -384,7 +442,7 @@ public class MainActivity extends AppCompatActivity
                     switch (item.getItemId()) {
                         case R.id.botton_home:
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                    new HomeFragment()).commit();
+                                    new HomeFragment(purses)).commit();
                             break;
                         case R.id.bottom_records:
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -417,7 +475,7 @@ public class MainActivity extends AppCompatActivity
                     new NotificationsFragment()).commit();
         } else if (id == R.id.nav_home) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new HomeFragment()).commit();
+                    new HomeFragment(purses)).commit();
         } else if (id == R.id.logout) {
             logout();
         }
@@ -541,6 +599,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void openMenu() {
+        fabTwo.setClickable(true);
         isMenuOpen = !isMenuOpen;
 
         fabMain.animate().setInterpolator(interpolator).rotation(45f).setDuration(300).start();
@@ -567,6 +626,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void closeMenu() {
+        fabTwo.setClickable(false);
         isMenuOpen = !isMenuOpen;
 
         fabMain.animate().setInterpolator(interpolator).rotation(0f).setDuration(300).start();
@@ -727,8 +787,10 @@ public class MainActivity extends AppCompatActivity
                                             response.data().user().get(i).account().purse().get(j).transaction()
                                     ));
                                 }
-
                             }
+                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                                    new HomeFragment(purses)).commit();
+
                         }
 
                         @Override
