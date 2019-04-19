@@ -122,10 +122,17 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
                     Intent goNoReceipt = new Intent(context, NoRecords.class);
                     context.startActivity(goNoReceipt);
                 } else {
+                    double tax = 0;
+                    totalTax[0] = 0;
                     Intent showReceipt = new Intent(context, ReceiptActivity.class);
                     ArrayList<Item> listOfItems = new ArrayList<>();
                     for (int j = 0; j < transaction.items().size(); j++) {
-                        totalTax[0] += transaction.items().get(j).tax();
+
+                         tax = (transaction.items().get(j).quantity()
+                                *transaction.items().get(j).price()
+                                *transaction.items().get(j).tax())/100;
+
+                        totalTax[0] += tax;
                         listOfItems.add(new Item(
                                 transaction.items().get(j).transaction_id(),
                                 transaction.items().get(j).product(),

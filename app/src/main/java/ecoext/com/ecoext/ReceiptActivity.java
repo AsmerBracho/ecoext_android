@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class ReceiptActivity extends AppCompatActivity {
@@ -26,6 +27,7 @@ public class ReceiptActivity extends AppCompatActivity {
 
     ArrayList<Item> items;
     private String currance = "€";
+    DecimalFormat df = new DecimalFormat("0.00");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,16 +54,18 @@ public class ReceiptActivity extends AppCompatActivity {
         String bL = getIntent().getStringExtra("name");
         String taX = getIntent().getStringExtra("tax");
 
+
         //set the views
         name.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
         email.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-        subTotal.setText(currance + t);
-        double tot = Double.parseDouble(t) + Double.parseDouble(taX);
-        total.setText(currance + Double.toString(tot));
+        total.setText(currance + df.format(Math.abs(Double.parseDouble(t))));
         date.setText(dat);
         bLogo.setText(bL);
-        tax.setText(currance + taX);
-        headerTotal.setText(currance + Double.toString(tot));
+
+        tax.setText(currance + df.format(Math.abs(Double.parseDouble(taX))));
+        double subtot = Math.abs(Double.parseDouble(t) - Double.parseDouble(taX));
+        subTotal.setText(currance + df.format(Math.abs(subtot)));
+        headerTotal.setText(currance + df.format(Math.abs(Double.parseDouble(t))));
 
         // add leading zeros to receipt number
         String formatted = String.format("%05d", Integer.parseInt(num));

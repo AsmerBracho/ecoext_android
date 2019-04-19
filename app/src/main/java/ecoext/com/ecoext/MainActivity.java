@@ -176,10 +176,13 @@ public class MainActivity extends AppCompatActivity
 
         // get extra from Register
         loadInfo = getIntent().getStringExtra("loadInfo");
-        if ("LOADINFO".equals(loadInfo)) {
+//        if ("LOADINFO".equals(loadInfo)) {
             getInfoDataBase();
-            loadInfo = null;
-        }
+//            loadInfo = null;
+//        } else {
+//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+//                    new HomeFragment(purses)).commit();
+//        }
 
         if ("EcoExT".equals(isThereReceipt)) {
             isThereReceipt = null;
@@ -216,7 +219,6 @@ public class MainActivity extends AppCompatActivity
                 final Runnable progressRunnable = new Runnable() {
                     @Override
                     public void run() {
-
                         if (validation) {
                             // showed OK
 //                            getInfoDataBase();
@@ -227,6 +229,7 @@ public class MainActivity extends AppCompatActivity
                                     .setPositiveButton("SEE RECEIPT", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
+                                            getInfoDataBase();
                                             // start Intent
                                             getApplicationContext().startActivity(showReceipt);
                                         }
@@ -234,6 +237,7 @@ public class MainActivity extends AppCompatActivity
                                     .setNegativeButton("EXIT", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
+                                            getInfoDataBase();
                                             Log.d("MainActivity", "Aborting...");
                                         }
                                     })
@@ -286,7 +290,12 @@ public class MainActivity extends AppCompatActivity
                             DecimalFormat df = new DecimalFormat(".##");
                             final String finalTotal = df.format(total);
                             for (int j = 0; j < transaction[0].items().size(); j++) {
-                                totalTax[0] += transaction[0].items().get(j).tax();
+
+                                double tax = (transaction[0].items().get(j).quantity()
+                                        *transaction[0].items().get(j).price()
+                                        *transaction[0].items().get(j).tax())/100;
+
+                                totalTax[0] += tax;
                                 listOfItems.add(new Item(
                                         transaction[0].items().get(j).transaction_id(),
                                         transaction[0].items().get(j).product(),
@@ -758,7 +767,7 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void onResponse(@NotNull Response<AddUserMutation.Data> response) {
                             Log.d(TAG, "onResponseUserInside: DONE WRITING USER");
-
+                            getInfoDataBase();
                         }
 
                         @Override

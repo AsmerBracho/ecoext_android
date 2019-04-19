@@ -70,13 +70,13 @@ public class ItemReceiptAdapter extends BaseAdapter {
 
         viewHolder.qty.setText(Integer.toString(listOfItems.get(position).getQuantity()));
         viewHolder.description.setText(listOfItems.get(position).getName());
-        viewHolder.unitPrice.setText(currance + listOfItems.get(position).getPrice());
+        viewHolder.unitPrice.setText(currance + Math.abs(listOfItems.get(position).getPrice()));
         // if there is not more that 1 item don't show the unit price
         if (listOfItems.get(position).getQuantity() == 1) {
             viewHolder.unitPrice.setVisibility(View.GONE);
         }
-        double total = (listOfItems.get(position).getQuantity())
-                *listOfItems.get(position).getPrice();
+        double total = Math.abs((listOfItems.get(position).getQuantity())
+                *listOfItems.get(position).getPrice());
 
         viewHolder.totalPrice.setText(currance + df.format(total));
 

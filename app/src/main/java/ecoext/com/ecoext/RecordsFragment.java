@@ -21,6 +21,7 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -56,6 +57,7 @@ public class RecordsFragment extends Fragment {
     // array of transactions
     private ArrayList<GetUserTransactionsQuery.Transaction> transactions = new ArrayList<>();
     private double balance;
+    DecimalFormat df = new DecimalFormat("0.00");
 
     public RecordsFragment() {
 
@@ -71,7 +73,7 @@ public class RecordsFragment extends Fragment {
         for (int j = 0; j < transactions.size(); j++) {
             for (int k = 0; k < transactions.get(j).items().size(); k++) {
                 double temp = transactions.get(j).items().get(k).price()
-                        + transactions.get(j).items().get(k).tax();
+                        *transactions.get(j).items().get(k).quantity();
                 balance += temp;
             }
         }
@@ -112,7 +114,7 @@ public class RecordsFragment extends Fragment {
         cancelFilters = view.findViewById(R.id.cancelFilters);
         totalBalance = view.findViewById(R.id.balance);
         //set the balance
-        totalBalance.setText("Σ " + currency + Double.toString(balance));
+        totalBalance.setText("Σ " + currency + df.format(balance));
         // clear the filters when running for first time
         setFilters(0);
 
@@ -187,7 +189,11 @@ public class RecordsFragment extends Fragment {
             @Override
             public void onDateSet(DatePicker datePicker, int mDay, int mMonth, int mYear) {
                 mMonth = mMonth + 1;
-                dateForFilter = mYear + "/" + mMonth + "/" + mDay;
+                String monther = Integer.toString(mMonth);
+                if (monther.length() == 1) {
+                    monther = "0" + monther;
+                }
+                dateForFilter = mYear + "/" + monther + "/" + mDay;
                 filterDate.setText(dateForFilter);
                 onDate.setText(dateForFilter);
 

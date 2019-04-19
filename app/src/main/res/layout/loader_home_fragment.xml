@@ -7,10 +7,35 @@
     android:layout_height="match_parent">
 
 
+    <!--<ProgressBar-->
+        <!--android:id="@+id/progressBar2"-->
+        <!--android:layout_width="50dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_marginStart="8dp"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:layout_marginBottom="8dp"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
+        <!--app:layout_constraintVertical_bias="0.429" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/home_fragment_progrees_bar"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="8dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:text="Loading..."-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/progressBar2" />-->
+
     <ProgressBar
-        android:id="@+id/progressBar2"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:id="@+id/progressBar23"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -18,17 +43,32 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.429" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="60dp"
+        android:layout_height="45dp"
+        android:src="@drawable/logo"
+        app:layout_constraintBottom_toBottomOf="@+id/progressBar23"
+        app:layout_constraintEnd_toEndOf="@+id/progressBar23"
+        app:layout_constraintStart_toStartOf="@+id/progressBar23"
+        app:layout_constraintTop_toTopOf="@+id/progressBar23" />
 
     <TextView
-        android:id="@+id/home_fragment_progrees_bar"
+        android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="8dp"
-        android:text="Loading..."
+        android:layout_marginBottom="8dp"
+        android:text="EcoExTing..."
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar2" />
+        app:layout_constraintTop_toBottomOf="@+id/progressBar23"
+        app:layout_constraintVertical_bias="0.056" />
 </android.support.constraint.ConstraintLayout>

@@ -87,7 +87,6 @@ public class AddNameAndPurse extends AppCompatActivity {
 
     private boolean validateName() {
         String input = inputTransactionName.getEditText().getText().toString().trim();
-
         if (input.isEmpty()) {
             inputTransactionName.setError("Field can't be empty");
             return false;
