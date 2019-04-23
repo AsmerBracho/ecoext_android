@@ -114,7 +114,7 @@ public class RecordsFragment extends Fragment {
         cancelFilters = view.findViewById(R.id.cancelFilters);
         totalBalance = view.findViewById(R.id.balance);
         //set the balance
-        totalBalance.setText("Σ " + currency + df.format(balance));
+        totalBalance.setText(currency + df.format(balance));
         // clear the filters when running for first time
         setFilters(0);
 

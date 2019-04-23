@@ -57,7 +57,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
 
     // Pie Chart
-    implementation 'com.github.PhilJay:MPAndroidChart:v2.2.4'
+    implementation 'com.github.PhilJay:MPAndroidChart:v2.1.6'
 }
 
 apply plugin: 'com.google.gms.google-services'
