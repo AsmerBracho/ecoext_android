@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<GetUserTransactionsQuery.Purse> purses = new ArrayList<>();
     private ArrayList<String> pursesNames = new ArrayList<>();
     private ArrayList<Integer> purseId = new ArrayList<>();
+    private ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> userTransactions = new ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction>();
 
     // Validator for my Scan
     private  boolean validation;
@@ -343,60 +344,6 @@ public class MainActivity extends AppCompatActivity
 
                     }
                 });
-
-                // Validate Results
-
-//                Runnable progressRunnable = new Runnable() {
-//
-//                    @Override
-//                    public void run() {
-//                        try {
-//                            sleep(1000);
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        }
-//
-//                        if (validation) {
-//                            // showed OK
-//                            progressDialog.dismiss();
-//                            new AlertDialog.Builder(context)
-//                                    .setTitle("RECEIPT SCANNED")
-//                                    .setMessage("You have successfully scanned your receipt")
-//                                    .setPositiveButton("SEE RECEIPT", new DialogInterface.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(DialogInterface dialog, int which) {
-//                                            // start Intent
-//                                            getApplicationContext().startActivity(showReceipt);
-//                                        }
-//                                    })
-//                                    .setNegativeButton("EXIT", new DialogInterface.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(DialogInterface dialog, int which) {
-//                                            Log.d("MainActivity", "Aborting...");
-//                                        }
-//                                    })
-//                                    .show();
-//
-//                        } else {
-//                            progressDialog.dismiss();
-//                            new AlertDialog.Builder(context, R.style.CustomDialogTheme)
-//                                    .setTitle("WRONG QR CODE")
-//                                    .setMessage("This is not a valid EcoExT QR Code, please SCAN a VALID code")
-//                                    .setPositiveButton("SCAN", new DialogInterface.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(DialogInterface dialog, int which) {
-//                                            integrator.initiateScan();
-//                                        }
-//                                    })
-//                                    .show();
-//                        }
-//                    }
-//                };
-
-//                Handler pdCanceller = new Handler();
-//                pdCanceller.postDelayed(progressRunnable, 1000);
-
-                //Close favMenu after Scanning
                 closeMenu();
             }
         } else {
@@ -738,8 +685,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void getInfoDataBase() {
+        // Clean the Data
         purses.clear();
         pursesNames.clear();
+        userTransactions.clear();
 
         final FirebaseUser user = firebaseAuth.getCurrentUser();
 
@@ -753,6 +702,8 @@ public class MainActivity extends AppCompatActivity
                 if (response.data().user().size() == 0) {
                     // Create a new User
                     Log.d(TAG, "onResponseUserInside: I am inside If");
+
+                    // Create an User
                     MyApolloClient.getMyApolloClient().mutate(
                             AddUserMutation.builder()
                                     .first(user.getDisplayName())
@@ -776,6 +727,23 @@ public class MainActivity extends AppCompatActivity
                     });
 
                 } else {
+
+                    // Get User Transaction Order By Date
+                    MyApolloClient.getMyApolloClient().query(
+                            GetAllUserTransactionsOrderByDateQuery.builder().user_id(user.getUid())
+                            .build()).enqueue(new ApolloCall.Callback<GetAllUserTransactionsOrderByDateQuery.Data>() {
+                        @Override
+                        public void onResponse(@NotNull Response<GetAllUserTransactionsOrderByDateQuery.Data> response) {
+                            userTransactions.addAll(response.data().userTransactions());
+                        }
+
+                        @Override
+                        public void onFailure(@NotNull ApolloException e) {
+
+                        }
+                    });
+
+
                     // query the data and get user transactions
                     MyApolloClient.getMyApolloClient().query(
                             GetUserTransactionsQuery.builder().id(user.getUid())

@@ -1,0 +1,30 @@
+query getAllUserTransactionsOrderByDate ($user_id: String) {
+  userTransactions (user_id: $user_id) {
+    transaction_id
+    purse_id
+    date
+    label
+    description
+    token_id
+    items {
+      transaction_id
+      product
+      price
+      quantity
+      tax
+    }
+    purses {
+      purse_id
+      name
+      description
+    }
+  establishment {
+    establishment_id
+    name
+    image
+    address
+    lat
+    lon
+  }
+  }
+}
