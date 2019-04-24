@@ -6,7 +6,7 @@ import okhttp3.OkHttpClient;
 
 public class MyApolloClient {
 
-    private static final String BASE_URL = "http://10.200.15.231:8888/api";
+    private static final String BASE_URL = "http://192.168.43.32:8888/api";
     private static ApolloClient myApolloClient;
 
     public static ApolloClient getMyApolloClient() {

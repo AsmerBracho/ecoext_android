@@ -60,6 +60,7 @@
                 </android.support.v7.widget.RecyclerView>
 
                 <LinearLayout
+                    android:id="@+id/create_new_purse_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -108,11 +109,19 @@
                 android:layout_marginTop="10dp"
                 android:text="Latest Records" />
 
+            <TextView
+                android:id="@+id/text_not_found"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No Records Found"
+                android:layout_marginTop="30dp"
+                android:layout_gravity="top|center"/>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/home_latest_records"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="50dp"
                 android:layout_marginBottom="16dp"
                 android:orientation="vertical"
                 />

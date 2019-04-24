@@ -1,6 +1,7 @@
 package ecoext.com.ecoext;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +12,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -31,8 +34,10 @@ public class HomeFragment extends Fragment {
     private ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> userTransactions;
     private RecyclerView listOfPurses;
     private RecyclerView latestsRecords;
+    private LinearLayout createPurseButton;
     private ItemTransactionAdapterWithReciclerView latestRecordAdapter;
-    private int intLatest = 3;
+    private int intLatest;
+    private int latestSize = 3;
 
     public HomeFragment() {
 
@@ -55,6 +60,18 @@ public class HomeFragment extends Fragment {
 
         // get a list with the latest records to pass to the adapter
         ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> latest = new ArrayList<>();
+
+        if (userTransactions.size() < latestSize) {
+            intLatest = userTransactions.size();
+        } else {
+            intLatest = latestSize;
+        }
+
+        if (intLatest !=0) {
+            TextView notFound = view.findViewById(R.id.text_not_found);
+            notFound.setVisibility(View.GONE);
+        }
+
         for (int i = 0; i < intLatest ; i++) {
             latest.add(userTransactions.get(i));
         }
@@ -64,6 +81,15 @@ public class HomeFragment extends Fragment {
 
         barChart(view);
         pieChart(view);
+
+        createPurseButton = view.findViewById(R.id.create_new_purse_button);
+        createPurseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent newPurse = new Intent(getContext(), CreatePurse.class);
+                startActivity(newPurse);
+            }
+        });
 
         return view;
     }
