@@ -16,6 +16,8 @@ public class CustomLoader extends AppCompatActivity {
 
         int timeout = 2000; // make the activity visible for 4 seconds
 
+        final String operation = getIntent().getStringExtra("newOperation");
+
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
 
@@ -24,7 +26,7 @@ public class CustomLoader extends AppCompatActivity {
                 finish();
                 Intent goHome = new Intent(getApplicationContext(), MainActivity.class);
                 goHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                goHome.putExtra("newRecord", "EcoExT");
+                goHome.putExtra("newOperation", operation);
                 startActivity(goHome);
             }
         }, timeout);

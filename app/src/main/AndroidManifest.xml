@@ -75,6 +75,9 @@
 
         <activity android:name=".NoRecords"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
+        <activity android:name=".CreatePurse" />
+
     </application>
 
 </manifest>

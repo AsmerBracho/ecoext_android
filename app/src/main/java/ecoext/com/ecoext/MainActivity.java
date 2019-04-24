@@ -114,6 +114,9 @@ public class MainActivity extends AppCompatActivity
 
     //Botton Nav Menu
     BottomNavigationView bottomNav;
+
+    // User Transaction id
+    private int accountId;
     //*********************************************************************
 
     @Override
@@ -193,17 +196,29 @@ public class MainActivity extends AppCompatActivity
         };
 
         // get Extra from CreateReceipt if Exits
-        String i = getIntent().getStringExtra("newRecord");
+        String i = getIntent().getStringExtra("newOperation");
         isThereReceipt = i;
 
         // get info database
         getInfoDataBase();
 
-        if ("EcoExT".equals(isThereReceipt)) {
+        if ("EcoExTCreateTransaction".equals(isThereReceipt)) {
             isThereReceipt = null;
             new AlertDialog.Builder(context)
                     .setTitle("TRANSACTION ADDED")
                     .setMessage("You have successfully added a new transaction")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Dismiss
+                        }
+                    })
+                    .show();
+        } else if ("EcoExTCreatePurse".equals(isThereReceipt)) {
+            isThereReceipt = null;
+            new AlertDialog.Builder(context)
+                    .setTitle("PURSE ADDED")
+                    .setMessage("You have successfully added a new purse")
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -413,7 +428,7 @@ public class MainActivity extends AppCompatActivity
                         case R.id.botton_home:
                             navigationView.setCheckedItem(R.id.nav_home);
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                    new HomeFragment(purses, userTransactions)).commit();
+                                    new HomeFragment(purses, userTransactions, accountId)).commit();
                             break;
                         case R.id.bottom_records:
                             navigationView.setCheckedItem(R.id.nav_records);
@@ -445,7 +460,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_home) {
             bottomNav.setSelectedItemId(R.id.botton_home);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new HomeFragment(purses, userTransactions)).commit();
+                    new HomeFragment(purses, userTransactions, accountId)).commit();
         } else if (id == R.id.logout) {
             logout();
         }
@@ -768,6 +783,7 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void onResponse(@NotNull Response<GetUserTransactionsQuery.Data> response) {
                             for (int i = 0; i < response.data().user().size(); i++) {
+                                accountId = response.data().user().get(0).account_id();
                                 for (int j = 0; j < response.data().user().get(i).account().purse().size(); j++) {
                                     // add PurseName to list of Purses String.
                                     pursesNames.add(response.data().user().get(i).account().purse().get(j).name());
@@ -800,7 +816,7 @@ public class MainActivity extends AppCompatActivity
 
                             // After performance the query Load the Activity with the data
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                    new HomeFragment(purses, userTransactions)).commit();
+                                    new HomeFragment(purses, userTransactions, accountId)).commit();
 
                         }
 

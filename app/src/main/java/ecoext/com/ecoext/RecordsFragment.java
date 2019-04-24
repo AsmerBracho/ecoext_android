@@ -55,6 +55,7 @@ public class RecordsFragment extends Fragment {
     private ArrayList<GetUserTransactionsQuery.Purse> purses;
     // user Transactions
     private ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> userTransactions;
+    private ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> userTransactionsFiltered;
 
     // array of transactions
     private ArrayList<GetUserTransactionsQuery.Transaction> transactions = new ArrayList<>();
@@ -68,13 +69,16 @@ public class RecordsFragment extends Fragment {
     @SuppressLint("ValidFragment")
     public RecordsFragment(ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> userTransactions) {
         this.userTransactions = userTransactions;
-
+        this.userTransactionsFiltered = new ArrayList<>();
 //        this.purses = purses;
 //        for (int i = 0; i < purses.size(); i++) {
 //            transactions.addAll(purses.get(i).transaction());
 //        }
 
         for (int j = 0; j < userTransactions.size(); j++) {
+        if (!userTransactions.get(j).label().contains("EcoExTAsMiGaCaEd2019dub")) {
+            userTransactionsFiltered.add(userTransactions.get(j));
+        }
             for (int k = 0; k < userTransactions.get(j).items().size(); k++) {
                 double temp = userTransactions.get(j).items().get(k).price()
                         *userTransactions.get(j).items().get(k).quantity();
@@ -94,7 +98,7 @@ public class RecordsFragment extends Fragment {
 
         // create an instance of my recycler view Adapter
         itemTransactionAdapterWithReciclerView = new ItemTransactionAdapterWithReciclerView(
-                this.getContext(), userTransactions);
+                this.getContext(), userTransactionsFiltered);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         listOfRecords.setLayoutManager(layoutManager);

@@ -82,83 +82,84 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
 //        final GetUserTransactionsQuery.Transaction transaction = listOfTransactions.get(position);
         final GetAllUserTransactionsOrderByDateQuery.UserTransaction transaction = userTransactions.get(position);
 
-        Log.d(TAG, "inSideMy: " + transaction.label());
+            Log.d(TAG, "inSideMy: " + transaction.label());
 
-        String l = transaction.label().toUpperCase();
-        final String bLogo = String.valueOf(l.charAt(0));
-        holder.logo.setText(bLogo);
+            String l = transaction.label().toUpperCase();
+            final String bLogo = String.valueOf(l.charAt(0));
+            holder.logo.setText(bLogo);
 
-        Log.d(TAG, "chart: " + l.charAt(0));
+            Log.d(TAG, "chart: " + l.charAt(0));
 
-        if (("A").equals(bLogo) || ("B").equals(bLogo) || ("C").equals(bLogo) || ("D").equals(bLogo) || ("E").equals(bLogo) || ("P").equals(bLogo)) {
-            holder.logo.setBackground(ContextCompat.getDrawable(context, R.drawable.logo_background));
-        } else if (("F").equals(bLogo) || ("G").equals(bLogo) || ("H").equals(bLogo) || ("I").equals(bLogo) || ("K").equals(bLogo) || ("Z").equals(bLogo)) {
-            holder.logo.setBackground(ContextCompat.getDrawable(context, R.drawable.logo_background2));
-        } else {
-            holder.logo.setBackground(ContextCompat.getDrawable(context, R.drawable.logo_background3));
-        }
-
-        holder.titleTextView.setText(transaction.label());
-        holder.descriptionTextView.setText(transaction.purses().get(0).name());
-
-        final SimpleDateFormat format = new SimpleDateFormat("dd/MM/YYYY");
-        final Date date = new Date(Long.parseLong(transaction.date()));
-        holder.dateTextView.setText(format.format(date));
-
-        // Loop the items to extract the price
-        double total = 0;
-        for (int i = 0; i < transaction.items().size(); i++) {
-            total += transaction.items().get(i).price() * transaction.items().get(i).quantity();
-        }
-
-        holder.priceTextView.setText(currance + df.format(total));
-        // Set Color Amount accordingly
-        if (Double.toString(total).contains("-") == false) {
-            holder.priceTextView.setTextColor(Color.parseColor("#32bf1f"));
-        }
-
-        // to be pass as extra
-        final String finalTotal = df.format(total);
-        final double[] totalTax = {0};
-        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if ("User-Input-EcoExT".equals(transaction.items().get(0).product())) {
-                    // Show No Receipt Available
-                    Intent goNoReceipt = new Intent(context, NoRecords.class);
-                    context.startActivity(goNoReceipt);
-                } else {
-                    double tax = 0;
-                    totalTax[0] = 0;
-                    Intent showReceipt = new Intent(context, ReceiptActivity.class);
-                    ArrayList<Item> listOfItems = new ArrayList<>();
-                    for (int j = 0; j < transaction.items().size(); j++) {
-
-                         tax = (transaction.items().get(j).quantity()
-                                *transaction.items().get(j).price()
-                                *transaction.items().get(j).tax())/100;
-
-                        totalTax[0] += tax;
-                        listOfItems.add(new Item(
-                                transaction.items().get(j).transaction_id(),
-                                transaction.items().get(j).product(),
-                                transaction.items().get(j).price(),
-                                transaction.items().get(j).quantity(),
-                                transaction.items().get(j).tax()
-                        ));
-                    }
-                    //put extras to pass to next activity and know with receipt are we currently clicking
-                    showReceipt.putParcelableArrayListExtra("listOfItems", listOfItems);
-                    showReceipt.putExtra("date", format.format(date));
-                    showReceipt.putExtra("number", transaction.transaction_id().toString());
-                    showReceipt.putExtra("total", finalTotal);
-                    showReceipt.putExtra("name", bLogo);
-                    showReceipt.putExtra("tax", (df.format(totalTax[0])));
-                    context.startActivity(showReceipt);
-                }
+            if (("A").equals(bLogo) || ("B").equals(bLogo) || ("C").equals(bLogo) || ("D").equals(bLogo) || ("E").equals(bLogo) || ("P").equals(bLogo)) {
+                holder.logo.setBackground(ContextCompat.getDrawable(context, R.drawable.logo_background));
+            } else if (("F").equals(bLogo) || ("G").equals(bLogo) || ("H").equals(bLogo) || ("I").equals(bLogo) || ("K").equals(bLogo) || ("Z").equals(bLogo)) {
+                holder.logo.setBackground(ContextCompat.getDrawable(context, R.drawable.logo_background2));
+            } else {
+                holder.logo.setBackground(ContextCompat.getDrawable(context, R.drawable.logo_background3));
             }
-        });
+
+            holder.titleTextView.setText(transaction.label());
+            holder.descriptionTextView.setText(transaction.purses().get(0).name());
+
+            final SimpleDateFormat format = new SimpleDateFormat("dd/MM/YYYY");
+            final Date date = new Date(Long.parseLong(transaction.date()));
+            holder.dateTextView.setText(format.format(date));
+
+            // Loop the items to extract the price
+            double total = 0;
+            for (int i = 0; i < transaction.items().size(); i++) {
+                total += transaction.items().get(i).price() * transaction.items().get(i).quantity();
+            }
+
+            holder.priceTextView.setText(currance + df.format(total));
+            // Set Color Amount accordingly
+            if (Double.toString(total).contains("-") == false) {
+                holder.priceTextView.setTextColor(Color.parseColor("#32bf1f"));
+            }
+
+            // to be pass as extra
+            final String finalTotal = df.format(total);
+            final double[] totalTax = {0};
+            holder.parentLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if ("User-Input-EcoExT".equals(transaction.items().get(0).product())) {
+                        // Show No Receipt Available
+                        Intent goNoReceipt = new Intent(context, NoRecords.class);
+                        context.startActivity(goNoReceipt);
+                    } else {
+                        double tax = 0;
+                        totalTax[0] = 0;
+                        Intent showReceipt = new Intent(context, ReceiptActivity.class);
+                        ArrayList<Item> listOfItems = new ArrayList<>();
+                        for (int j = 0; j < transaction.items().size(); j++) {
+
+                            tax = (transaction.items().get(j).quantity()
+                                    * transaction.items().get(j).price()
+                                    * transaction.items().get(j).tax()) / 100;
+
+                            totalTax[0] += tax;
+                            listOfItems.add(new Item(
+                                    transaction.items().get(j).transaction_id(),
+                                    transaction.items().get(j).product(),
+                                    transaction.items().get(j).price(),
+                                    transaction.items().get(j).quantity(),
+                                    transaction.items().get(j).tax()
+                            ));
+                        }
+                        //put extras to pass to next activity and know with receipt are we currently clicking
+                        showReceipt.putParcelableArrayListExtra("listOfItems", listOfItems);
+                        showReceipt.putExtra("date", format.format(date));
+                        showReceipt.putExtra("number", transaction.transaction_id().toString());
+                        showReceipt.putExtra("total", finalTotal);
+                        showReceipt.putExtra("name", bLogo);
+                        showReceipt.putExtra("tax", (df.format(totalTax[0])));
+                        context.startActivity(showReceipt);
+                    }
+                }
+            });
+
 
     }
 

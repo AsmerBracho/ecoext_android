@@ -32,12 +32,14 @@ public class HomeFragment extends Fragment {
     private HomePurseAdapter homePurseAdapter;
     private ArrayList<GetUserTransactionsQuery.Purse> purses;
     private ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> userTransactions;
+    private ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> userTransactionsFiltered;
     private RecyclerView listOfPurses;
     private RecyclerView latestsRecords;
     private LinearLayout createPurseButton;
     private ItemTransactionAdapterWithReciclerView latestRecordAdapter;
     private int intLatest;
     private int latestSize = 3;
+    private int accountId;
 
     public HomeFragment() {
 
@@ -45,10 +47,20 @@ public class HomeFragment extends Fragment {
 
     @SuppressLint("ValidFragment")
     public HomeFragment(ArrayList<GetUserTransactionsQuery.Purse> purses,
-                        ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> userTransactions) {
+                        ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> userTransactions,
+                        int accountId) {
 
+        this.accountId = accountId;
         this.userTransactions = userTransactions;
         this.purses = purses;
+
+        userTransactionsFiltered = new ArrayList<>();
+
+        for (int j = 0; j < userTransactions.size(); j++) {
+            if (!userTransactions.get(j).label().contains("EcoExTAsMiGaCaEd2019dub")) {
+                userTransactionsFiltered.add(userTransactions.get(j));
+            }
+        }
     }
 
     @Nullable
@@ -61,8 +73,8 @@ public class HomeFragment extends Fragment {
         // get a list with the latest records to pass to the adapter
         ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> latest = new ArrayList<>();
 
-        if (userTransactions.size() < latestSize) {
-            intLatest = userTransactions.size();
+        if (userTransactionsFiltered.size() < latestSize) {
+            intLatest = userTransactionsFiltered.size();
         } else {
             intLatest = latestSize;
         }
@@ -73,7 +85,7 @@ public class HomeFragment extends Fragment {
         }
 
         for (int i = 0; i < intLatest ; i++) {
-            latest.add(userTransactions.get(i));
+            latest.add(userTransactionsFiltered.get(i));
         }
         latestRecordAdapter = new ItemTransactionAdapterWithReciclerView(this.getContext(), latest);
 
@@ -87,6 +99,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent newPurse = new Intent(getContext(), CreatePurse.class);
+                newPurse.putExtra("accountId", Integer.toString(accountId));
                 startActivity(newPurse);
             }
         });

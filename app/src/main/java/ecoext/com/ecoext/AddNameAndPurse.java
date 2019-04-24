@@ -136,9 +136,10 @@ public class AddNameAndPurse extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     //Toast.makeText(AddNameAndPurse.this, "Record Created", Toast.LENGTH_SHORT).show();
-                                    Intent Load = new Intent(getApplicationContext(), CustomLoader.class);
-                                    Load.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                    startActivity(Load);
+                                    Intent load = new Intent(getApplicationContext(), CustomLoader.class);
+                                    load.putExtra("newOperation", "EcoExTCreateTransaction");
+                                    load.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                    startActivity(load);
 
                                 }
                             });
