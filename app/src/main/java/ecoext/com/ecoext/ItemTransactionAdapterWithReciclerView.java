@@ -39,7 +39,7 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
 
     //define the currance
     private String currance = "€";
-    private static DecimalFormat df = new DecimalFormat(".##");
+    private static DecimalFormat df = new DecimalFormat("0.00");
 
     // Create a global listOfRecords that will hold the records from database
     private ArrayList<GetUserTransactionsQuery.Purse> listOfPurses;
@@ -47,21 +47,27 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
     private ArrayList<GetUserTransactionsQuery.Transaction> listOfTransactions;
     private ArrayList<GetUserTransactionsQuery.Transaction> listOfTransactionsFull;
 
+    private ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> userTransactions;
+    private ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> userTransactionsFull;
+
     private ArrayList<String> purseNames = new ArrayList<>();
 
-    public ItemTransactionAdapterWithReciclerView(Context c, ArrayList<GetUserTransactionsQuery.Purse> listOfPurses,
-                                                  ArrayList<GetUserTransactionsQuery.Transaction> transactions) {
+    public ItemTransactionAdapterWithReciclerView(Context c, ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction>
+                                                  userTransactions) {
         this.context = c;
-        this.listOfPurses = listOfPurses;
-        this.listOfTransactions = transactions;
-        // create a copy of transaction for filters
-        listOfTransactionsFull = new ArrayList<>(listOfTransactions);
+        this.userTransactions = userTransactions;
+//        this.listOfPurses = listOfPurses;
+//        this.listOfTransactions = transactions;
 
-        for (int j = 0; j < listOfPurses.size(); j++) {
-            for (int i = 0; i < listOfPurses.get(j).transaction().size(); i++) {
-                purseNames.add(listOfPurses.get(j).name());
-            }
-        }
+        // create a copy of transaction for filters
+//        listOfTransactionsFull = new ArrayList<>(listOfTransactions);
+        userTransactionsFull = new ArrayList<>(userTransactions);
+//
+//        for (int j = 0; j < listOfPurses.size(); j++) {
+//            for (int i = 0; i < listOfPurses.get(j).transaction().size(); i++) {
+//                purseNames.add(listOfPurses.get(j).name());
+//            }
+//        }
     }
 
     @NonNull
@@ -73,7 +79,8 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        final GetUserTransactionsQuery.Transaction transaction = listOfTransactions.get(position);
+//        final GetUserTransactionsQuery.Transaction transaction = listOfTransactions.get(position);
+        final GetAllUserTransactionsOrderByDateQuery.UserTransaction transaction = userTransactions.get(position);
 
         Log.d(TAG, "inSideMy: " + transaction.label());
 
@@ -92,7 +99,7 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
         }
 
         holder.titleTextView.setText(transaction.label());
-        holder.descriptionTextView.setText(purseNames.get(position));
+        holder.descriptionTextView.setText(transaction.purses().get(0).name());
 
         final SimpleDateFormat format = new SimpleDateFormat("dd/MM/YYYY");
         final Date date = new Date(Long.parseLong(transaction.date()));
@@ -157,7 +164,7 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
 
     @Override
     public int getItemCount() {
-        return listOfTransactions.size();
+        return userTransactions.size();
     }
 
 
@@ -171,15 +178,15 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
 
-            ArrayList<GetUserTransactionsQuery.Transaction> filterList = new ArrayList<>();
+            ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> filterList = new ArrayList<>();
 
             // if there is not input in search box then return the whole list
             if (charSequence == null || charSequence.length() == 0) {
-                filterList.addAll(listOfTransactionsFull);
+                filterList.addAll(userTransactionsFull);
             } else {
                 String filterPattern = charSequence.toString().toLowerCase().trim();
 
-                for (GetUserTransactionsQuery.Transaction transaction : listOfTransactionsFull) {
+                for (GetAllUserTransactionsOrderByDateQuery.UserTransaction transaction : userTransactionsFull) {
 
                     // parse the date
                     SimpleDateFormat format = new SimpleDateFormat("dd/MM/YYYY");
@@ -200,8 +207,8 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            listOfTransactions.clear();
-            listOfTransactions.addAll((Collection<? extends GetUserTransactionsQuery.Transaction>) filterResults.values);
+            userTransactions.clear();
+            userTransactions.addAll((Collection<? extends GetAllUserTransactionsOrderByDateQuery.UserTransaction>) filterResults.values);
             notifyDataSetChanged();
         }
     };

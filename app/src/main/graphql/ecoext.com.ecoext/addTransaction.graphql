@@ -7,8 +7,8 @@ mutation addTransaction ($name: String!, $amount: Float!){
       payment_type: "Debit Card"
     }
     socketInfo:{
-      ipv4: "666.666.666.666",
-      port: 666
+      ipv4: "",
+      port: 0
     }
     items:
      	 {product: "User-Input-EcoExT",

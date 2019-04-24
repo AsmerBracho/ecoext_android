@@ -53,6 +53,8 @@ public class RecordsFragment extends Fragment {
 
     // array of purses
     private ArrayList<GetUserTransactionsQuery.Purse> purses;
+    // user Transactions
+    private ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> userTransactions;
 
     // array of transactions
     private ArrayList<GetUserTransactionsQuery.Transaction> transactions = new ArrayList<>();
@@ -64,16 +66,18 @@ public class RecordsFragment extends Fragment {
     }
 
     @SuppressLint("ValidFragment")
-    public RecordsFragment(ArrayList<GetUserTransactionsQuery.Purse> purses) {
-        this.purses = purses;
-        for (int i = 0; i < purses.size(); i++) {
-            transactions.addAll(purses.get(i).transaction());
-        }
+    public RecordsFragment(ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> userTransactions) {
+        this.userTransactions = userTransactions;
 
-        for (int j = 0; j < transactions.size(); j++) {
-            for (int k = 0; k < transactions.get(j).items().size(); k++) {
-                double temp = transactions.get(j).items().get(k).price()
-                        *transactions.get(j).items().get(k).quantity();
+//        this.purses = purses;
+//        for (int i = 0; i < purses.size(); i++) {
+//            transactions.addAll(purses.get(i).transaction());
+//        }
+
+        for (int j = 0; j < userTransactions.size(); j++) {
+            for (int k = 0; k < userTransactions.get(j).items().size(); k++) {
+                double temp = userTransactions.get(j).items().get(k).price()
+                        *userTransactions.get(j).items().get(k).quantity();
                 balance += temp;
             }
         }
@@ -90,7 +94,7 @@ public class RecordsFragment extends Fragment {
 
         // create an instance of my recycler view Adapter
         itemTransactionAdapterWithReciclerView = new ItemTransactionAdapterWithReciclerView(
-                this.getContext(), purses, transactions);
+                this.getContext(), userTransactions);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         listOfRecords.setLayoutManager(layoutManager);

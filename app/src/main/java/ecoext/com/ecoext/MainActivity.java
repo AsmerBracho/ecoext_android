@@ -27,6 +27,7 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.apollographql.apollo.ApolloCall;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
@@ -41,7 +42,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+
 import org.jetbrains.annotations.NotNull;
+
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -69,8 +72,14 @@ public class MainActivity extends AppCompatActivity
     // Values used for given round corners to images
     private static int sCorner = 50;
     private static int sMargin = 1;
-    public static int getsCorner() { return sCorner; }
-    public static int getsMargin() { return sMargin; }
+
+    public static int getsCorner() {
+        return sCorner;
+    }
+
+    public static int getsMargin() {
+        return sMargin;
+    }
 
     private IntentIntegrator integrator;
 
@@ -98,10 +107,13 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> userTransactions = new ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction>();
 
     // Validator for my Scan
-    private  boolean validation;
+    private boolean validation;
     private String isThereReceipt;
 
-    private String loadInfo;
+    NavigationView navigationView;
+
+    //Botton Nav Menu
+    BottomNavigationView bottomNav;
     //*********************************************************************
 
     @Override
@@ -120,17 +132,32 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         //Botton Nav Menu
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav_menu);
+        bottomNav = findViewById(R.id.bottom_nav_menu);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
+
+        // Initiate the Fab Menu
+        initFabMenu();
+        // Dissable fabTwo
+        fabTwo.setClickable(false);
+        fabOne.setClickable(false);
 
         // Start Application in the MainActivity Page
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new LoaderHomeFragment()).commit();
+
+            //Disable elements
+            navigationView.setEnabled(false);
+            navigationView.setVisibility(View.GONE);
+            bottomNav.setEnabled(false);
+            bottomNav.setVisibility(View.GONE);
+            fabMain.setVisibility(View.GONE);
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
             navigationView.setCheckedItem(R.id.nav_home);
         }
 
@@ -139,7 +166,6 @@ public class MainActivity extends AppCompatActivity
         photoImageView = nagView.findViewById(R.id.photoUser);
         nameTextView = nagView.findViewById(R.id.username);
         emailTextView = nagView.findViewById(R.id.email);
-        //idTextView =  findViewById(R.id.idTextView);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -165,24 +191,13 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         };
-        // Initiate the Fab Menu
-        initFabMenu();
-        // Dissable fabTwo
-        fabTwo.setClickable(false);
 
         // get Extra from CreateReceipt if Exits
         String i = getIntent().getStringExtra("newRecord");
         isThereReceipt = i;
 
-        // get extra from Register
-        loadInfo = getIntent().getStringExtra("loadInfo");
-//        if ("LOADINFO".equals(loadInfo)) {
-            getInfoDataBase();
-//            loadInfo = null;
-//        } else {
-//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-//                    new HomeFragment(purses)).commit();
-//        }
+        // get info database
+        getInfoDataBase();
 
         if ("EcoExT".equals(isThereReceipt)) {
             isThereReceipt = null;
@@ -292,8 +307,8 @@ public class MainActivity extends AppCompatActivity
                             for (int j = 0; j < transaction[0].items().size(); j++) {
 
                                 double tax = (transaction[0].items().get(j).quantity()
-                                        *transaction[0].items().get(j).price()
-                                        *transaction[0].items().get(j).tax())/100;
+                                        * transaction[0].items().get(j).price()
+                                        * transaction[0].items().get(j).tax()) / 100;
 
                                 totalTax[0] += tax;
                                 listOfItems.add(new Item(
@@ -396,12 +411,14 @@ public class MainActivity extends AppCompatActivity
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.botton_home:
+                            navigationView.setCheckedItem(R.id.nav_home);
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                    new HomeFragment(purses)).commit();
+                                    new HomeFragment(purses, userTransactions)).commit();
                             break;
                         case R.id.bottom_records:
+                            navigationView.setCheckedItem(R.id.nav_records);
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                    new RecordsFragment(purses)).commit();
+                                    new RecordsFragment(userTransactions)).commit();
                             break;
                     }
                     return true;
@@ -416,21 +433,19 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_records) {
+            bottomNav.setSelectedItemId(R.id.bottom_records);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new RecordsFragment(purses)).commit();
+                    new RecordsFragment(userTransactions)).commit();
         } else if (id == R.id.nav_reports) {
-
-
-            // THIS NEED TO BE TAKEN OFF
-            getInfoDataBase();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new ReportsStatisticsFragment()).commit();
         } else if (id == R.id.nav_notifications) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new NotificationsFragment()).commit();
         } else if (id == R.id.nav_home) {
+            bottomNav.setSelectedItemId(R.id.botton_home);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new HomeFragment(purses)).commit();
+                    new HomeFragment(purses, userTransactions)).commit();
         } else if (id == R.id.logout) {
             logout();
         }
@@ -555,6 +570,7 @@ public class MainActivity extends AppCompatActivity
 
     private void openMenu() {
         fabTwo.setClickable(true);
+        fabOne.setClickable(true);
         isMenuOpen = !isMenuOpen;
 
         fabMain.animate().setInterpolator(interpolator).rotation(45f).setDuration(300).start();
@@ -582,6 +598,7 @@ public class MainActivity extends AppCompatActivity
 
     private void closeMenu() {
         fabTwo.setClickable(false);
+        fabOne.setClickable(false);
         isMenuOpen = !isMenuOpen;
 
         fabMain.animate().setInterpolator(interpolator).rotation(0f).setDuration(300).start();
@@ -731,7 +748,7 @@ public class MainActivity extends AppCompatActivity
                     // Get User Transaction Order By Date
                     MyApolloClient.getMyApolloClient().query(
                             GetAllUserTransactionsOrderByDateQuery.builder().user_id(user.getUid())
-                            .build()).enqueue(new ApolloCall.Callback<GetAllUserTransactionsOrderByDateQuery.Data>() {
+                                    .build()).enqueue(new ApolloCall.Callback<GetAllUserTransactionsOrderByDateQuery.Data>() {
                         @Override
                         public void onResponse(@NotNull Response<GetAllUserTransactionsOrderByDateQuery.Data> response) {
                             userTransactions.addAll(response.data().userTransactions());
@@ -764,8 +781,26 @@ public class MainActivity extends AppCompatActivity
                                     ));
                                 }
                             }
+
+                            MainActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    //Enable elements
+                                    navigationView.setEnabled(true);
+                                    navigationView.setVisibility(View.VISIBLE);
+                                    bottomNav.setEnabled(true);
+                                    bottomNav.setVisibility(View.VISIBLE);
+                                    fabMain.setVisibility(View.VISIBLE);
+
+                                    DrawerLayout drawer = findViewById(R.id.drawer_layout);
+                                    drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
+                                }
+                            });
+
+                            // After performance the query Load the Activity with the data
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                    new HomeFragment(purses)).commit();
+                                    new HomeFragment(purses, userTransactions)).commit();
 
                         }
 

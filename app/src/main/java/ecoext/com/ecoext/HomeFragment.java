@@ -28,14 +28,21 @@ public class HomeFragment extends Fragment {
 
     private HomePurseAdapter homePurseAdapter;
     private ArrayList<GetUserTransactionsQuery.Purse> purses;
+    private ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> userTransactions;
     private RecyclerView listOfPurses;
+    private RecyclerView latestsRecords;
+    private ItemTransactionAdapterWithReciclerView latestRecordAdapter;
+    private int intLatest = 3;
 
     public HomeFragment() {
 
     }
 
     @SuppressLint("ValidFragment")
-    public HomeFragment(ArrayList<GetUserTransactionsQuery.Purse> purses) {
+    public HomeFragment(ArrayList<GetUserTransactionsQuery.Purse> purses,
+                        ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> userTransactions) {
+
+        this.userTransactions = userTransactions;
         this.purses = purses;
     }
 
@@ -45,11 +52,16 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.home_fragment, container, false);
 
         homePurseAdapter = new HomePurseAdapter(this.getContext(), purses);
+
+        // get a list with the latest records to pass to the adapter
+        ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> latest = new ArrayList<>();
+        for (int i = 0; i < intLatest ; i++) {
+            latest.add(userTransactions.get(i));
+        }
+        latestRecordAdapter = new ItemTransactionAdapterWithReciclerView(this.getContext(), latest);
+
         initReciclerView(view);
 
-
-        //GraphView graph = (GraphView) view.findViewById(R.id.graph);
-        //initGraph(graph);
         barChart(view);
         pieChart(view);
 
@@ -57,6 +69,11 @@ public class HomeFragment extends Fragment {
     }
 
     public void initReciclerView(View view) {
+        latestsRecords = view.findViewById(R.id.home_latest_records);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
+        latestsRecords.setLayoutManager(linearLayoutManager);
+        latestsRecords.setAdapter(latestRecordAdapter);
+
         listOfPurses = view.findViewById(R.id.home_list_purses_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false);
         listOfPurses.setLayoutManager(layoutManager);
