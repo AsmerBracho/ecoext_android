@@ -32,7 +32,7 @@ public class RecordsFragment extends Fragment {
      */
     private RecyclerView listOfRecords;
     private ItemTransactionAdapterWithReciclerView itemTransactionAdapterWithReciclerView;
-    private static final String TAG = "RecordFradment";
+    private static final String TAG = "RecordFragment";
     private String currency = "€";
     //Variables for CalendarPicker
     private Calendar calendar;
@@ -65,6 +65,7 @@ public class RecordsFragment extends Fragment {
     public RecordsFragment() {
 
     }
+
 
     @SuppressLint("ValidFragment")
     public RecordsFragment(ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> userTransactions) {
