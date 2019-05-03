@@ -48,6 +48,9 @@ public class AddNameAndPurse extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.select_purse_and_name);
 
+        // Add back button
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         // Find Views
         amount = findViewById(R.id.amount_to_add);
         inputTransactionName = findViewById(R.id.input_transaction_name);

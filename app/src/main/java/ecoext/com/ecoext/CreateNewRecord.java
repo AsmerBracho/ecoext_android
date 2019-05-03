@@ -127,7 +127,7 @@ public class CreateNewRecord extends AppCompatActivity implements View.OnClickLi
                     amountToPass = amountField.getText().toString().trim();
                 }
                 addNameAndPurse.putExtra("amount", amountToPass);
-                startActivity(addNameAndPurse);
+                startActivityForResult(addNameAndPurse, 0);
 
             }
         });

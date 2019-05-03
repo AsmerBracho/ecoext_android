@@ -1,6 +1,7 @@
 package ecoext.com.ecoext;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
@@ -37,7 +38,7 @@ public class HomePurseAdapter extends RecyclerView.Adapter<HomePurseAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         // Set Purse Name
         holder.purseName.setText(purses.get(position).name());
         // Set Color
@@ -47,6 +48,25 @@ public class HomePurseAdapter extends RecyclerView.Adapter<HomePurseAdapter.View
 
 
         // set onClick Listener
+        holder.parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // CalculateBalance
+                double balance = 0;
+                for (int i = 0 ; i < purses.get(position).transaction().size(); i ++) {
+                    for (int j = 0 ; j < purses.get(position).transaction().get(i).items().size(); j ++) {
+                        balance += purses.get(position).transaction().get(i).items().get(j).price();
+                    }
+                }
+                Intent purseDetails = new Intent(context, PurseDetails.class);
+                purseDetails.putExtra("PurseID", Integer.toString(purses.get(position).purse_id()));
+                purseDetails.putExtra("PurseName", purses.get(position).name());
+                purseDetails.putExtra("Description", purses.get(position).description());
+                purseDetails.putExtra("Balance", Double.toString(balance));
+                context.startActivity(purseDetails);
+            }
+        });
 
     }
 

@@ -110,10 +110,10 @@ public class MainActivity extends AppCompatActivity
     private boolean validation;
     private String isThereReceipt;
 
-    NavigationView navigationView;
+    private NavigationView navigationView;
 
     //Botton Nav Menu
-    BottomNavigationView bottomNav;
+    private BottomNavigationView bottomNav;
 
     // User Transaction id
     private int accountId;
@@ -452,8 +452,9 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new RecordsFragment(userTransactions)).commit();
         } else if (id == R.id.nav_reports) {
+
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new ReportsStatisticsFragment()).commit();
+                    new ReportsStatisticsFragment(userTransactions)).commit();
         } else if (id == R.id.nav_notifications) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new NotificationsFragment()).commit();
