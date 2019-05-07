@@ -39,16 +39,6 @@
             android:layout_height="match_parent"
             android:gravity="bottom|end">
 
-            <!--
-            <android.support.design.widget.BottomNavigationView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="bottom"
-                android:background="@color/colorPrimaryDark">
-
-            </android.support.design.widget.BottomNavigationView>
-            -->
-
         </LinearLayout>
 
         <android.support.constraint.ConstraintLayout
@@ -127,8 +117,9 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include layout="@layout/filter_element" />
+            <!--Include the filters -->
 
+            <include layout="@layout/filter_element" />
             <include layout="@layout/filter_on_off" />
 
             <ImageView
@@ -138,7 +129,6 @@
                 android:background="#eae7e7"
                 android:src="@drawable/ic_filter_list"
                 android:text="" />
-
 
         </LinearLayout>
 

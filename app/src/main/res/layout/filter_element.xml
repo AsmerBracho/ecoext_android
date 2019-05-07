@@ -1,58 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffff">
-
-    <!--<TextView-->
-        <!--android:id="@+id/filterAccount"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginStart="16dp"-->
-        <!--android:layout_marginTop="16dp"-->
-        <!--android:text="Account"-->
-        <!--android:textColor="#464444"-->
-        <!--android:textSize="15dp"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toTopOf="parent" />-->
-
-    <!--<android.support.constraint.ConstraintLayout-->
-        <!--android:id="@+id/constraintLayout"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginStart="16dp"-->
-        <!--android:layout_marginTop="8dp"-->
-        <!--android:layout_marginEnd="16dp"-->
-        <!--android:background="@drawable/bottom_line"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/filterAccount">-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/filterAccountClick"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:textSize="20dp" />-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/filterValue1"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textSize="24dp"-->
-            <!--app:layout_constraintStart_toStartOf="parent" />-->
-
-        <!--<ImageView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="8dp"-->
-            <!--android:src="@drawable/ic_arrow_drop_down"-->
-            <!--app:layout_constraintEnd_toEndOf="parent"-->
-            <!--app:layout_constraintTop_toTopOf="parent" />-->
-
-    <!--</android.support.constraint.ConstraintLayout>-->
-
 
     <!-- SECOND FILTER  -->
 

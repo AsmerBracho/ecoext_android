@@ -1,44 +1,57 @@
-package ecoext.com.ecoext;
+package ecoext.com.ecoext.records;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
-import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import static ecoext.com.ecoext.R.id.categotiesLayout;
+import ecoext.com.ecoext.AddNameAndPurse;
+import ecoext.com.ecoext.R;
+import ecoext.com.ecoext.general.MainActivity;
 
-
+/**
+ * Class CreateNewRecord
+ * This is an activity that load a custom keypad to input the amount
+ * and category the transaction as income or outcome
+ */
 public class CreateNewRecord extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "CreateNewRecord";
+
     private EditText amountField = null;
     private Context context = this;
 
-    private TextView income;
-    private TextView outcome;
+    // Views
+    private TextView income; // Income Tab
+    private TextView outcome; // Outcome Tab
     private android.support.constraint.ConstraintLayout catLayout;
-    private ImageView nextDone;
-    private TextView minusPluss;
+    private ImageView nextDone; // Next Button Tab
+    private TextView minusPluss; // Symbol - or +
+
     private boolean minus = true;
 
-    // Array of PursesNames
-    ArrayList<String> purses;
-    ArrayList<Integer> purseId;
+    // Array of Purses
+    private ArrayList<String> purses;
+    private ArrayList<Integer> purseId;
 
+    /**
+     * Method onCreate  is call every time this activity is called
+     * inside we define and initialize our main variables and instances
+     * this is similar as what a constructor does
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,12 +94,14 @@ public class CreateNewRecord extends AppCompatActivity implements View.OnClickLi
             }
         });
 
+        // get the views
         minusPluss = findViewById(R.id.minus_pluss);
         income = findViewById(R.id.income);
         outcome = findViewById(R.id.outcome);
         catLayout = findViewById(R.id.categotiesLayout);
         nextDone = findViewById(R.id.next_button_done);
 
+        // Set listeners
         income.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -133,6 +148,11 @@ public class CreateNewRecord extends AppCompatActivity implements View.OnClickLi
         });
     }
 
+    /**
+     * Method that Handle the click of the Back bottom in your android device.
+     * It does not takes parameters and it is void. but it is called automatically
+     * when back bottom is pressed
+     */
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -143,7 +163,8 @@ public class CreateNewRecord extends AppCompatActivity implements View.OnClickLi
 
     /**
      * Init the Views for the Custom keyboard
-     * provided by AvatarQing (https://stackoverflow.com/questions/21872150/android-custom-numeric-keyboard)
+     * provided by AvatarQing
+     * (https://stackoverflow.com/questions/21872150/android-custom-numeric-keyboard)
      */
     private void initViews() {
         amountField = $(R.id.amount_field);
@@ -162,6 +183,13 @@ public class CreateNewRecord extends AppCompatActivity implements View.OnClickLi
         $(R.id.t9_key_backspace).setOnClickListener(this);
     }
 
+
+    /**
+     * Since this Activity implements the OnClickListener interface we need to implements
+     * the on Click method that handles all the different clicks
+     *
+     * @param v it takes a view
+     */
     @Override
     public void onClick(View v) {
         // handle number button click
@@ -195,7 +223,6 @@ public class CreateNewRecord extends AppCompatActivity implements View.OnClickLi
             break;
         }
     }
-
 
     /**
      * Get the Input from the textField

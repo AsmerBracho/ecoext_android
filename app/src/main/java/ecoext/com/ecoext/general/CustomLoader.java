@@ -1,4 +1,4 @@
-package ecoext.com.ecoext;
+package ecoext.com.ecoext.general;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,15 @@ import android.support.v7.app.AppCompatActivity;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import ecoext.com.ecoext.R;
+import ecoext.com.ecoext.general.MainActivity;
+
+/**
+ * Class Custom Loader
+ * It contains a custom loader created for EcoExT
+ * In this activity we get a reference of the operation we just performed
+ * and redirect it to the MainActivity class
+ */
 public class CustomLoader extends AppCompatActivity {
 
     @Override
@@ -21,6 +30,7 @@ public class CustomLoader extends AppCompatActivity {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
 
+            // Run a Thread
             @Override
             public void run() {
                 finish();

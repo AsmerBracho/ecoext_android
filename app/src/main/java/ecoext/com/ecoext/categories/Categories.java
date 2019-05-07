@@ -1,4 +1,4 @@
-package ecoext.com.ecoext;
+package ecoext.com.ecoext.categories;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -6,6 +6,8 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import ecoext.com.ecoext.R;
 
 public class Categories extends AppCompatActivity {
 

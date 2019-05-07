@@ -9,84 +9,6 @@
         android:orientation="vertical"
         android:background="#eeeeee">
 
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:layout_marginTop="16dp"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toTopOf="parent">-->
-
-        <!--<TextView-->
-        <!--android:id="@+id/textView4"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginStart="50dp"-->
-        <!--android:text="Purse"-->
-        <!--android:textColor="@color/grayText"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toTopOf="parent" />-->
-
-        <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="4dp"-->
-        <!--android:text="Select a Purse"-->
-        <!--android:textColor="@color/grayText"-->
-        <!--android:textSize="10dp"-->
-        <!--app:layout_constraintEnd_toEndOf="@+id/textView4"-->
-        <!--app:layout_constraintStart_toStartOf="@+id/textView4"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/textView4" />-->
-
-        <!--<TextView-->
-        <!--android:id="@+id/selectCateg"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginEnd="50dp"-->
-        <!--android:text="Category"-->
-        <!--android:textColor="@color/grayText"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintTop_toTopOf="parent" />-->
-
-        <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="4dp"-->
-        <!--android:text="Select a Category"-->
-        <!--android:textColor="@color/grayText"-->
-        <!--android:textSize="10dp"-->
-        <!--app:layout_constraintEnd_toEndOf="@+id/selectCateg"-->
-        <!--app:layout_constraintStart_toStartOf="@+id/selectCateg"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/selectCateg" />-->
-
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:weightSum="2">-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/income"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_weight="1"-->
-                <!--android:background="@drawable/background_gray_with_top_stroke"-->
-                <!--android:padding="10dp"-->
-                <!--android:text="INCOME"-->
-                <!--android:textAlignment="center"/>-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/outcome"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_weight="1"-->
-                <!--android:background="@drawable/background_graypluss_with_top_stroke"-->
-                <!--android:padding="10dp"-->
-                <!--android:text="EXPENSE"-->
-                <!--android:textAlignment="center" />-->
-
-        <!--</LinearLayout>-->
-
     </LinearLayout>
 
     <TableLayout
@@ -200,7 +122,6 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"/>
 
         </TableRow>
-
 
     </TableLayout>
 </LinearLayout>

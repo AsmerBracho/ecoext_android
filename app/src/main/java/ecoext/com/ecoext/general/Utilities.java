@@ -1,4 +1,4 @@
-package ecoext.com.ecoext;
+package ecoext.com.ecoext.general;
 
 public class Utilities {
 

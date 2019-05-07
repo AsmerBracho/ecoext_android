@@ -1,17 +1,7 @@
 package ecoext.com.ecoext;
 
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.apollographql.apollo.ApolloCall;
 import com.apollographql.apollo.api.Response;
@@ -22,6 +12,10 @@ import com.google.firebase.auth.FirebaseUser;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+
+import ecoext.com.ecoext.general.MyApolloClient;
+import ecoext.com.ecoext.home.LoaderHomeFragment;
+import ecoext.com.ecoext.purse.DetailsPurseFragment;
 
 public class PurseDetails extends AppCompatActivity {
 

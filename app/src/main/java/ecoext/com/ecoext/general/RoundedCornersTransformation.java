@@ -1,4 +1,4 @@
-package ecoext.com.ecoext;
+package ecoext.com.ecoext.general;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,6 +15,7 @@ import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapResource;
 
 /**
+ * RoundedCornersTransformation Class
  * Created by javiergonzalezcabezas on 2/4/16.
  */
 public class RoundedCornersTransformation implements Transformation<Bitmap> {

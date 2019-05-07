@@ -1,4 +1,4 @@
-package ecoext.com.ecoext;
+package ecoext.com.ecoext.home;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,9 +11,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import java.util.ArrayList;
+import ecoext.com.ecoext.GetUserTransactionsQuery;
+import ecoext.com.ecoext.PurseDetails;
+import ecoext.com.ecoext.R;
+import ecoext.com.ecoext.general.Utilities;
 
+/**
+ * Class HomePurseAdapter
+ * implementation of the Adapter for the Home Screen where the views for purses
+ * have a different beauvoir than the rest of then in the application
+ */
 public class HomePurseAdapter extends RecyclerView.Adapter<HomePurseAdapter.ViewHolder> {
 
     // My Global Variables
@@ -46,13 +54,12 @@ public class HomePurseAdapter extends RecyclerView.Adapter<HomePurseAdapter.View
         holder.purseBackground.setBackgroundColor(Color.parseColor(Utilities.setPurseColor(name)));
         holder.parent.setAlpha(1);
 
-
         // set onClick Listener
         holder.parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                // CalculateBalance
+                // Calculate Balance
                 double balance = 0;
                 for (int i = 0 ; i < purses.get(position).transaction().size(); i ++) {
                     for (int j = 0 ; j < purses.get(position).transaction().get(i).items().size(); j ++) {
@@ -75,11 +82,15 @@ public class HomePurseAdapter extends RecyclerView.Adapter<HomePurseAdapter.View
         return purses.size();
     }
 
+    /**
+     * Inner Class ViewHolder that initialize the views handle
+     * by the purse Adapter
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView purseName;
-        CardView parent;
-        RelativeLayout purseBackground;
+        private TextView purseName;
+        private CardView parent;
+        private RelativeLayout purseBackground;
 
         public ViewHolder(View itemView) {
             super(itemView);

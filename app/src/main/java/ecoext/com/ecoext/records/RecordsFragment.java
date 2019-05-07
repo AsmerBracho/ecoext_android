@@ -1,4 +1,4 @@
-package ecoext.com.ecoext;
+package ecoext.com.ecoext.records;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -25,25 +25,31 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import ecoext.com.ecoext.GetAllUserTransactionsOrderByDateQuery;
+import ecoext.com.ecoext.GetUserTransactionsQuery;
+import ecoext.com.ecoext.R;
+
+/**
+ * Records Fragment contains information presented on the Records screen
+ * this is a fragment since it allows allow the navigation in the same activity (Main Activity)
+ * only by changing and inflating the specific content
+ */
 public class RecordsFragment extends Fragment {
 
-    /**
-     * Variables needed
-     */
+    // Global Variables
     private RecyclerView listOfRecords;
     private ItemTransactionAdapterWithReciclerView itemTransactionAdapterWithReciclerView;
-    private static final String TAG = "RecordFragment";
-    private String currency = "€";
-    //Variables for CalendarPicker
+    private static final String TAG = "RecordFragment"; // Tag for testing
+    private String currency = "€"; // currency for displaying in views
+
+    // Variables for CalendarPicker
     private Calendar calendar;
     private DatePickerDialog datePickerDialog;
     private String dateForFilter = "";
 
-    private TextView filterAccount;
-    private TextView filterAccountClick;
+    // Views for filters
     private TextView filterDate;
     private TextView filterDateClick;
-
     private TextView alertBackground;
     private TextView onFilters;
     private TextView onDate;
@@ -51,10 +57,8 @@ public class RecordsFragment extends Fragment {
     private ImageView cancelFilters;
     private TextView totalBalance;
 
-    // array of purses
-    private ArrayList<GetUserTransactionsQuery.Purse> purses;
-    // user Transactions
-    private ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> userTransactions;
+    // list of user Transactions
+    private ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> userTransactions; // list of transaction
     private ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> userTransactionsFiltered;
 
     // array of transactions
@@ -62,27 +66,27 @@ public class RecordsFragment extends Fragment {
     private double balance;
     DecimalFormat df = new DecimalFormat("0.00");
 
+    // Default Constructor
     public RecordsFragment() {
-
     }
 
-
+    /**
+     * Constructor for Records Fragment
+     *
+     * @param userTransactions a list of transactions
+     */
     @SuppressLint("ValidFragment")
     public RecordsFragment(ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> userTransactions) {
         this.userTransactions = userTransactions;
         this.userTransactionsFiltered = new ArrayList<>();
-//        this.purses = purses;
-//        for (int i = 0; i < purses.size(); i++) {
-//            transactions.addAll(purses.get(i).transaction());
-//        }
 
         for (int j = 0; j < userTransactions.size(); j++) {
-        if (!userTransactions.get(j).label().contains("EcoExTAsMiGaCaEd2019dub")) {
-            userTransactionsFiltered.add(userTransactions.get(j));
-        }
+            if (!userTransactions.get(j).label().contains("EcoExTAsMiGaCaEd2019dub")) {
+                userTransactionsFiltered.add(userTransactions.get(j));
+            }
             for (int k = 0; k < userTransactions.get(j).items().size(); k++) {
                 double temp = userTransactions.get(j).items().get(k).price()
-                        *userTransactions.get(j).items().get(k).quantity();
+                        * userTransactions.get(j).items().get(k).quantity();
                 balance += temp;
             }
         }
@@ -91,6 +95,7 @@ public class RecordsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         // set the option menu to be true (shows the search option menu)
         setHasOptionsMenu(true);
 
@@ -105,13 +110,8 @@ public class RecordsFragment extends Fragment {
         listOfRecords.setLayoutManager(layoutManager);
         listOfRecords.setAdapter(itemTransactionAdapterWithReciclerView);
 
-        /**
-         * Set click Listener for the different option for filters
-         * for each filter add the listener that call the specific action
-         */
-
-//        filterAccount = view.findViewById(R.id.filterValue1);
-//        filterAccountClick = view.findViewById(R.id.filterAccountClick);
+        // Set click Listener for the different option for filters
+        // for each filter add the listener that call the specific action
         filterDate = view.findViewById(R.id.filterValue2);
         filterDateClick = view.findViewById(R.id.filterDateClick);
 
@@ -126,15 +126,6 @@ public class RecordsFragment extends Fragment {
         totalBalance.setText(currency + df.format(balance));
         // clear the filters when running for first time
         setFilters(0);
-
-//        filterAccountClick.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                filterAccount.setText("Clicked");
-//                onAccount.setText("Clicked");
-//                setFilters(1);
-//            }
-//        });
 
         filterDateClick.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,7 +151,6 @@ public class RecordsFragment extends Fragment {
      * @param menu
      * @param inflater
      */
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -188,6 +178,10 @@ public class RecordsFragment extends Fragment {
 
     }
 
+    /**
+     * Method that call the Data Picker
+     * to select date so the records can be filtered accordingly
+     */
     public void callDatePicker() {
         calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -216,7 +210,12 @@ public class RecordsFragment extends Fragment {
         datePickerDialog.show();
     }
 
-    // Set the visibility of the filter Alert
+    /**
+     * Method setFilter
+     * this method handle the filter banner Enable it or disable it
+     *
+     * @param i int
+     */
     public void setFilters(int i) {
         // 1 if we want to show
         if (i == 1) {
@@ -226,10 +225,7 @@ public class RecordsFragment extends Fragment {
             onAccount.setVisibility(View.VISIBLE);
             // 0 if we want to hide
         } else {
-            //filterAccount.setText("");
-            // clear field that contains date filter
             filterDate.setText("");
-            // clear the actual filter
             itemTransactionAdapterWithReciclerView.getFilter().filter("");
             alertBackground.setBackgroundColor(Color.parseColor("#FFFFFF"));
             onFilters.setVisibility(View.GONE);

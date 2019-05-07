@@ -1,4 +1,4 @@
-package ecoext.com.ecoext;
+package ecoext.com.ecoext.purse;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -14,6 +14,15 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import ecoext.com.ecoext.AddNameAndPurse;
+import ecoext.com.ecoext.R;
+import ecoext.com.ecoext.general.Utilities;
+
+/**
+ * Class PurseInAddNameItemAdapter
+ * implementation of the Adapter for the create purse class where the views for purses
+ * have a different behaviour than the rest of then in the application
+ */
 public class PurseInAddNameItemAdapter extends RecyclerView.Adapter<PurseInAddNameItemAdapter.ViewHolder> {
 
     private static final String TAG = "PurseInAddName";
@@ -21,10 +30,21 @@ public class PurseInAddNameItemAdapter extends RecyclerView.Adapter<PurseInAddNa
     private ArrayList<String> purses;
     private ArrayList<Integer> purseId;
     private Context context;
-    int selected_position = RecyclerView.NO_POSITION;
+    private int selected_position = RecyclerView.NO_POSITION;
 
+    /**
+     * Constructor for PurseInAddNameItemAdapter
+     * It takes the parameters
+     *
+     * @param context context where it is called
+     * @param c       a reference of the AddNameAndPurse activity
+     * @param purses  a list of purses names
+     * @param purseId a list of purses ID's
+     */
     public PurseInAddNameItemAdapter(Context context, AddNameAndPurse c, ArrayList<String> purses,
                                      ArrayList<Integer> purseId) {
+
+        // set up the parameter as global variables
         this.purses = purses;
         this.purseId = purseId;
         this.context = context;
@@ -73,7 +93,6 @@ public class PurseInAddNameItemAdapter extends RecyclerView.Adapter<PurseInAddNa
             }
         });
 
-
     }
 
     @Override
@@ -81,6 +100,10 @@ public class PurseInAddNameItemAdapter extends RecyclerView.Adapter<PurseInAddNa
         return purses.size();
     }
 
+    /**
+     * Inner Class ViewHolder that initialize the views handle
+     * by the Adapter
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView purseName;

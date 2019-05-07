@@ -26,6 +26,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import ecoext.com.ecoext.general.MainActivity;
+
 public class RegisterActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     // GOOGLE

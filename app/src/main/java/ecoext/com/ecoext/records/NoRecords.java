@@ -1,4 +1,4 @@
-package ecoext.com.ecoext;
+package ecoext.com.ecoext.records;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,16 +16,25 @@ import com.apollographql.apollo.exception.ApolloException;
 
 import org.jetbrains.annotations.NotNull;
 
+import ecoext.com.ecoext.general.CustomLoader;
+import ecoext.com.ecoext.DeleteTransactionMutation;
+import ecoext.com.ecoext.R;
+import ecoext.com.ecoext.general.MyApolloClient;
 
+/**
+ * Class NoRecords
+ * It loads a layout when a record does not contain items attached to it
+ */
 public class NoRecords extends AppCompatActivity {
 
-    private Context context;
+    private Context context; // context of the activity
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.no_records_availables);
 
-        context = this;
+        context = this; // set the context to this Activity
+
         // Get the Extras
         final String purseId = getIntent().getStringExtra("PurseID");
         final String transactionID = getIntent().getStringExtra("TransactionID");
@@ -39,7 +48,6 @@ public class NoRecords extends AppCompatActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 new AlertDialog.Builder(context)
                         .setTitle("DELETE TRANSACTION")
                         .setMessage("Are you sure you want to delete this transaction")
@@ -70,10 +78,7 @@ public class NoRecords extends AppCompatActivity {
                             }
                         })
                         .show();
-
-
             }
         });
     }
-
 }

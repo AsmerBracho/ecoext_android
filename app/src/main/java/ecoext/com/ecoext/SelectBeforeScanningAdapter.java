@@ -1,7 +1,6 @@
 package ecoext.com.ecoext;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
@@ -14,13 +13,21 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import ecoext.com.ecoext.general.MainActivity;
+import ecoext.com.ecoext.general.Utilities;
+
+/**
+ * Adapter that renders a list of purses right before scanning a QR
+ */
 public class SelectBeforeScanningAdapter extends RecyclerView.Adapter<SelectBeforeScanningAdapter.ViewHolder> {
+
     // My Global Variables
-    private ArrayList<GetUserTransactionsQuery.Purse> purses;
-    private Context context;
+    private ArrayList<GetUserTransactionsQuery.Purse> purses; // list of purses
+    private Context context; // context
 
     /**
-     * Constructor HomePurseAdapter that takes the parameters as follow
+     * Constructor SelectBeforeScanningAdapter
+     *
      * @param context
      * @param purses
      */
@@ -46,7 +53,6 @@ public class SelectBeforeScanningAdapter extends RecyclerView.Adapter<SelectBefo
         holder.purseBackground.setBackgroundColor(Color.parseColor(Utilities.setPurseColor(name)));
         holder.parent.setAlpha(1);
 
-
         // set onClick Listener
         holder.parent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,11 +69,15 @@ public class SelectBeforeScanningAdapter extends RecyclerView.Adapter<SelectBefo
         return purses.size();
     }
 
+    /**
+     * Inner Class ViewHolder that initialize the views handle
+     * by the Adapter
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView purseName;
-        CardView parent;
-        RelativeLayout purseBackground;
+        private TextView purseName;
+        private CardView parent;
+        private RelativeLayout purseBackground;
 
         public ViewHolder(View itemView) {
             super(itemView);

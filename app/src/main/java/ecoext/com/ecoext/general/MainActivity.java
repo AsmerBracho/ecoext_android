@@ -1,4 +1,4 @@
-package ecoext.com.ecoext;
+package ecoext.com.ecoext.general;
 
 import android.animation.Animator;
 import android.app.Activity;
@@ -45,144 +45,195 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+
 import org.jetbrains.annotations.NotNull;
+
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import ecoext.com.ecoext.AddTransactionToPurseMutation;
+import ecoext.com.ecoext.AddUserMutation;
+import ecoext.com.ecoext.records.CreateNewRecord;
+import ecoext.com.ecoext.GetAllUserTransactionsOrderByDateQuery;
+import ecoext.com.ecoext.GetTransactionByTokenQuery;
+import ecoext.com.ecoext.GetUserQuery;
+import ecoext.com.ecoext.GetUserTransactionsQuery;
+import ecoext.com.ecoext.home.HomeFragment;
+import ecoext.com.ecoext.Item;
+import ecoext.com.ecoext.home.LoaderHomeFragment;
+import ecoext.com.ecoext.NotificationsFragment;
+import ecoext.com.ecoext.R;
+import ecoext.com.ecoext.ReceiptActivity;
+import ecoext.com.ecoext.records.RecordsFragment;
+import ecoext.com.ecoext.RegisterActivity;
+import ecoext.com.ecoext.ReportsStatisticsFragment;
+import ecoext.com.ecoext.SelectBeforeScanningAdapter;
 
 /**
- * Class: Main Activity
+ * Main Activity Class
+ * This class is the Main source of resource where most connections and processes
+ * are handled. This activity is the first class loaded every time the application load,
+ * and according to the different cases an action is taken. (see details within)
  */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
-    private Context context;
-    private ImageView photoImageView;
-    private TextView nameTextView;
-    private TextView emailTextView;
+    private static final String TAG = "MainActivity"; // Private TAG for Logs
 
-    private GoogleApiClient googleApiClient;
+    // Global Views
+    private Context context; // Our application context
+    private ImageView photoImageView; // User photo to be displayed
+    private TextView nameTextView; // User Name
+    private TextView emailTextView; // User email
+
+    // Google API Client
+    private GoogleApiClient googleApiClient; // GOOGLE CLIENT
 
     // Firebase Variables
-    private FirebaseAuth firebaseAuth;
-    private FirebaseAuth.AuthStateListener firebaseAuthListener;
+    private FirebaseAuth firebaseAuth; // For Authentication
+    private FirebaseAuth.AuthStateListener firebaseAuthListener; // Listener that track changes
 
     // Values used for given round corners to images
-    private static int sCorner = 50;
-    private static int sMargin = 1;
+    // A contribution created by javier gonzalez cabezas
 
+    private static int sCorner = 50; // corner radius
+    private static int sMargin = 1; // margin
+
+    /**
+     * Method to gets the corner radius parameter froma  different classe
+     * if needed
+     *
+     * @return an int sCorner => corner radius
+     */
     public static int getsCorner() {
         return sCorner;
     }
 
+    /**
+     * Method to gets the margin parameter from a different classe
+     * if needed
+     *
+     * @return an int sMargin => margin radius
+     */
     public static int getsMargin() {
         return sMargin;
     }
 
-    private static IntentIntegrator integrator;
-    private static  Activity activity;
+    // QR Code Integration
+    // Barcode scanning implementation in the open source ZXing project.
+    // https://github.com/zxing/zxing
+    private static IntentIntegrator integrator; // Allows to integrate an call QR Scanner
+    private static Activity activity; // parameter needed for integrator
+
     //create a progress Dialog
     private ProgressDialog progressDialog;
-    /**
-     * Variables for Floating Menu
-     * and 2 submenus
-     */
 
-    private FloatingActionButton fabMain;
-    private FloatingActionButton fabOne;
-    private FloatingActionButton fabTwo;
-    private TextView labelQR;
-    private TextView labelCreate;
+    // Floating Menu and sub menus
+    private FloatingActionButton fabMain; // main floating menu
+    private FloatingActionButton fabOne; // primary floating menu
+    private FloatingActionButton fabTwo; // secondary floating menu
+    private TextView labelQR; // label to be displayed for Scanning
+    private TextView labelCreate; // label to be displayed for create a new record
     private Float translationY = 100f;
     private OvershootInterpolator interpolator = new OvershootInterpolator();
-    private static final String TAG = "MainActivity";
-    private Boolean isMenuOpen = false;
+    private Boolean isMenuOpen = false; // boolean to check whether menu is open or not
 
     // Data Lists
-    private ArrayList<GetUserTransactionsQuery.Purse> purses = new ArrayList<>();
-    private ArrayList<String> pursesNames = new ArrayList<>();
+    private ArrayList<GetUserTransactionsQuery.Purse> purses = new ArrayList<>(); // Array of Purses
+    private ArrayList<String> pursesNames = new ArrayList<>(); // Array of purses Names
     private ArrayList<Integer> purseId = new ArrayList<>();
-    private ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> userTransactions = new ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction>();
+    private ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> userTransactions = new ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction>(); // Array that contains all the user transactions
 
     // Validator for my Scan
     private boolean validation;
-    private String isThereReceipt;
+    private String operation;
 
-    private NavigationView navigationView;
-
-    //Botton Nav Menu
-    private BottomNavigationView bottomNav;
+    // Navigation Menus
+    private NavigationView navigationView; // Main Navigation Menu
+    private BottomNavigationView bottomNav; // Bottom navigation Menu
 
     // User Transaction id
-    private int accountId;
+    private int accountId; // User Account ID
 
-    // purse selected when scanning
-    private RecyclerView selectPurseBeforeScanning;
-    private CardView purseSelectedCard;
-    private static int purseSelected;
-    private SelectBeforeScanningAdapter selectBeforeScanningAdapter;
-    //*********************************************************************
+    // Purse selected when scanning
+    private RecyclerView selectPurseBeforeScanning; // Pop up menu to select purse
+    private CardView purseSelectedCard; // Pop up Background
+    private static int purseSelected; // Int that stored the value of the selected purse
+    private SelectBeforeScanningAdapter selectBeforeScanningAdapter; // Adapter to implement for the pop up
 
+
+    //*---------------------------------STARTING MAIN APPLICATION ----------------------------------------
+
+    /**
+     * Method onCreate  is call every time the application loads and inside we define
+     * and initialize our main variables and instances
+     * this is similar as what a constructor does
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar); // get the view for the toolbar
+        setSupportActionBar(toolbar); // Define this as the Main toolbar
 
-        activity = this;
-        context = this;
-        progressDialog = new ProgressDialog(context);
+        activity = this; // define the activity as MainActivity
+        context = this; // context is in  MainActivity
 
+        progressDialog = new ProgressDialog(context); // Initialize progress Bar in this context
+
+        // Create a Drawer for our side menu
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        navigationView = findViewById(R.id.nav_view);
+        // Side Navigation Menu
+        navigationView = findViewById(R.id.nav_view); //
         navigationView.setNavigationItemSelectedListener(this);
 
-        //Botton Nav Menu
+        //Bottom Nav Menu
         bottomNav = findViewById(R.id.bottom_nav_menu);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
-        // Initiate the Fab Menu
-        initFabMenu();
-        // Dissable fabTwo
-        fabTwo.setClickable(false);
-        fabOne.setClickable(false);
+        initFabMenu(); // Initiate the Fab Menu
+
+        fabTwo.setClickable(false); // Disable fabTwo functionality
+        fabOne.setClickable(false); // Disable fabOne functionality
 
         // Start Application in the MainActivity Page
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new LoaderHomeFragment()).commit();
 
-            //Disable elements
+            // While the loader is loading Disable elements so no action can be performed
             navigationView.setEnabled(false);
             navigationView.setVisibility(View.GONE);
             bottomNav.setEnabled(false);
             bottomNav.setVisibility(View.GONE);
             fabMain.setVisibility(View.GONE);
             drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-
             navigationView.setCheckedItem(R.id.nav_home);
         }
 
         // Pulling data from header to our views
-        View nagView = navigationView.getHeaderView(0);
-        photoImageView = nagView.findViewById(R.id.photoUser);
+        View nagView = navigationView.getHeaderView(0); // create a ngView
+        photoImageView = nagView.findViewById(R.id.photoUser); // use nagView to set up  photo
         nameTextView = nagView.findViewById(R.id.username);
         emailTextView = nagView.findViewById(R.id.email);
 
+        // Create a SignIn google Instance
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
+        // Use the google API to build the google instance
         googleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
@@ -190,28 +241,31 @@ public class MainActivity extends AppCompatActivity
 
         // Initialize Firebase variables
         firebaseAuth = FirebaseAuth.getInstance();
-
         firebaseAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                // Create a Firebase User
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
+                // If user is different than Null
+                if (user != null) {  // => then set up the user Data
                     setUserData(user);
-                } else {
-                    goRegisterScreen();
+                } else { // Else
+                    goRegisterScreen(); // It means there is not session so redirect to register/login Screen
                 }
             }
         };
 
-        // get Extra from CreateReceipt if Exits
-        String i = getIntent().getStringExtra("newOperation");
-        isThereReceipt = i;
-
-        // get info database
+        // Get info database
         getInfoDataBase();
 
-        if ("EcoExTCreateTransaction".equals(isThereReceipt)) {
-            isThereReceipt = null;
+        // If an operation have been executed in another screen and redirected
+        // to this one, we need to take the extra info and check the source of
+        // to determine the precedent and show the right dialog message
+        operation = getIntent().getStringExtra("newOperation");
+
+        // If operation is a New Transaction
+        if ("EcoExTCreateTransaction".equals(operation)) {
+            operation = null;
             new AlertDialog.Builder(context)
                     .setTitle("TRANSACTION ADDED")
                     .setMessage("You have successfully added a new transaction")
@@ -222,8 +276,8 @@ public class MainActivity extends AppCompatActivity
                         }
                     })
                     .show();
-        } else if ("EcoExTCreatePurse".equals(isThereReceipt)) {
-            isThereReceipt = null;
+        } else if ("EcoExTCreatePurse".equals(operation)) {
+            operation = null;
             new AlertDialog.Builder(context)
                     .setTitle("PURSE ADDED")
                     .setMessage("You have successfully added a new purse")
@@ -234,8 +288,8 @@ public class MainActivity extends AppCompatActivity
                         }
                     })
                     .show();
-        } else if ("EcoExTTransactionDeleted".equals(isThereReceipt)) {
-            isThereReceipt = null;
+        } else if ("EcoExTTransactionDeleted".equals(operation)) {
+            operation = null;
             new AlertDialog.Builder(context)
                     .setTitle("TRANSACTION DELETED")
                     .setMessage("You have successfully deleted the transaction")
@@ -247,8 +301,8 @@ public class MainActivity extends AppCompatActivity
                     })
                     .show();
 
-        } else if ("EcoExTPurseDeleted".equals(isThereReceipt)) {
-            isThereReceipt = null;
+        } else if ("EcoExTPurseDeleted".equals(operation)) {
+            operation = null;
             new AlertDialog.Builder(context)
                     .setTitle("PURSE DELETED")
                     .setMessage("You have successfully deleted the purse and all transaction attached to it")
@@ -262,13 +316,23 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    // onActivityResult we are going to manage the QRScanner actions
+    /**
+     * After an operation that generate a result id called this method comes into place
+     * this is going to be used to handle the actions after a EcoExT QR code is scanned
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data); // create a result
+        // If result is no null it means the scanned has been initiated
         if (result != null) {
-            if (result.getContents() == null) {
+            if (result.getContents() == null) { // Scan cancelled
                 Toast.makeText(this, "Scan Cancelled", Toast.LENGTH_LONG).show();
+
+                // ELSE, MANAGE THE ACTIONS
             } else {
                 // Get the token from the Pi
                 final String token = result.getContents();
@@ -279,12 +343,13 @@ public class MainActivity extends AppCompatActivity
                 // create Intent to sent info to receipt
                 final Intent showReceipt = new Intent(getApplicationContext(), ReceiptActivity.class);
 
+                // This Thread will Run after the verification is done
+                // Jump to line 386
                 final Runnable progressRunnable = new Runnable() {
                     @Override
                     public void run() {
                         if (validation) {
                             // showed OK
-//                            getInfoDataBase();
                             progressDialog.dismiss();
                             new AlertDialog.Builder(context)
                                     .setTitle("RECEIPT SCANNED")
@@ -293,7 +358,7 @@ public class MainActivity extends AppCompatActivity
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             getInfoDataBase();
-                                            // start Intent
+                                            // start Intent with receipt
                                             getApplicationContext().startActivity(showReceipt);
                                         }
                                     })
@@ -305,7 +370,7 @@ public class MainActivity extends AppCompatActivity
                                         }
                                     })
                                     .show();
-
+                            // If a token is not
                         } else {
                             progressDialog.dismiss();
                             new AlertDialog.Builder(context, R.style.CustomDialogTheme)
@@ -367,7 +432,8 @@ public class MainActivity extends AppCompatActivity
                                         transaction[0].items().get(j).tax()
                                 ));
                             }
-                            //put extras to pass to next activity and know with receipt are we currently clicking
+
+                            // put extras to pass to next activity and know with receipt are we currently clicking
                             showReceipt.putParcelableArrayListExtra("listOfItems", listOfItems);
                             showReceipt.putExtra("date", format.format(date));
                             showReceipt.putExtra("number", transaction[0].transaction_id().toString());
@@ -384,6 +450,7 @@ public class MainActivity extends AppCompatActivity
                                     .enqueue(new ApolloCall.Callback<AddTransactionToPurseMutation.Data>() {
                                         @Override
                                         public void onResponse(@NotNull Response<AddTransactionToPurseMutation.Data> response) {
+                                            // Call the Thread Jump to line 339
                                             Handler pdCanceller = new Handler(Looper.getMainLooper());
                                             pdCanceller.postDelayed(progressRunnable, 1000);
                                         }
@@ -395,9 +462,11 @@ public class MainActivity extends AppCompatActivity
                                     });
 
                         } else {
+                            // Call the Thread Jump to line 339
                             validation = false;
                             Handler pdCanceller = new Handler(Looper.getMainLooper());
                             pdCanceller.postDelayed(progressRunnable, 1000);
+
                             Log.d(TAG, "onScannedQRValidation: " + validation);
                         }
                     }
@@ -407,13 +476,19 @@ public class MainActivity extends AppCompatActivity
 
                     }
                 });
-                closeMenu();
+
+                closeMenu(); // close menu after scanning
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
+    /**
+     * Method that Handle the click of the Back bottom in your android device
+     * It does not takes parameters and it is void. but it is called automatically
+     * when back bottom is pressed
+     */
     @Override
     public void onBackPressed() {
         //check if drawer is closed if not close it
@@ -431,30 +506,10 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the MainActivity/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    */
-
-    // Botton Navigation Menu Functionallity
+    /**
+     * Bottom Navigation Menu Functionality
+     * Method tat handle the clicks and actions performed in the bottom navigation menu
+     */
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -479,15 +534,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-
         int id = item.getItemId();
-
         if (id == R.id.nav_records) {
             bottomNav.setSelectedItemId(R.id.bottom_records);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new RecordsFragment(userTransactions)).commit();
         } else if (id == R.id.nav_reports) {
-
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new ReportsStatisticsFragment(userTransactions)).commit();
         } else if (id == R.id.nav_notifications) {
@@ -498,7 +550,7 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new HomeFragment(purses, userTransactions, accountId)).commit();
         } else if (id == R.id.logout) {
-            // show dialog
+            // show dialog confirmation
             new AlertDialog.Builder(context)
                     .setTitle("CONFIRM")
                     .setMessage("Are you sure you want to logout?")
@@ -515,33 +567,32 @@ public class MainActivity extends AppCompatActivity
                         }
                     })
                     .show();
-
         }
 
-        closeMenu();
+        closeMenu(); // close menu
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
     /**
-     * This methods will be called to set the userData from firebase
+     * This methods will be called to set the user Data from firebase
      * It takes a firebase instance as argument
      *
-     * @param user
+     * @param user an firebase user
      */
     private void setUserData(FirebaseUser user) {
         nameTextView.setText(user.getDisplayName());
         emailTextView.setText(user.getEmail());
 
-        /**
-         * In order to stylize the picture we will apply a rounded corners style
-         * provided by javier Gonzales in the class RoundedCornersTransformation
-         */
+        // In order to stylize the picture we will apply a rounded corners style
+        // provided by javier Gonzales in the class RoundedCornersTransformation
+
         Glide.with(this).load(user.getPhotoUrl())
                 .bitmapTransform(new RoundedCornersTransformation(MainActivity.this, sCorner, sMargin))
                 .into(photoImageView);
     }
+
 
     @Override
     protected void onStart() {
@@ -556,12 +607,20 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    /**
+     * Void method that Initiate a new Intent to redirect user to
+     * the Login Register screen
+     */
     private void goRegisterScreen() {
         Intent goLoginScreen = new Intent(this, RegisterActivity.class);
         goLoginScreen.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(goLoginScreen);
     }
 
+    /**
+     * Logout Method that kill the session by logging out the Firebase Instance
+     * and Google Instance
+     */
     public void logout() {
         FirebaseAuth.getInstance().signOut();
         Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
@@ -577,12 +636,13 @@ public class MainActivity extends AppCompatActivity
         goRegisterScreen();
     }
 
+    /**
+     * Method that revoke the credential for Firebase and Google
+     *
+     * @param view
+     */
     public void revoke(View view) {
-        // revoke firebase Instance
         FirebaseAuth.getInstance().signOut();
-        // revoke Facebook instance
-        // LoginManager.getInstance().logOut();
-
         // revoke Google Instance
         Auth.GoogleSignInApi.revokeAccess(googleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
@@ -596,11 +656,15 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    /**
+     * Method that handdle conections problems
+     *
+     * @param connectionResult
+     */
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        // CODE HERE
     }
-
 
     /**
      * Methods to follow are used for the animation and functionality
@@ -636,6 +700,9 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    /**
+     * Open Floating Menu and present the different options
+     */
     private void openMenu() {
         fabTwo.setClickable(true);
         fabOne.setClickable(true);
@@ -664,6 +731,10 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    /**
+     * Close Floating Menu and disable functionality
+     * for the sub menus and labels
+     */
     private void closeMenu() {
         //
         selectPurseBeforeScanning.setEnabled(false);
@@ -725,48 +796,68 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    /**
+     * Method that handle the actions taken when pressing
+     * first floating bottom
+     */
+    private void handleFabOne() {
+        // Redirect to create record activity
+        Intent createNewRecords = new Intent(getApplicationContext(), CreateNewRecord.class);
+        createNewRecords.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        createNewRecords.putStringArrayListExtra("purseNames", pursesNames);
+        createNewRecords.putIntegerArrayListExtra("purseId", purseId);
+        startActivity(createNewRecords);
+    }
+
+
+    /**
+     * Method that handle the actions taken when pressing
+     * second floating bottom
+     */
     private void handleFabTwo() {
         Log.i(TAG, "handleFabTwo: ");
+
         selectPurseBeforeScanning.setEnabled(true);
         selectPurseBeforeScanning.setVisibility(View.VISIBLE);
         purseSelectedCard.setEnabled(true);
         purseSelectedCard.setVisibility(View.VISIBLE);
-
-//        final Activity activity = this;
-//
-//        //call the QR Scanner
-//        fabTwo.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                integrator = new IntentIntegrator(activity);
-//                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-//                integrator.setPrompt("EcoExT QR Scanner");
-//                integrator.setCameraId(0);
-//                integrator.setBeepEnabled(false);
-//                integrator.setBarcodeImageEnabled(false);
-//                integrator.initiateScan();
-//            }
-//        });
     }
 
-
-
+    /**
+     * This method is a static method since it will be called from
+     * different classes.
+     * <p>
+     * What it does is call an integrator that opens up the camara as resource to scan the QR
+     */
     public static void callScanner() {
-                Log.d(TAG, "Cual es" + purseSelected);
-                integrator = new IntentIntegrator(activity);
-                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-                integrator.setPrompt("EcoExT QR Scanner");
-                integrator.setCameraId(0);
-                integrator.setBeepEnabled(false);
-                integrator.setBarcodeImageEnabled(false);
-                integrator.initiateScan();
+        Log.d(TAG, "Which one" + purseSelected);
+
+        integrator = new IntentIntegrator(activity);
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+        // set the title for the Scanner
+        integrator.setPrompt("EcoExT QR Scanner");
+        integrator.setCameraId(0);
+        integrator.setBeepEnabled(false);
+        integrator.setBarcodeImageEnabled(false);
+        integrator.initiateScan();
 
     }
 
+    /**
+     * Set Static value purseSelected
+     *
+     * @param id takes an int and set it as the purse current selected
+     */
     public static void setPurseSelected(int id) {
         purseSelected = id;
     }
 
+    /**
+     * Since this Activity implements the OnClickListener interface we need to implements
+     * the on Click method that handles all the different clicks
+     *
+     * @param view
+     */
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -790,23 +881,20 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void handleFabOne() {
-        Intent createNewRecords = new Intent(getApplicationContext(), CreateNewRecord.class);
-        createNewRecords.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        createNewRecords.putStringArrayListExtra("purseNames", pursesNames);
-        createNewRecords.putIntegerArrayListExtra("purseId", purseId);
-        startActivity(createNewRecords);
-
-    }
-
+    /**
+     * This method is the Core of the application since it handle the queries that brings the information
+     * that fill the list to be displayed in the entire application.
+     */
     private void getInfoDataBase() {
-        // Clean the Data
+        // Clean the Data so we make sure we do NOT duplicate it
         purses.clear();
         pursesNames.clear();
         userTransactions.clear();
 
+        // Create a firebase user
         final FirebaseUser user = firebaseAuth.getCurrentUser();
 
+        // Try to get an user where user id is equal to firebase UID
         MyApolloClient.getMyApolloClient().query(
                 GetUserQuery.builder().id(user.getUid())
                         .build()).enqueue(new ApolloCall.Callback<GetUserQuery.Data>() {
@@ -814,7 +902,8 @@ public class MainActivity extends AppCompatActivity
             public void onResponse(@NotNull Response<GetUserQuery.Data> response) {
                 Log.d(TAG, "onResponseUser: " + response.data().user());
 
-                if (response.data().user().size() == 0) {
+                // If user. size == 0 it means there is no user in database
+                if (response.data().user().size() == 0) { // => then
                     // Create a new User
                     Log.d(TAG, "onResponseUserInside: I am inside If");
 
@@ -832,6 +921,7 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void onResponse(@NotNull Response<AddUserMutation.Data> response) {
                             Log.d(TAG, "onResponseUserInside: DONE WRITING USER");
+                            // recursion is applied to bypass this step now and go to next one
                             getInfoDataBase();
                         }
 
@@ -840,7 +930,6 @@ public class MainActivity extends AppCompatActivity
 
                         }
                     });
-
                 } else {
 
                     // Get User Transaction Order By Date
@@ -858,8 +947,8 @@ public class MainActivity extends AppCompatActivity
                         }
                     });
 
-
-                    // query the data and get user transactions
+                    // query the data and get user transactions with extra Info
+                    // such as purses info
                     MyApolloClient.getMyApolloClient().query(
                             GetUserTransactionsQuery.builder().id(user.getUid())
                                     .build()).enqueue(new ApolloCall.Callback<GetUserTransactionsQuery.Data>() {
@@ -881,6 +970,7 @@ public class MainActivity extends AppCompatActivity
                                 }
                             }
 
+                            // After performing the background activity we te up the views on the main thread
                             MainActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -898,7 +988,7 @@ public class MainActivity extends AppCompatActivity
                             });
 
                             // Recycler view and adapter
-                            selectBeforeScanningAdapter = new SelectBeforeScanningAdapter (context, purses);
+                            selectBeforeScanningAdapter = new SelectBeforeScanningAdapter(context, purses);
 
                             purseSelectedCard = findViewById(R.id.purse_selected_card);
                             selectPurseBeforeScanning = findViewById(R.id.select_purse_before_scan);
@@ -925,9 +1015,5 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-
-
     }
-
-
 }

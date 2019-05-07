@@ -7,13 +7,15 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 
 import com.apollographql.apollo.ApolloCall;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
 
 import org.jetbrains.annotations.NotNull;
+
+import ecoext.com.ecoext.general.CustomLoader;
+import ecoext.com.ecoext.general.MyApolloClient;
 
 public class CreatePurse extends AppCompatActivity {
 

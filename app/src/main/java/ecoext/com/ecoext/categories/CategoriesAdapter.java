@@ -1,4 +1,4 @@
-package ecoext.com.ecoext;
+package ecoext.com.ecoext.categories;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -6,14 +6,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class DetailsPurseAdapter extends RecyclerView.Adapter<DetailsPurseAdapter.ViewHolder> {
+import java.util.ArrayList;
 
-    private GetAllUserTransactionsOrderByDateQuery.UserTransaction transactions;
+public class CategoriesAdapter extends RecyclerView.Adapter<
+        CategoriesAdapter.ViewHolder> {
+
+    // Define the Context
     private Context context;
+    ArrayList<String> listOfCategories;
 
-    public DetailsPurseAdapter(Context context, GetAllUserTransactionsOrderByDateQuery.UserTransaction transactions) {
+    public CategoriesAdapter(Context context, ArrayList<String> categoriesList) {
         this.context = context;
-        this.transactions = transactions;
+        this.listOfCategories = categoriesList;
     }
 
     @NonNull
@@ -39,4 +43,5 @@ public class DetailsPurseAdapter extends RecyclerView.Adapter<DetailsPurseAdapte
             super(itemView);
         }
     }
+
 }
