@@ -770,7 +770,7 @@
               "deprecationReason": null
             },
             {
-              "name": "ammount",
+              "name": "amount",
               "description": null,
               "args": [],
               "type": {
@@ -2006,7 +2006,7 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "ammount",
+              "name": "amount",
               "description": null,
               "type": {
                 "kind": "SCALAR",

@@ -125,8 +125,12 @@ public class ItemTransactionAdapterWithReciclerView extends RecyclerView.Adapter
                 public void onClick(View view) {
 
                     if ("User-Input-EcoExT".equals(transaction.items().get(0).product())) {
+
+                        Log.d("printing IDs Before", "theIDSBefore" + transaction.transaction_id() + transaction.purse_id());
                         // Show No Receipt Available
                         Intent goNoReceipt = new Intent(context, NoRecords.class);
+                        goNoReceipt.putExtra("TransactionID", Integer.toString(transaction.transaction_id()));
+                        goNoReceipt.putExtra("PurseID", Integer.toString(transaction.purse_id()));
                         context.startActivity(goNoReceipt);
                     } else {
                         double tax = 0;

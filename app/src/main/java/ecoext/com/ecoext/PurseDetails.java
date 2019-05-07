@@ -1,10 +1,15 @@
 package ecoext.com.ecoext;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -87,7 +92,7 @@ public class PurseDetails extends AppCompatActivity {
                 // load the Corresponding Fragment
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_details,
                         new DetailsPurseFragment(userTransactionsFilteredByPurse, purseName, purseDescription,
-                                purseBalance)).commit();
+                                purseBalance, Integer.parseInt(purseID))).commit();
             }
 
             @Override

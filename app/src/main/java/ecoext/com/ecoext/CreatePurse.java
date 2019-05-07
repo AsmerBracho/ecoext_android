@@ -1,10 +1,13 @@
 package ecoext.com.ecoext;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.apollographql.apollo.ApolloCall;
 import com.apollographql.apollo.api.Response;
@@ -20,6 +23,8 @@ public class CreatePurse extends AppCompatActivity {
     private TextInputLayout initialAmount;
     private int accountId;
 
+    private ProgressDialog progressDialog;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_purse);
@@ -32,6 +37,8 @@ public class CreatePurse extends AppCompatActivity {
         // Get account Id from intent
         String i = getIntent().getStringExtra("accountId");
         accountId = Integer.parseInt(i);
+
+        progressDialog = new ProgressDialog(this);
     }
 
     private boolean validateName() {
@@ -65,6 +72,13 @@ public class CreatePurse extends AppCompatActivity {
             String purseDescription = description.getEditText().getText().toString().trim();
             final String amount = initialAmount.getEditText().getText().toString().trim();
 
+            Button bt = findViewById(R.id.create_new_purse_button);
+            bt.setEnabled(false);
+
+            progressDialog.setTitle("EcoExTing");
+            progressDialog.setMessage("Creating Purse");
+            progressDialog.show();
+
             MyApolloClient.getMyApolloClient().mutate(
                     CreatePurseMutation.builder().name(purseName)
                             .account_id(accountId)
@@ -72,22 +86,24 @@ public class CreatePurse extends AppCompatActivity {
                 @Override
                 public void onResponse(@NotNull Response<CreatePurseMutation.Data> response) {
                     final int purseId = response.data().addPurse.purse_id();
-
-                    if (amount == null || amount.isEmpty() || "0".equals(amount)) {
-                        CreatePurse.this.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Intent load = new Intent(getApplicationContext(), CustomLoader.class);
-                                load.putExtra("newOperation", "EcoExTCreatePurse");
-                                load.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(load);
-
-                            }
-                        });
-                        return;
+                    double initialAmount;
+                    if (amount == null || amount.isEmpty()) {
+                        initialAmount = 0;
+//                        CreatePurse.this.runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                Intent load = new Intent(getApplicationContext(), CustomLoader.class);
+//                                load.putExtra("newOperation", "EcoExTCreatePurse");
+//                                load.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                startActivity(load);
+//
+//                            }
+//                        });
+//                        return;
                     } else {
-                        final double initialAmount = Double.parseDouble(amount);
-                        // Create a Transaction
+                        initialAmount = Double.parseDouble(amount);
+                    }
+                    // Create a Transaction
                         MyApolloClient.getMyApolloClient().mutate(
                                 AddTransactionMutation.builder()
                                         .name(purseName + "First Record-EcoExTAsMiGaCaEd2019dub")
@@ -105,6 +121,7 @@ public class CreatePurse extends AppCompatActivity {
                                         CreatePurse.this.runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
+                                                progressDialog.dismiss();
                                                 Intent load = new Intent(getApplicationContext(), CustomLoader.class);
                                                 load.putExtra("newOperation", "EcoExTCreatePurse");
                                                 load.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -127,7 +144,7 @@ public class CreatePurse extends AppCompatActivity {
 
                             }
                         });
-                    }
+
                 }
 
                 @Override

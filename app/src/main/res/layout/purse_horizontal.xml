@@ -39,7 +39,7 @@
                 android:layout_alignStart="@+id/wallet"
                 android:layout_alignEnd="@+id/wallet"
                 android:layout_marginStart="-1dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="0dp"
                 android:layout_marginEnd="-4dp"
                 android:autoSizeMaxTextSize="15sp"
                 android:autoSizeMinTextSize="8sp"

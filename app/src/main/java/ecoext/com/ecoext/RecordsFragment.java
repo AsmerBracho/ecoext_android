@@ -110,8 +110,8 @@ public class RecordsFragment extends Fragment {
          * for each filter add the listener that call the specific action
          */
 
-        filterAccount = view.findViewById(R.id.filterValue1);
-        filterAccountClick = view.findViewById(R.id.filterAccountClick);
+//        filterAccount = view.findViewById(R.id.filterValue1);
+//        filterAccountClick = view.findViewById(R.id.filterAccountClick);
         filterDate = view.findViewById(R.id.filterValue2);
         filterDateClick = view.findViewById(R.id.filterDateClick);
 
@@ -127,14 +127,14 @@ public class RecordsFragment extends Fragment {
         // clear the filters when running for first time
         setFilters(0);
 
-        filterAccountClick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                filterAccount.setText("Clicked");
-                onAccount.setText("Clicked");
-                setFilters(1);
-            }
-        });
+//        filterAccountClick.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                filterAccount.setText("Clicked");
+//                onAccount.setText("Clicked");
+//                setFilters(1);
+//            }
+//        });
 
         filterDateClick.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -226,7 +226,7 @@ public class RecordsFragment extends Fragment {
             onAccount.setVisibility(View.VISIBLE);
             // 0 if we want to hide
         } else {
-            filterAccount.setText("");
+            //filterAccount.setText("");
             // clear field that contains date filter
             filterDate.setText("");
             // clear the actual filter

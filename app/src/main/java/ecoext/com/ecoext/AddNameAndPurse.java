@@ -1,5 +1,6 @@
 package ecoext.com.ecoext;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -31,9 +32,11 @@ public class AddNameAndPurse extends AppCompatActivity {
     private ArrayList<Integer> purseId;
     private RecyclerView listOfPurses;
     private TextView amount;
+    private Button ok;
     private TextInputLayout inputTransactionName;
     private String amountString;
     private int PurseId = -1;
+    private ProgressDialog progressDialog;
 
     public int getPurseId() {
         return PurseId;
@@ -50,6 +53,9 @@ public class AddNameAndPurse extends AppCompatActivity {
 
         // Add back button
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // progress Dialog
+        progressDialog = new ProgressDialog(this);
 
         // Find Views
         amount = findViewById(R.id.amount_to_add);
@@ -72,10 +78,15 @@ public class AddNameAndPurse extends AppCompatActivity {
         // call internal methods
         initReciclerView();
 
-        Button ok = findViewById(R.id.okCreate);
+        ok = findViewById(R.id.okCreate);
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressDialog.setTitle("EcoExTing");
+                progressDialog.setMessage("Creating Transaction");
+                progressDialog.show();
+
+                ok.setEnabled(false);
                 confirmInput(view);
             }
         });

@@ -38,6 +38,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView latestsRecords;
     private LinearLayout createPurseButton;
     private ItemTransactionAdapterWithReciclerView latestRecordAdapter;
+    ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> latest;
     private int intLatest;
     private int latestSize = 3;
     private int accountId;
@@ -62,6 +63,19 @@ public class HomeFragment extends Fragment {
                 userTransactionsFiltered.add(userTransactions.get(j));
             }
         }
+
+        // get a list with the latest records to pass to the adapter
+        latest = new ArrayList<>();
+
+        if (userTransactionsFiltered.size() < latestSize) {
+            intLatest = userTransactionsFiltered.size();
+        } else {
+            intLatest = latestSize;
+        }
+
+        for (int i = 0; i < intLatest ; i++) {
+            latest.add(userTransactionsFiltered.get(i));
+        }
     }
 
     @Nullable
@@ -71,23 +85,11 @@ public class HomeFragment extends Fragment {
 
         homePurseAdapter = new HomePurseAdapter(this.getContext(), purses);
 
-        // get a list with the latest records to pass to the adapter
-        ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> latest = new ArrayList<>();
-
-        if (userTransactionsFiltered.size() < latestSize) {
-            intLatest = userTransactionsFiltered.size();
-        } else {
-            intLatest = latestSize;
-        }
-
         if (intLatest !=0) {
             TextView notFound = view.findViewById(R.id.text_not_found);
             notFound.setVisibility(View.GONE);
         }
 
-        for (int i = 0; i < intLatest ; i++) {
-            latest.add(userTransactionsFiltered.get(i));
-        }
         latestRecordAdapter = new ItemTransactionAdapterWithReciclerView(this.getContext(), latest);
 
         initReciclerView(view);
@@ -154,7 +156,7 @@ public class HomeFragment extends Fragment {
         barExpenses.setColor(Color.parseColor("#e45558"));
 
         //combined Data Set
-        ArrayList<BarDataSet> dataSets = new ArrayList<>();  // combined all dataset into an arraylist
+        ArrayList<BarDataSet> dataSets = new ArrayList<>();  // combined all data set into an array list
         dataSets.add(barIncomes);
         dataSets.add(barExpenses);
 

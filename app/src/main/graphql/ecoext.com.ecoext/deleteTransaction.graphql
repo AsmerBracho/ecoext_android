@@ -1,0 +1,9 @@
+mutation deleteTransaction ($purseId: Int!, $transactionId: Int!) {
+  deleteTransactionFromPurse (
+    purse_id: $purseId
+    transaction_id: $transactionId
+  )
+  {
+  title
+  }
+}

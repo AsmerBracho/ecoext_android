@@ -82,29 +82,43 @@
                     android:textColor="#ffffff"
                     android:textSize="20dp" />
 
-                <TextView
-                    android:id="@+id/init_amount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/purse_details_balance"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="54dp"
-                    android:alpha="1"
-                    android:text="Initial Amount"
-                    android:textColor="#c2bfbf" />
+                <!--<TextView-->
+                    <!--android:id="@+id/init_amount"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_below="@+id/purse_details_balance"-->
+                    <!--android:layout_alignParentEnd="true"-->
+                    <!--android:layout_marginTop="8dp"-->
+                    <!--android:layout_marginEnd="54dp"-->
+                    <!--android:alpha="1"-->
+                    <!--android:text="Initial Amount"-->
+                    <!--android:textColor="#c2bfbf" />-->
 
-                <TextView
-                    android:id="@+id/purse_details_initial_amount"
+                <!--<TextView-->
+                    <!--android:id="@+id/purse_details_initial_amount"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_alignTop="@+id/init_amount"-->
+                    <!--android:layout_alignParentEnd="true"-->
+                    <!--android:layout_marginTop="0dp"-->
+                    <!--android:layout_marginEnd="15dp"-->
+                    <!--android:alpha="1"-->
+                    <!--android:text="100"-->
+                    <!--android:textColor="#c2bfbf" />-->
+
+                <ImageView
+                    android:id="@+id/delete_purse"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/init_amount"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginEnd="15dp"
-                    android:alpha="1"
-                    android:text="100"
-                    android:textColor="#c2bfbf" />/>
+                    android:layout_below="@+id/wallet"
+                    android:layout_alignStart="@+id/wallet"
+                    android:layout_alignEnd="@+id/wallet"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="23dp"
+
+                    android:layout_marginEnd="23dp"
+                    android:layout_marginBottom="10dp"
+                    app:srcCompat="@drawable/ic_delete" />/>
 
             </RelativeLayout>
 

@@ -18,6 +18,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -42,9 +45,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-
 import org.jetbrains.annotations.NotNull;
-
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -81,8 +82,8 @@ public class MainActivity extends AppCompatActivity
         return sMargin;
     }
 
-    private IntentIntegrator integrator;
-
+    private static IntentIntegrator integrator;
+    private static  Activity activity;
     //create a progress Dialog
     private ProgressDialog progressDialog;
     /**
@@ -117,6 +118,12 @@ public class MainActivity extends AppCompatActivity
 
     // User Transaction id
     private int accountId;
+
+    // purse selected when scanning
+    private RecyclerView selectPurseBeforeScanning;
+    private CardView purseSelectedCard;
+    private static int purseSelected;
+    private SelectBeforeScanningAdapter selectBeforeScanningAdapter;
     //*********************************************************************
 
     @Override
@@ -126,6 +133,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        activity = this;
         context = this;
         progressDialog = new ProgressDialog(context);
 
@@ -219,6 +227,31 @@ public class MainActivity extends AppCompatActivity
             new AlertDialog.Builder(context)
                     .setTitle("PURSE ADDED")
                     .setMessage("You have successfully added a new purse")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Dismiss
+                        }
+                    })
+                    .show();
+        } else if ("EcoExTTransactionDeleted".equals(isThereReceipt)) {
+            isThereReceipt = null;
+            new AlertDialog.Builder(context)
+                    .setTitle("TRANSACTION DELETED")
+                    .setMessage("You have successfully deleted the transaction")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Dismiss
+                        }
+                    })
+                    .show();
+
+        } else if ("EcoExTPurseDeleted".equals(isThereReceipt)) {
+            isThereReceipt = null;
+            new AlertDialog.Builder(context)
+                    .setTitle("PURSE DELETED")
+                    .setMessage("You have successfully deleted the purse and all transaction attached to it")
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -346,7 +379,7 @@ public class MainActivity extends AppCompatActivity
                             MyApolloClient.getMyApolloClient().mutate(
                                     AddTransactionToPurseMutation.builder()
                                             .token(token)
-                                            .pid(purses.get(0).purse_id)
+                                            .pid(purseSelected)
                                             .build())
                                     .enqueue(new ApolloCall.Callback<AddTransactionToPurseMutation.Data>() {
                                         @Override
@@ -388,6 +421,8 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
             //close fab menu
+            closeMenu();
+        } else if (isMenuOpen) {
             closeMenu();
         } else {
             super.onBackPressed();
@@ -463,7 +498,24 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new HomeFragment(purses, userTransactions, accountId)).commit();
         } else if (id == R.id.logout) {
-            logout();
+            // show dialog
+            new AlertDialog.Builder(context)
+                    .setTitle("CONFIRM")
+                    .setMessage("Are you sure you want to logout?")
+                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            logout();
+                        }
+                    })
+                    .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
+                    .show();
+
         }
 
         closeMenu();
@@ -613,6 +665,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void closeMenu() {
+        //
+        selectPurseBeforeScanning.setEnabled(false);
+        selectPurseBeforeScanning.setVisibility(View.GONE);
+
+        purseSelectedCard.setEnabled(false);
+        purseSelectedCard.setVisibility(View.GONE);
+
         fabTwo.setClickable(false);
         fabOne.setClickable(false);
         isMenuOpen = !isMenuOpen;
@@ -668,12 +727,32 @@ public class MainActivity extends AppCompatActivity
 
     private void handleFabTwo() {
         Log.i(TAG, "handleFabTwo: ");
-        final Activity activity = this;
+        selectPurseBeforeScanning.setEnabled(true);
+        selectPurseBeforeScanning.setVisibility(View.VISIBLE);
+        purseSelectedCard.setEnabled(true);
+        purseSelectedCard.setVisibility(View.VISIBLE);
 
-        //call the QR Scanner
-        fabTwo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+//        final Activity activity = this;
+//
+//        //call the QR Scanner
+//        fabTwo.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                integrator = new IntentIntegrator(activity);
+//                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+//                integrator.setPrompt("EcoExT QR Scanner");
+//                integrator.setCameraId(0);
+//                integrator.setBeepEnabled(false);
+//                integrator.setBarcodeImageEnabled(false);
+//                integrator.initiateScan();
+//            }
+//        });
+    }
+
+
+
+    public static void callScanner() {
+                Log.d(TAG, "Cual es" + purseSelected);
                 integrator = new IntentIntegrator(activity);
                 integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
                 integrator.setPrompt("EcoExT QR Scanner");
@@ -681,8 +760,11 @@ public class MainActivity extends AppCompatActivity
                 integrator.setBeepEnabled(false);
                 integrator.setBarcodeImageEnabled(false);
                 integrator.initiateScan();
-            }
-        });
+
+    }
+
+    public static void setPurseSelected(int id) {
+        purseSelected = id;
     }
 
     @Override
@@ -814,6 +896,15 @@ public class MainActivity extends AppCompatActivity
 
                                 }
                             });
+
+                            // Recycler view and adapter
+                            selectBeforeScanningAdapter = new SelectBeforeScanningAdapter (context, purses);
+
+                            purseSelectedCard = findViewById(R.id.purse_selected_card);
+                            selectPurseBeforeScanning = findViewById(R.id.select_purse_before_scan);
+                            LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+                            selectPurseBeforeScanning.setLayoutManager(layoutManager);
+                            selectPurseBeforeScanning.setAdapter(selectBeforeScanningAdapter);
 
                             // After performance the query Load the Activity with the data
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
