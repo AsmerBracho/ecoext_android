@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import ecoext.com.ecoext.AddNameAndPurse;
 import ecoext.com.ecoext.R;
 import ecoext.com.ecoext.general.Utilities;
 

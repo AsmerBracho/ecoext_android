@@ -1,4 +1,4 @@
-package ecoext.com.ecoext;
+package ecoext.com.ecoext.login;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import ecoext.com.ecoext.R;
 import ecoext.com.ecoext.general.MainActivity;
 
 /**

@@ -1,4 +1,4 @@
-package ecoext.com.ecoext;
+package ecoext.com.ecoext.statistics;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
@@ -22,6 +22,9 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+
+import ecoext.com.ecoext.GetAllUserTransactionsOrderByDateQuery;
+import ecoext.com.ecoext.R;
 
 /**
  * ReportsStatisticsFragment contains the Graphs to be displayed in the Reports Page

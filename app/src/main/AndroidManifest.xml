@@ -14,13 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".RegisterActivity"
+            android:name=".login.RegisterActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".RegisterWithEmailActivity"
+            android:name=".login.RegisterWithEmailActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".login.LoginActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".records.CreateNewRecord"
@@ -67,7 +67,7 @@
         <activity android:name=".categories.Categories" />
 
         <activity
-            android:name=".AddNameAndPurse"
+            android:name=".purse.AddNameAndPurse"
             android:theme="@style/Theme.AppCompat.Light" />
 
         <activity
@@ -78,9 +78,9 @@
             android:name=".records.NoRecords"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <activity android:name=".CreatePurse" />
+        <activity android:name=".purse.CreatePurse" />
         <activity
-            android:name=".PurseDetails"
+            android:name=".purse.PurseDetails"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
 
     </application>

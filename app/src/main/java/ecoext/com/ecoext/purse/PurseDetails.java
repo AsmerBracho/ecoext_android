@@ -1,4 +1,4 @@
-package ecoext.com.ecoext;
+package ecoext.com.ecoext.purse;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +13,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+import ecoext.com.ecoext.GetAllUserTransactionsOrderByDateQuery;
+import ecoext.com.ecoext.R;
 import ecoext.com.ecoext.general.MyApolloClient;
 import ecoext.com.ecoext.home.LoaderHomeFragment;
 import ecoext.com.ecoext.purse.DetailsPurseFragment;
@@ -79,7 +81,7 @@ public class PurseDetails extends AppCompatActivity {
 
                 // filtered results
                 for (int i = 0; i < userTransactions.size(); i++) {
-                    if (userTransactions.get(i).purse_id == purseId) {
+                    if (userTransactions.get(i).purse_id() == purseId) {
 
                         if (!userTransactions.get(i).label().contains("EcoExTAsMiGaCaEd2019dub")) {
                             userTransactionsFilteredByPurse.add(userTransactions.get(i));

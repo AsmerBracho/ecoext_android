@@ -24,7 +24,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 
-import ecoext.com.ecoext.CreatePurse;
+import ecoext.com.ecoext.purse.CreatePurse;
 import ecoext.com.ecoext.GetAllUserTransactionsOrderByDateQuery;
 import ecoext.com.ecoext.GetUserTransactionsQuery;
 import ecoext.com.ecoext.records.ItemTransactionAdapterWithReciclerView;

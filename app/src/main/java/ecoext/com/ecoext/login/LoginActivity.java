@@ -1,10 +1,13 @@
-package ecoext.com.ecoext;
+package ecoext.com.ecoext.login;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+
+import ecoext.com.ecoext.R;
+import ecoext.com.ecoext.login.RegisterActivity;
 
 /**
  * Class Login Activity

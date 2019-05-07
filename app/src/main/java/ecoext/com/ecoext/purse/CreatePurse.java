@@ -1,4 +1,4 @@
-package ecoext.com.ecoext;
+package ecoext.com.ecoext.purse;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -14,6 +14,10 @@ import com.apollographql.apollo.exception.ApolloException;
 
 import org.jetbrains.annotations.NotNull;
 
+import ecoext.com.ecoext.AddTransactionMutation;
+import ecoext.com.ecoext.AddTransactionToPurseMutation;
+import ecoext.com.ecoext.CreatePurseMutation;
+import ecoext.com.ecoext.R;
 import ecoext.com.ecoext.general.CustomLoader;
 import ecoext.com.ecoext.general.MyApolloClient;
 
@@ -79,7 +83,7 @@ public class CreatePurse extends AppCompatActivity {
                             .description(purseDescription).build()).enqueue(new ApolloCall.Callback<CreatePurseMutation.Data>() {
                 @Override
                 public void onResponse(@NotNull Response<CreatePurseMutation.Data> response) {
-                    final int purseId = response.data().addPurse.purse_id();
+                    final int purseId = response.data().addPurse().purse_id();
                     double initialAmount;
                     if (amount == null || amount.isEmpty()) {
                         initialAmount = 0;
@@ -97,7 +101,7 @@ public class CreatePurse extends AppCompatActivity {
                                 MyApolloClient.getMyApolloClient().mutate(
                                         AddTransactionToPurseMutation.builder()
                                                 .pid(purseId)
-                                                .token(response.data().addTransaction().token_id)
+                                                .token(response.data().addTransaction().token_id())
                                                 .build()).enqueue(new ApolloCall.Callback<AddTransactionToPurseMutation.Data>() {
                                     @Override
                                     public void onResponse(@NotNull Response<AddTransactionToPurseMutation.Data> response) {

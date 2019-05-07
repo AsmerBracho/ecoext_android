@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import java.util.ArrayList;
 import ecoext.com.ecoext.GetUserTransactionsQuery;
-import ecoext.com.ecoext.PurseDetails;
+import ecoext.com.ecoext.purse.PurseDetails;
 import ecoext.com.ecoext.R;
 import ecoext.com.ecoext.general.Utilities;
 

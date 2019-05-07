@@ -67,8 +67,8 @@ import ecoext.com.ecoext.notification.NotificationsFragment;
 import ecoext.com.ecoext.R;
 import ecoext.com.ecoext.receipt.ReceiptActivity;
 import ecoext.com.ecoext.records.RecordsFragment;
-import ecoext.com.ecoext.RegisterActivity;
-import ecoext.com.ecoext.ReportsStatisticsFragment;
+import ecoext.com.ecoext.login.RegisterActivity;
+import ecoext.com.ecoext.statistics.ReportsStatisticsFragment;
 
 /**
  * Main Activity Class
