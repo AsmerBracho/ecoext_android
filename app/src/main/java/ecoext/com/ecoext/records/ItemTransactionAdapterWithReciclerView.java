@@ -22,10 +22,9 @@ import java.util.Collection;
 import java.util.Date;
 
 import ecoext.com.ecoext.GetAllUserTransactionsOrderByDateQuery;
-import ecoext.com.ecoext.GetUserTransactionsQuery;
-import ecoext.com.ecoext.Item;
+import ecoext.com.ecoext.receipt.Item;
 import ecoext.com.ecoext.R;
-import ecoext.com.ecoext.ReceiptActivity;
+import ecoext.com.ecoext.receipt.ReceiptActivity;
 
 /**
  * Class ItemTransactionAdapterWithReciclerView

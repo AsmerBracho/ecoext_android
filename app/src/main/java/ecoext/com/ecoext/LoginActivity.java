@@ -6,6 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+/**
+ * Class Login Activity
+ * Takes the layout activity_login and inflate it
+ */
 public class LoginActivity extends AppCompatActivity {
 
     @Override

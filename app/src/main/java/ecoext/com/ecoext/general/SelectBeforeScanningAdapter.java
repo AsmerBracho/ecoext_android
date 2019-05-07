@@ -1,4 +1,4 @@
-package ecoext.com.ecoext;
+package ecoext.com.ecoext.general;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import ecoext.com.ecoext.general.MainActivity;
-import ecoext.com.ecoext.general.Utilities;
+import ecoext.com.ecoext.GetUserTransactionsQuery;
+import ecoext.com.ecoext.R;
 
 /**
  * Adapter that renders a list of purses right before scanning a QR

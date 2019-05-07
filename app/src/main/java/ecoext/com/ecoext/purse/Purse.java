@@ -1,9 +1,11 @@
-package ecoext.com.ecoext;
+package ecoext.com.ecoext.purse;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
+
+import ecoext.com.ecoext.GetUserTransactionsQuery;
 
 public class Purse implements Parcelable {
 

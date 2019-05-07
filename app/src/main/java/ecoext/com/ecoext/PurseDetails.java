@@ -17,6 +17,10 @@ import ecoext.com.ecoext.general.MyApolloClient;
 import ecoext.com.ecoext.home.LoaderHomeFragment;
 import ecoext.com.ecoext.purse.DetailsPurseFragment;
 
+/**
+ * Public Class Purse Details
+ * Parent Activity that contain to fragments that handle the interaction
+ */
 public class PurseDetails extends AppCompatActivity {
 
     // Extras Variables
@@ -39,6 +43,7 @@ public class PurseDetails extends AppCompatActivity {
         // initialize firebase Instance
         firebaseAuth = FirebaseAuth.getInstance();
 
+        // While the background task is requesting ifo to the database shows a loader
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_details,
                 new LoaderHomeFragment()).commit();
 

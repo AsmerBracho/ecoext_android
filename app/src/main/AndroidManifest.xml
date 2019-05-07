@@ -62,7 +62,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ReceiptActivity"
+            android:name=".receipt.ReceiptActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
         <activity android:name=".categories.Categories" />
 

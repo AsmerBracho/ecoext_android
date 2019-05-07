@@ -1,4 +1,4 @@
-package ecoext.com.ecoext;
+package ecoext.com.ecoext.receipt;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,12 @@ import android.widget.TextView;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import ecoext.com.ecoext.R;
+
+/**
+ * Class ItemReceiptAdapter
+ * implementation of the Adapter for the Receipt activity
+ */
 public class ItemReceiptAdapter extends BaseAdapter {
 
     //define the currance
@@ -20,11 +26,18 @@ public class ItemReceiptAdapter extends BaseAdapter {
     private Context context;
 
     // list of items
-    ArrayList<Item> listOfItems;
+    private ArrayList<Item> listOfItems;
 
+    /**
+     * Constructor of ItemReceiptAdapter
+     *
+     * @param c     context
+     * @param items list of items
+     */
     public ItemReceiptAdapter(Context c, ArrayList<Item> items) {
         mInflator = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+        // set up the parameter as our global variables
         this.listOfItems = items;
         this.context = c;
     }
@@ -52,10 +65,10 @@ public class ItemReceiptAdapter extends BaseAdapter {
             view = mInflator.inflate(R.layout.receipt_item, null);
             viewHolder = new ViewHolder();
 
-            /**
-             * Create the Views and math the source with id that comes from the
-             * receipt_item layout
-             */
+
+            // Create the Views and math the source with id that comes from the
+            // receipt_item layout
+
             viewHolder.qty = view.findViewById(R.id.qtyTextView);
             viewHolder.description = view.findViewById(R.id.descriptionTextView);
             viewHolder.unitPrice = view.findViewById(R.id.unitPriceTextView);
@@ -67,7 +80,6 @@ public class ItemReceiptAdapter extends BaseAdapter {
         }
 
         //set the views
-
         viewHolder.qty.setText(Integer.toString(listOfItems.get(position).getQuantity()));
         viewHolder.description.setText(listOfItems.get(position).getName());
         viewHolder.unitPrice.setText(currance + Math.abs(listOfItems.get(position).getPrice()));
@@ -76,17 +88,21 @@ public class ItemReceiptAdapter extends BaseAdapter {
             viewHolder.unitPrice.setVisibility(View.GONE);
         }
         double total = Math.abs((listOfItems.get(position).getQuantity())
-                *listOfItems.get(position).getPrice());
+                * listOfItems.get(position).getPrice());
 
         viewHolder.totalPrice.setText(currance + df.format(total));
 
         return view;
     }
 
+    /**
+     * Private Inner Class ViewHolder
+     * It contains the list of views that our outer class uses
+     */
     private static class ViewHolder {
-        TextView qty;
-        TextView description;
-        TextView unitPrice;
-        TextView totalPrice;
+        private TextView qty;
+        private TextView description;
+        private TextView unitPrice;
+        private TextView totalPrice;
     }
 }

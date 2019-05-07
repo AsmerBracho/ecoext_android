@@ -23,24 +23,34 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 
+/**
+ * ReportsStatisticsFragment contains the Graphs to be displayed in the Reports Page
+ * this is a fragment since will allow the navigation in the same activity (Main Activity)
+ * only by changing and inflating the specific content
+ */
 public class ReportsStatisticsFragment extends Fragment {
 
-    private ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> userTransactions;
+    private ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> userTransactions; // list of transactions
 
     // Default Constructor
-    public ReportsStatisticsFragment() {}
+    public ReportsStatisticsFragment() {
+    }
 
+    /**
+     * Constructor ReportsStatisticsFragment
+     *
+     * @param userTransactions a list of transactions
+     */
     @SuppressLint("ValidFragment")
     public ReportsStatisticsFragment(ArrayList<GetAllUserTransactionsOrderByDateQuery.UserTransaction> userTransactions) {
         this.userTransactions = userTransactions;
     }
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.reports_statistics, container, false);
-
 
         barChart(view);
         pieChart(view);
@@ -48,10 +58,15 @@ public class ReportsStatisticsFragment extends Fragment {
         return view;
     }
 
-
-    // BarGraph
+    /**
+     * Method BarChart
+     * Method that initialize the view and handle the necessary data to put in
+     * the graph (bar chart)
+     *
+     * @param view
+     */
     public void barChart(View view) {
-        BarChart barChart =  view.findViewById(R.id.graph);
+        BarChart barChart = view.findViewById(R.id.graph);
 
         //// create BarEntry for incomes and expenses
         ArrayList<BarEntry> incomes = new ArrayList<>();
@@ -60,10 +75,10 @@ public class ReportsStatisticsFragment extends Fragment {
 
         int i = 0;
         for (GetAllUserTransactionsOrderByDateQuery.UserTransaction ut : userTransactions) {
-            labels.add(String.valueOf(i+1));
+            labels.add(String.valueOf(i + 1));
             // Here we calculate the total then we check if it is positive or negative
             double total = 0;
-            for (int j = 0 ; j < ut.items().size() ; j ++) {
+            for (int j = 0; j < ut.items().size(); j++) {
                 total += ut.items().get(j).price();
             }
             if (total > 0) {
@@ -94,6 +109,12 @@ public class ReportsStatisticsFragment extends Fragment {
 
     }
 
+    /**
+     * Method that initialize the view and handle the necessary data to put in
+     * the graph (pie chart)
+     *
+     * @param view
+     */
     public void pieChart(View view) {
         PieChart pieChart = (PieChart) view.findViewById(R.id.piechart2);
         pieChart.setUsePercentValues(true);
@@ -102,11 +123,11 @@ public class ReportsStatisticsFragment extends Fragment {
 
         // Here we calculate all the sum of expenses and incomes
         float income = 0;
-        float expenses  = 0;
+        float expenses = 0;
         for (GetAllUserTransactionsOrderByDateQuery.UserTransaction ut : userTransactions) {
             // Here we calculate the total then we check if it is positive or negative
             double total = 0;
-            for (int i = 0 ; i < ut.items().size() ; i ++) {
+            for (int i = 0; i < ut.items().size(); i++) {
                 total += ut.items().get(i).price();
             }
             if (total > 0) {

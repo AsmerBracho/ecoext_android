@@ -17,6 +17,9 @@ import org.jetbrains.annotations.NotNull;
 import ecoext.com.ecoext.general.CustomLoader;
 import ecoext.com.ecoext.general.MyApolloClient;
 
+/**
+ * Create Purse Class
+ */
 public class CreatePurse extends AppCompatActivity {
 
     private String TAG = "CreatePurse";
@@ -54,17 +57,6 @@ public class CreatePurse extends AppCompatActivity {
         }
     }
 
-//    private boolean validateAmount() {
-//        String input = initialAmount.getEditText().getText().toString().trim();
-//        if (input.isEmpty()) {
-//            initialAmount.setError("amount can't be empty");
-//            return false;
-//        } else {
-//            initialAmount.setError(null);
-//            return true;
-//        }
-//    }
-
     public void createPurseButton(View view) {
         if (!validateName()) {
             return;
@@ -91,17 +83,6 @@ public class CreatePurse extends AppCompatActivity {
                     double initialAmount;
                     if (amount == null || amount.isEmpty()) {
                         initialAmount = 0;
-//                        CreatePurse.this.runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                Intent load = new Intent(getApplicationContext(), CustomLoader.class);
-//                                load.putExtra("newOperation", "EcoExTCreatePurse");
-//                                load.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                startActivity(load);
-//
-//                            }
-//                        });
-//                        return;
                     } else {
                         initialAmount = Double.parseDouble(amount);
                     }
@@ -146,9 +127,7 @@ public class CreatePurse extends AppCompatActivity {
 
                             }
                         });
-
                 }
-
                 @Override
                 public void onFailure(@NotNull ApolloException e) {
 

@@ -61,9 +61,9 @@ public class HomeFragment extends Fragment {
     /**
      * Constructor for Home Fragments
      *
-     * @param purses           a list of purses
+     * @param purses a list of purses
      * @param userTransactions a list of transactions
-     * @param accountId        user account id
+     * @param accountId user account id
      */
     @SuppressLint("ValidFragment")
     public HomeFragment(ArrayList<GetUserTransactionsQuery.Purse> purses,

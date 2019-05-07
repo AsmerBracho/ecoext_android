@@ -61,15 +61,14 @@ import ecoext.com.ecoext.GetTransactionByTokenQuery;
 import ecoext.com.ecoext.GetUserQuery;
 import ecoext.com.ecoext.GetUserTransactionsQuery;
 import ecoext.com.ecoext.home.HomeFragment;
-import ecoext.com.ecoext.Item;
+import ecoext.com.ecoext.receipt.Item;
 import ecoext.com.ecoext.home.LoaderHomeFragment;
-import ecoext.com.ecoext.NotificationsFragment;
+import ecoext.com.ecoext.notification.NotificationsFragment;
 import ecoext.com.ecoext.R;
-import ecoext.com.ecoext.ReceiptActivity;
+import ecoext.com.ecoext.receipt.ReceiptActivity;
 import ecoext.com.ecoext.records.RecordsFragment;
 import ecoext.com.ecoext.RegisterActivity;
 import ecoext.com.ecoext.ReportsStatisticsFragment;
-import ecoext.com.ecoext.SelectBeforeScanningAdapter;
 
 /**
  * Main Activity Class

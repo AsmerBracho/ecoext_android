@@ -1,9 +1,7 @@
-package ecoext.com.ecoext;
+package ecoext.com.ecoext.receipt;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import java.io.Serializable;
 
 public class Item implements Parcelable {
 

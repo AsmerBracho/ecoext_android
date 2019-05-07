@@ -12,19 +12,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.apollographql.apollo.ApolloCall;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
-
 import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
-
 import ecoext.com.ecoext.general.CustomLoader;
 import ecoext.com.ecoext.general.MyApolloClient;
 import ecoext.com.ecoext.purse.PurseInAddNameItemAdapter;
 
+/**
+ * AddNameAndPurse Class
+ * It is used to select name and description for a transaction as well as
+ * the purse where you want to store it
+ */
 public class AddNameAndPurse extends AppCompatActivity {
 
     private static final String TAG = "AddNameAndPurse";
@@ -89,13 +90,16 @@ public class AddNameAndPurse extends AppCompatActivity {
                 progressDialog.setTitle("EcoExTing");
                 progressDialog.setMessage("Creating Transaction");
                 progressDialog.show();
-
                 ok.setEnabled(false);
                 confirmInput(view);
             }
         });
     }
 
+    /**
+     * Method initRecyclerViews
+     * It initiates the views for the purse adapter
+     */
     public void initReciclerView() {
         listOfPurses = findViewById(R.id.list_of_purses_names);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -103,6 +107,10 @@ public class AddNameAndPurse extends AppCompatActivity {
         listOfPurses.setAdapter(purseAdapter);
     }
 
+    /**
+     * Validate Name
+     * @return true or false whether the name is empty or not
+     */
     private boolean validateName() {
         String input = inputTransactionName.getEditText().getText().toString().trim();
         if (input.isEmpty()) {
@@ -114,6 +122,11 @@ public class AddNameAndPurse extends AppCompatActivity {
         }
     }
 
+    /**
+     * Validate Purse
+     * It shows an error if a purse has NOT been selected
+     * @return
+     */
     private boolean validatePurse() {
         if (getPurseId() == -1) {
             Toast.makeText(this, "Please Select a Purse", Toast.LENGTH_SHORT).show();
@@ -123,13 +136,16 @@ public class AddNameAndPurse extends AppCompatActivity {
         }
     }
 
-    // Confirm and send to DataBase
+    /**
+     * Confirm Input and send info to Database
+     * I takes the parameters
+     * @param v a view
+     */
     public void confirmInput(View v) {
         Log.d(TAG, "SendingRecordSeePurseId" + getPurseId());
         if (!validateName() | !validatePurse()) {
             return;
         } else {
-
             Log.d(TAG, "SendingRecord" + " OK");
             // get Info to send to Database
             String name = inputTransactionName.getEditText().getText().toString().trim();
@@ -158,7 +174,6 @@ public class AddNameAndPurse extends AppCompatActivity {
                                     load.putExtra("newOperation", "EcoExTCreateTransaction");
                                     load.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                                     startActivity(load);
-
                                 }
                             });
                         }
@@ -177,5 +192,4 @@ public class AddNameAndPurse extends AppCompatActivity {
             });
         }
     }
-
 }

@@ -8,6 +8,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+/**
+ * Register with Email Activity
+ * Implemented but not using it in the application
+ */
 public class RegisterWithEmailActivity extends AppCompatActivity {
 
     private Button buttonRegister;

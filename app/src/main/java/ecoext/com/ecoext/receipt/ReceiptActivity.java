@@ -1,9 +1,7 @@
-package ecoext.com.ecoext;
+package ecoext.com.ecoext.receipt;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
@@ -12,23 +10,37 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import ecoext.com.ecoext.R;
+import ecoext.com.ecoext.receipt.Item;
+import ecoext.com.ecoext.receipt.ItemReceiptAdapter;
+
+/**
+ * Class Receipt Activity
+ * Activity that renders a Receipt
+ */
 public class ReceiptActivity extends AppCompatActivity {
 
-    ItemReceiptAdapter itemReceiptAdapter;
+    // Global Variables
+    private ItemReceiptAdapter itemReceiptAdapter;
 
-    ListView listOfItems;
+    private ListView listOfItems; // list of items
 
-    ArrayList<Item> items;
-    private String currance = "€";
-    DecimalFormat df = new DecimalFormat("0.00");
+    private ArrayList<Item> items; // array list with object Items
+    private String currance = "€"; // currency to be displayed
+    private DecimalFormat df = new DecimalFormat("0.00");
 
+
+    /**
+     * Method onCreate  is call every time this activity loads and inside we define
+     * and initialize our main variables and instances
+     * this is similar as what a constructor does
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +66,6 @@ public class ReceiptActivity extends AppCompatActivity {
         String bL = getIntent().getStringExtra("name");
         String taX = getIntent().getStringExtra("tax");
 
-
         //set the views
         name.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
         email.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
@@ -71,7 +82,6 @@ public class ReceiptActivity extends AppCompatActivity {
         String formatted = String.format("%05d", Integer.parseInt(num));
         number.setText("Receipt #" + formatted);
 
-
         itemReceiptAdapter = new ItemReceiptAdapter(this, items);
         listOfItems.setAdapter(itemReceiptAdapter);
 
@@ -83,10 +93,12 @@ public class ReceiptActivity extends AppCompatActivity {
         scrollView.smoothScrollTo(0, 0);
     }
 
-    /**** Method for Setting the Height of the ListView dynamically.
-     **** Hack to fix the issue of not showing all the items of the ListView
-     **** when placed inside a ScrollView
-     **** Contribution by https://stackoverflow.com/users/2660283/arshu ****/
+    /**
+     * Method for Setting the Height of the ListView dynamically.
+     * Hack to fix the issue of not showing all the items of the ListView
+     * when placed inside a ScrollView
+     * Contribution by https://stackoverflow.com/users/2660283/arshu
+     */
     public static void setListViewHeightBasedOnChildren(ListView listView) {
         ListAdapter listAdapter = listView.getAdapter();
         if (listAdapter == null)
@@ -107,9 +119,6 @@ public class ReceiptActivity extends AppCompatActivity {
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
         listView.setSelection(0);
-
-
     }
-
 
 }
