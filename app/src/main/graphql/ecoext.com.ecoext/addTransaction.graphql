@@ -3,12 +3,12 @@ mutation addTransaction ($name: String!, $amount: Float!){
     label: $name
     description: "User-Manual-Transaction"
     paymentInfo: {
-     ammount: 1.99
+     amount: 1.99
       payment_type: "Debit Card"
     }
     socketInfo:{
-      ipv4: "666.666.666.666",
-      port: 666
+      ipv4: "",
+      port: 0
     }
     items:
      	 {product: "User-Input-EcoExT",

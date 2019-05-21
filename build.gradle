@@ -6,6 +6,7 @@ buildscript {
         google()
         jcenter()
     }
+
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
         classpath 'com.google.gms:google-services:4.0.1'
@@ -20,6 +21,8 @@ allprojects {
     repositories {
         google()
         jcenter()
+        //Pie Chart
+        maven { url "https://jitpack.io" }
     }
 }
 

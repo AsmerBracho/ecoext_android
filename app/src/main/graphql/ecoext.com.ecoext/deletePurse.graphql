@@ -1,0 +1,8 @@
+mutation deletePurse ($purseId: Int!) {
+  deletePurse (
+    id : $purseId
+  )
+  {
+    title
+  }
+}

@@ -14,14 +14,4 @@
         android:icon="@drawable/ic_menu_records"
         android:title="Records"/>
 
-    <!--<item-->
-        <!--android:id="@+id/bottom_reports"-->
-        <!--android:icon="@drawable/ic_menu_reports"-->
-        <!--android:title="Reports"/>-->
-
-
-
-
-
-
 </menu>

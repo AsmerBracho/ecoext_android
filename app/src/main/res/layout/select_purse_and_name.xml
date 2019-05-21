@@ -2,7 +2,6 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
@@ -61,7 +60,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             app:counterEnabled="true"
-            app:counterMaxLength="15"
+            app:counterMaxLength="20"
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -75,7 +74,7 @@
                 android:layout_marginEnd="8dp"
                 android:hint="Transaction Name"
                 android:inputType="text"
-                android:maxLength="15" />
+                android:maxLength="20" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -94,10 +93,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/select_purse">
 
@@ -109,14 +108,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/colorPrimary"
+            android:focusable="true"
             android:text="Create Record"
+            android:textColor="#ffffff"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/list_of_purses_names"
-            android:focusable="true"/>
-
+            app:layout_constraintTop_toBottomOf="@+id/list_of_purses_names" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

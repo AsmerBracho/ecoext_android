@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity">
+    tools:context=".login.RegisterActivity">
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -24,7 +24,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
 
             <ImageView
                 android:id="@+id/imageViewLogo"
@@ -54,21 +53,6 @@
                 android:textAlignment="center"
                 android:textSize="26sp" />
 
-            <!--
-
-            <com.facebook.login.widget.LoginButton
-                android:id="@+id/loginFacebookButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginBottom="10dp"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp" />
-
-            -->
 
             <View
                 android:id="@+id/view"
@@ -79,36 +63,16 @@
                 android:layout_marginRight="40dp"
                 android:background="#bebebe" />
 
-            <!--
-
-            <Button
-                android:id="@+id/btnRegisterEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="40dp"
-                android:layout_marginRight="40dp"
-                android:padding="20dp"
-                android:text="REGISTER WITH EMAIL"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
-            -->
-
             <CheckBox
                 android:id="@+id/checkBoxTermsAndConditions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:textAlignment="center"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:text="I agreed to the Terms and Conditions, and the Privacy Policy regarding the consent for
-                the use of personal data and application use" />
+                android:padding="10dp"
+                android:text="I agree to the Terms and Conditions and Privacy Policy regarding the consent for
+                the use of my personal data."
+                android:textAlignment="textStart" />
 
             <com.google.android.gms.common.SignInButton
                 android:id="@+id/btnRegisterGoogle"
@@ -130,32 +94,6 @@
                 tools:layout_editor_absoluteX="99dp"
                 tools:layout_editor_absoluteY="406dp">
 
-                <TextView
-                    android:id="@+id/textViewAlready"
-                    android:layout_width="wrap_content"
-                    android:layout_height="34dp"
-                    android:layout_gravity="end"
-                    android:layout_weight="1"
-                    android:text="Already Register?"
-                    android:textAlignment="textEnd"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.483"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <TextView
-                    android:id="@+id/textViewLogin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="34dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="1"
-                    android:text=" LOG IN"
-                    android:textColor="#3f5aa9"
-                    android:textSize="16sp"
-                    android:textStyle="bold|italic"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.483"
-                    app:layout_constraintStart_toStartOf="parent" />
             </LinearLayout>
 
         </LinearLayout>

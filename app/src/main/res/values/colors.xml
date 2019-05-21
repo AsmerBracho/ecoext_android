@@ -3,15 +3,17 @@
     <color name="colorPrimary">#76B041</color>
     <color name="colorPrimaryDark">#4c702c</color>
     <color name="colorAccent">#76B041</color>
-    <color name="grayBackground">#f4f3f3</color>
+    <color name="grayBackground">#eeeeee</color>
     <color name="fabSecondButton">#ffffff</color>
     <color name="fabSecondPressed">#cac9c9</color>
     <color name="white_transparent">#ccffffff</color>
     <color name="grayText">#848282</color>
+    <color name="lightBlue">#35a5ea</color>
+    <color name="lightRed">#e45558</color>
+    <color name="lightGreen">#64f169</color>
 
     <color name="grayBlue">#e3dde1d3</color>
 
     <color name="PaleGreen">#f36a9741</color>
-
 
 </resources>

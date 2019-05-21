@@ -2,7 +2,6 @@
 <com.sothree.slidinguppanel.SlidingUpPanelLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="top"
@@ -21,10 +20,10 @@
             android:id="@+id/listOfRecords"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginLeft="0dp"
             android:layout_marginTop="48dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="0dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -40,22 +39,12 @@
             android:layout_height="match_parent"
             android:gravity="bottom|end">
 
-            <!--
-            <android.support.design.widget.BottomNavigationView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="bottom"
-                android:background="@color/colorPrimaryDark">
-
-            </android.support.design.widget.BottomNavigationView>
-            -->
-
         </LinearLayout>
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#eeeeee"
+            android:background="#8ee17b"
             android:orientation="horizontal"
             android:padding="5dp">
 
@@ -66,14 +55,12 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
-                android:text="BALANCE"
-                android:textSize="13dp"
+                android:text="Total Balance"
+                android:textSize="15dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-
 
             <TextView
                 android:id="@+id/balance"
@@ -83,7 +70,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="4dp"
                 android:text="Here Balance"
-                android:textSize="15dp"
+                android:textSize="18dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -130,8 +117,9 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include layout="@layout/filter_element" />
+            <!--Include the filters -->
 
+            <include layout="@layout/filter_element" />
             <include layout="@layout/filter_on_off" />
 
             <ImageView
@@ -141,7 +129,6 @@
                 android:background="#eae7e7"
                 android:src="@drawable/ic_filter_list"
                 android:text="" />
-
 
         </LinearLayout>
 

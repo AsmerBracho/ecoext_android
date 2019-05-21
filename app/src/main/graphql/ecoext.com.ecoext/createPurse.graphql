@@ -1,0 +1,10 @@
+mutation createPurse ($name: String!, $description: String!, $account_id: Int! ) {
+  addPurse (
+    name: $name
+    description: $description
+    account_id: $account_id,
+  )
+    {
+      purse_id
+    }
+}
