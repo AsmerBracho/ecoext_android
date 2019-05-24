@@ -63,7 +63,7 @@ public class PurseInAddNameItemAdapter extends RecyclerView.Adapter<PurseInAddNa
         holder.purseName.setText(purses.get(position));
         // Set Color
         String name = String.valueOf(purses.get(position).charAt(0)).toUpperCase();
-        holder.purseBackground.setBackgroundColor(Color.parseColor(Utilities.setPurseColor(name)));
+        holder.purseBackground.setBackgroundColor(Color.parseColor(Utilities.setPurseColorbyPurseId(purseId.get(position))));
 
         // set alpha
         if (selected_position == position) {

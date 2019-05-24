@@ -20,7 +20,8 @@ public class ItemReceiptAdapter extends BaseAdapter {
 
     //define the currance
     private String currance = "€";
-    private static DecimalFormat df = new DecimalFormat(".##");
+    private static DecimalFormat df = new DecimalFormat("0.00");
+
 
     private LayoutInflater mInflator;
     private Context context;

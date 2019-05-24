@@ -190,7 +190,7 @@ public class HomeFragment extends Fragment {
         values.add(new Entry(expenses, 1));
         PieDataSet dataSet = new PieDataSet(values, "");
         int[] colors = {
-                Color.rgb(100, 241, 105), Color.rgb(228, 85, 88),
+                Color.rgb(62, 136, 91), Color.rgb(204, 99, 82),
         };
         dataSet.setColors(ColorTemplate.createColors(colors));
         ArrayList<String> label = new ArrayList<>();

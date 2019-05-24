@@ -95,10 +95,10 @@ public class ReportsStatisticsFragment extends Fragment {
 
         // creating dataset for incomes
         BarDataSet barIncomes = new BarDataSet(incomes, "Income");
-        barIncomes.setColor(Color.parseColor("#64f169"));
+        barIncomes.setColor(Color.parseColor("#3E885B"));
 
         BarDataSet barExpenses = new BarDataSet(expenses, "Expense");
-        barExpenses.setColor(Color.parseColor("#e45558"));
+        barExpenses.setColor(Color.parseColor("#CC6352"));
 
         //combined Data Set
         ArrayList<BarDataSet> dataSets = new ArrayList<>();  // combined all dataset into an arraylist
@@ -143,7 +143,7 @@ public class ReportsStatisticsFragment extends Fragment {
         values.add(new Entry(expenses, 1));
         PieDataSet dataSet = new PieDataSet(values, "");
         int[] colors = {
-                Color.rgb(100, 241, 105), Color.rgb(228, 85, 88),
+                Color.rgb(62, 136, 91), Color.rgb(204, 99, 82),
         };
         dataSet.setColors(ColorTemplate.createColors(colors));
         ArrayList<String> label = new ArrayList<>();

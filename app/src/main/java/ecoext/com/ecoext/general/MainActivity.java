@@ -893,126 +893,131 @@ public class MainActivity extends AppCompatActivity
         // Create a firebase user
         final FirebaseUser user = firebaseAuth.getCurrentUser();
 
-        // Try to get an user where user id is equal to firebase UID
-        MyApolloClient.getMyApolloClient().query(
-                GetUserQuery.builder().id(user.getUid())
-                        .build()).enqueue(new ApolloCall.Callback<GetUserQuery.Data>() {
-            @Override
-            public void onResponse(@NotNull Response<GetUserQuery.Data> response) {
-                Log.d(TAG, "onResponseUser: " + response.data().user());
+        try {
+            // Try to get an user where user id is equal to firebase UID
+            MyApolloClient.getMyApolloClient().query(
+                    GetUserQuery.builder().id(user.getUid())
+                            .build()).enqueue(new ApolloCall.Callback<GetUserQuery.Data>() {
+                @Override
+                public void onResponse(@NotNull Response<GetUserQuery.Data> response) {
+                    Log.d(TAG, "onResponseUser: " + response.data().user());
 
-                // If user. size == 0 it means there is no user in database
-                if (response.data().user().size() == 0) { // => then
-                    // Create a new User
-                    Log.d(TAG, "onResponseUserInside: I am inside If");
+                    // If user. size == 0 it means there is no user in database
+                    if (response.data().user().size() == 0) { // => then
+                        // Create a new User
+                        Log.d(TAG, "onResponseUserInside: I am inside If");
 
-                    // Create an User
-                    MyApolloClient.getMyApolloClient().mutate(
-                            AddUserMutation.builder()
-                                    .first(user.getDisplayName())
-                                    .last(user.getDisplayName())
-                                    .email(user.getEmail())
-                                    .uid(user.getUid())
-                                    .password("EcoExT")
-                                    .gender("m")
-                                    .dob(11111)
-                                    .build()).enqueue(new ApolloCall.Callback<AddUserMutation.Data>() {
-                        @Override
-                        public void onResponse(@NotNull Response<AddUserMutation.Data> response) {
-                            Log.d(TAG, "onResponseUserInside: DONE WRITING USER");
-                            // recursion is applied to bypass this step now and go to next one
-                            getInfoDataBase();
-                        }
-
-                        @Override
-                        public void onFailure(@NotNull ApolloException e) {
-
-                        }
-                    });
-                } else {
-
-                    // Get User Transaction Order By Date
-                    MyApolloClient.getMyApolloClient().query(
-                            GetAllUserTransactionsOrderByDateQuery.builder().user_id(user.getUid())
-                                    .build()).enqueue(new ApolloCall.Callback<GetAllUserTransactionsOrderByDateQuery.Data>() {
-                        @Override
-                        public void onResponse(@NotNull Response<GetAllUserTransactionsOrderByDateQuery.Data> response) {
-                            userTransactions.addAll(response.data().userTransactions());
-                        }
-
-                        @Override
-                        public void onFailure(@NotNull ApolloException e) {
-
-                        }
-                    });
-
-                    // query the data and get user transactions with extra Info
-                    // such as purses info
-                    MyApolloClient.getMyApolloClient().query(
-                            GetUserTransactionsQuery.builder().id(user.getUid())
-                                    .build()).enqueue(new ApolloCall.Callback<GetUserTransactionsQuery.Data>() {
-                        @Override
-                        public void onResponse(@NotNull Response<GetUserTransactionsQuery.Data> response) {
-                            for (int i = 0; i < response.data().user().size(); i++) {
-                                accountId = response.data().user().get(0).account_id();
-                                for (int j = 0; j < response.data().user().get(i).account().purse().size(); j++) {
-                                    // add PurseName to list of Purses String.
-                                    pursesNames.add(response.data().user().get(i).account().purse().get(j).name());
-                                    purseId.add(response.data().user().get(i).account().purse().get(j).purse_id());
-                                    purses.add(new GetUserTransactionsQuery.Purse(
-                                            "Purse + j",
-                                            response.data().user().get(i).account().purse().get(j).purse_id(),
-                                            response.data().user().get(i).account().purse().get(j).name(),
-                                            response.data().user().get(i).account().purse().get(j).description(),
-                                            response.data().user().get(i).account().purse().get(j).transaction()
-                                    ));
-                                }
+                        // Create an User
+                        MyApolloClient.getMyApolloClient().mutate(
+                                AddUserMutation.builder()
+                                        .first(user.getDisplayName())
+                                        .last(user.getDisplayName())
+                                        .email(user.getEmail())
+                                        .uid(user.getUid())
+                                        .password("EcoExT")
+                                        .gender("m")
+                                        .dob(11111)
+                                        .build()).enqueue(new ApolloCall.Callback<AddUserMutation.Data>() {
+                            @Override
+                            public void onResponse(@NotNull Response<AddUserMutation.Data> response) {
+                                Log.d(TAG, "onResponseUserInside: DONE WRITING USER");
+                                // recursion is applied to bypass this step now and go to next one
+                                getInfoDataBase();
                             }
 
-                            // After performing the background activity we te up the views on the main thread
-                            MainActivity.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    //Enable elements
-                                    navigationView.setEnabled(true);
-                                    navigationView.setVisibility(View.VISIBLE);
-                                    bottomNav.setEnabled(true);
-                                    bottomNav.setVisibility(View.VISIBLE);
-                                    fabMain.setVisibility(View.VISIBLE);
+                            @Override
+                            public void onFailure(@NotNull ApolloException e) {
 
-                                    DrawerLayout drawer = findViewById(R.id.drawer_layout);
-                                    drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                            }
+                        });
+                    } else {
 
+                        // Get User Transaction Order By Date
+                        MyApolloClient.getMyApolloClient().query(
+                                GetAllUserTransactionsOrderByDateQuery.builder().user_id(user.getUid())
+                                        .build()).enqueue(new ApolloCall.Callback<GetAllUserTransactionsOrderByDateQuery.Data>() {
+                            @Override
+                            public void onResponse(@NotNull Response<GetAllUserTransactionsOrderByDateQuery.Data> response) {
+                                userTransactions.addAll(response.data().userTransactions());
+                            }
+
+                            @Override
+                            public void onFailure(@NotNull ApolloException e) {
+
+                            }
+                        });
+
+                        // query the data and get user transactions with extra Info
+                        // such as purses info
+                        MyApolloClient.getMyApolloClient().query(
+                                GetUserTransactionsQuery.builder().id(user.getUid())
+                                        .build()).enqueue(new ApolloCall.Callback<GetUserTransactionsQuery.Data>() {
+                            @Override
+                            public void onResponse(@NotNull Response<GetUserTransactionsQuery.Data> response) {
+                                for (int i = 0; i < response.data().user().size(); i++) {
+                                    accountId = response.data().user().get(0).account_id();
+                                    for (int j = 0; j < response.data().user().get(i).account().purse().size(); j++) {
+                                        // add PurseName to list of Purses String.
+                                        pursesNames.add(response.data().user().get(i).account().purse().get(j).name());
+                                        purseId.add(response.data().user().get(i).account().purse().get(j).purse_id());
+                                        purses.add(new GetUserTransactionsQuery.Purse(
+                                                "Purse + j",
+                                                response.data().user().get(i).account().purse().get(j).purse_id(),
+                                                response.data().user().get(i).account().purse().get(j).name(),
+                                                response.data().user().get(i).account().purse().get(j).description(),
+                                                response.data().user().get(i).account().purse().get(j).transaction()
+                                        ));
+                                    }
                                 }
-                            });
 
-                            // Recycler view and adapter
-                            selectBeforeScanningAdapter = new SelectBeforeScanningAdapter(context, purses);
+                                // After performing the background activity we te up the views on the main thread
+                                MainActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        //Enable elements
+                                        navigationView.setEnabled(true);
+                                        navigationView.setVisibility(View.VISIBLE);
+                                        bottomNav.setEnabled(true);
+                                        bottomNav.setVisibility(View.VISIBLE);
+                                        fabMain.setVisibility(View.VISIBLE);
 
-                            purseSelectedCard = findViewById(R.id.purse_selected_card);
-                            selectPurseBeforeScanning = findViewById(R.id.select_purse_before_scan);
-                            LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
-                            selectPurseBeforeScanning.setLayoutManager(layoutManager);
-                            selectPurseBeforeScanning.setAdapter(selectBeforeScanningAdapter);
+                                        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+                                        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
 
-                            // After performance the query Load the Activity with the data
-                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                    new HomeFragment(purses, userTransactions, accountId)).commit();
+                                    }
+                                });
 
-                        }
+                                // Recycler view and adapter
+                                selectBeforeScanningAdapter = new SelectBeforeScanningAdapter(context, purses);
 
-                        @Override
-                        public void onFailure(@NotNull ApolloException e) {
+                                purseSelectedCard = findViewById(R.id.purse_selected_card);
+                                selectPurseBeforeScanning = findViewById(R.id.select_purse_before_scan);
+                                LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+                                selectPurseBeforeScanning.setLayoutManager(layoutManager);
+                                selectPurseBeforeScanning.setAdapter(selectBeforeScanningAdapter);
 
-                        }
-                    });
+                                // After performance the query Load the Activity with the data
+                                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                                        new HomeFragment(purses, userTransactions, accountId)).commit();
+
+                            }
+
+                            @Override
+                            public void onFailure(@NotNull ApolloException e) {
+
+                            }
+                        });
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(@NotNull ApolloException e) {
+                @Override
+                public void onFailure(@NotNull ApolloException e) {
 
-            }
-        });
+                }
+            });
+        } catch (Exception e) {
+            // Error occurs
+            Log.d(TAG, "Not Able to connect todatabase");
+        }
     }
 }

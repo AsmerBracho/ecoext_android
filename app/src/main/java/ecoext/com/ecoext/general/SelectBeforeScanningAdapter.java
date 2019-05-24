@@ -50,7 +50,7 @@ public class SelectBeforeScanningAdapter extends RecyclerView.Adapter<SelectBefo
         holder.purseName.setText(purses.get(position).name());
         // Set Color
         String name = String.valueOf(purses.get(position).name().charAt(0)).toUpperCase();
-        holder.purseBackground.setBackgroundColor(Color.parseColor(Utilities.setPurseColor(name)));
+        holder.purseBackground.setBackgroundColor(Color.parseColor(Utilities.setPurseColorbyPurseId(purses.get(position).purse_id())));
         holder.parent.setAlpha(1);
 
         // set onClick Listener
