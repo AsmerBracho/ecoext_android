@@ -501,6 +501,7 @@ public class MainActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
             // close fab menu
+            operation = null; 
             closeMenu();
         }
     }
