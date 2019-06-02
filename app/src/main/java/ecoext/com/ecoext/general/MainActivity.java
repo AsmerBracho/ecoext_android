@@ -999,7 +999,7 @@ public class MainActivity extends AppCompatActivity
 
                                 // After performance the query Load the Activity with the data
                                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                        new HomeFragment(purses, userTransactions, accountId)).commit();
+                                        new HomeFragment(purses, userTransactions, accountId)).commitAllowingStateLoss();
 
                             }
 
