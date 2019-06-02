@@ -16,7 +16,6 @@ mutation addTransaction ($name: String!, $amount: Float!){
         tax: 0,
         price: $amount},
 
-
   ) {
    token_id
   }

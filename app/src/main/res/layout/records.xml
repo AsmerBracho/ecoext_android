@@ -44,7 +44,7 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#8ee17b"
+            android:background="#3E885B"
             android:orientation="horizontal"
             android:padding="5dp">
 

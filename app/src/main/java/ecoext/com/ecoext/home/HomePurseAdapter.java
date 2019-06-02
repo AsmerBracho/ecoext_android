@@ -50,7 +50,7 @@ public class HomePurseAdapter extends RecyclerView.Adapter<HomePurseAdapter.View
         holder.purseName.setText(purses.get(position).name());
         // Set Color
         String name = String.valueOf(purses.get(position).name().charAt(0)).toUpperCase();
-        holder.purseBackground.setBackgroundColor(Color.parseColor(Utilities.setPurseColor(name)));
+        holder.purseBackground.setBackgroundColor(Color.parseColor(Utilities.setPurseColorbyPurseId(purses.get(position).purse_id())));
         holder.parent.setAlpha(1);
 
         // set onClick Listener
@@ -62,7 +62,8 @@ public class HomePurseAdapter extends RecyclerView.Adapter<HomePurseAdapter.View
                 double balance = 0;
                 for (int i = 0 ; i < purses.get(position).transaction().size(); i ++) {
                     for (int j = 0 ; j < purses.get(position).transaction().get(i).items().size(); j ++) {
-                        balance += purses.get(position).transaction().get(i).items().get(j).price();
+                        balance += purses.get(position).transaction().get(i).items().get(j).price()
+                        *purses.get(position).transaction().get(i).items().get(j).quantity();
                     }
                 }
                 Intent purseDetails = new Intent(context, PurseDetails.class);

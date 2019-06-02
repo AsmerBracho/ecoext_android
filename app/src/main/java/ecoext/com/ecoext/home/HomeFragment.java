@@ -61,9 +61,9 @@ public class HomeFragment extends Fragment {
     /**
      * Constructor for Home Fragments
      *
-     * @param purses a list of purses
+     * @param purses           a list of purses
      * @param userTransactions a list of transactions
-     * @param accountId user account id
+     * @param accountId        user account id
      */
     @SuppressLint("ValidFragment")
     public HomeFragment(ArrayList<GetUserTransactionsQuery.Purse> purses,
@@ -74,6 +74,22 @@ public class HomeFragment extends Fragment {
         this.accountId = accountId;
         this.userTransactions = userTransactions;
         this.purses = purses;
+    }
+
+
+    /**
+     * Method onCreateView  is call every time the application loads and inside we define
+     * and initialize our main variables and instances
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return a view
+     */
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.home_fragment, container, false);
 
         userTransactionsFiltered = new ArrayList<>();
 
@@ -99,22 +115,7 @@ public class HomeFragment extends Fragment {
         for (int i = 0; i < intLatest; i++) {
             latest.add(userTransactionsFiltered.get(i));
         }
-    }
 
-
-    /**
-     * Method onCreateView  is call every time the application loads and inside we define
-     * and initialize our main variables and instances
-     *
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return a view
-     */
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.home_fragment, container, false);
         // create an adapter for purses
         homePurseAdapter = new HomePurseAdapter(this.getContext(), purses);
 
@@ -190,7 +191,7 @@ public class HomeFragment extends Fragment {
         values.add(new Entry(expenses, 1));
         PieDataSet dataSet = new PieDataSet(values, "");
         int[] colors = {
-                Color.rgb(100, 241, 105), Color.rgb(228, 85, 88),
+                Color.rgb(62, 136, 91), Color.rgb(204, 99, 82),
         };
         dataSet.setColors(ColorTemplate.createColors(colors));
         ArrayList<String> label = new ArrayList<>();

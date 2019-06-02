@@ -72,7 +72,7 @@
                 android:padding="10dp"
                 android:text="I agree to the Terms and Conditions and Privacy Policy regarding the consent for
                 the use of my personal data."
-                android:textAlignment="textStart" />
+                android:textAlignment="center" />
 
             <com.google.android.gms.common.SignInButton
                 android:id="@+id/btnRegisterGoogle"

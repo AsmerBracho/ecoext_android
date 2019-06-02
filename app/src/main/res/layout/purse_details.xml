@@ -35,8 +35,8 @@
                     android:layout_height="70dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginStart="17dp"
-                    android:layout_marginTop="17dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="19dp"
                     android:alpha="1"
                     android:src="@drawable/ic_purse" />
 
@@ -82,16 +82,18 @@
 
                 <ImageView
                     android:id="@+id/delete_purse"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="32dp"
+                    android:layout_height="31dp"
                     android:layout_below="@+id/wallet"
                     android:layout_alignStart="@+id/wallet"
                     android:layout_alignEnd="@+id/wallet"
                     android:layout_alignParentBottom="true"
                     android:layout_marginStart="23dp"
-
-                    android:layout_marginEnd="23dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/background_circle"
+                    android:padding="3dp"
                     app:srcCompat="@drawable/ic_delete" />/>
 
             </RelativeLayout>

@@ -119,6 +119,8 @@ public class DetailsPurseFragment extends Fragment {
             notFound.setVisibility(View.GONE);
         }
 
+        // set delete purse alpha
+        deletePurse.setAlpha(1f);
         // Click Listener
         deletePurse.setOnClickListener(new View.OnClickListener() {
             @Override
